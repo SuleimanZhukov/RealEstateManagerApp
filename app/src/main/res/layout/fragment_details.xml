@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/details_image_view"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:src="@drawable/image_house"
+            android:scaleType="centerCrop"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/heart_button_view"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="30dp"
+            android:background="@drawable/stroke_view_rectangle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/back_button_view"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginStart="30dp"
+            android:background="@drawable/stroke_view_rectangle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/details_arrow_back"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/arrow_shape"
+            app:layout_constraintBottom_toBottomOf="@+id/back_button_view"
+            app:layout_constraintEnd_toEndOf="@+id/back_button_view"
+            app:layout_constraintStart_toStartOf="@+id/back_button_view"
+            app:layout_constraintTop_toTopOf="@+id/back_button_view" />
+
+        <ImageView
+            android:id="@+id/details_heart_button"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/arrow_shape"
+            app:layout_constraintBottom_toBottomOf="@+id/back_button_view"
+            app:layout_constraintEnd_toEndOf="@+id/back_button_view"
+            app:layout_constraintStart_toStartOf="@+id/back_button_view"
+            app:layout_constraintTop_toTopOf="@+id/back_button_view" />
+
+        <TextView
+            android:id="@+id/details_price_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="20dp"
+            android:gravity="start"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/details_image_view"
+            tools:text="$200.000" />
+
+        <TextView
+            android:id="@+id/details_address_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:gravity="start"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/details_price_text_view"
+            tools:text="Jenison, MI 49428, SF" />
+
+        <View
+            android:id="@+id/time_posted_view"
+            android:layout_width="120dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="30dp"
+            android:background="@drawable/stroke_view_rectangle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/details_price_text_view" />
+
+        <TextView
+            android:id="@+id/details_time_posted_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/time_posted_view"
+            app:layout_constraintEnd_toEndOf="@+id/time_posted_view"
+            app:layout_constraintStart_toStartOf="@+id/time_posted_view"
+            app:layout_constraintTop_toTopOf="@+id/time_posted_view"
+            tools:text="20 hours ago" />
+
+        <TextView
+            android:id="@+id/details_info_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="20dp"
+            android:gravity="start"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/details_address_text_view"
+            tools:text="House information" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/details_recycler_view_info"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/details_info_text_view"/>
+
+        <TextView
+            android:id="@+id/details_description_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="30dp"
+            android:paddingEnd="30dp"
+            android:layout_marginTop="20dp"
+            android:gravity="start"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/details_recycler_view_info"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="Flowless 2 story on a family cul-de-sac in the heart of Blue Valley!" />
+
+        <ImageView
+            android:id="@+id/details_map"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/details_description_text_view"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>
