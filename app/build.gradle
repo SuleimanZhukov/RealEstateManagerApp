@@ -1,10 +1,18 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-kapt'
 }
 
 android {
     compileSdk 31
+
+    buildTypes.each {
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file("app.properties").newDataInputStream())
+        def AttomApiKey = properties.getProperty("apiKey", "")
+        it.buildConfigField "String", "apiKey", AttomApiKey
+    }
 
     defaultConfig {
         applicationId "com.suleimanzhukov.realestatemanagerapp"
@@ -22,6 +30,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -43,8 +52,16 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.2'
 
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+    // Retrofit2
+    implementation 'com.google.code.gson:gson:2.8.6'
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    // Room
+    implementation 'androidx.room:room-runtime:2.4.0'
+    implementation 'androidx.room:room-ktx:2.4.0'
+    kapt 'androidx.room:room-compiler:2.4.0'
 
-    testImplementation 'junit:junit:4.+'
+    testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 }
