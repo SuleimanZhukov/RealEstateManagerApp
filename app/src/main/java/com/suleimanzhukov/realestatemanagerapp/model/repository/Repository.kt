@@ -4,6 +4,6 @@ import com.suleimanzhukov.realestatemanagerapp.model.utils.Property
 
 interface Repository {
 
-    fun getPropertyById(id: Long): Property
+//    fun getPropertyById(id: Long): Property
 
 }

@@ -12,5 +12,6 @@ data class Property(
     var overview: String,
     var apartment: Boolean,
     var like: Boolean,
-    var forSale: Boolean
+    var forSale: Boolean,
+    var images: String
 )

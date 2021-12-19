@@ -5,15 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.suleimanzhukov.realestatemanagerapp.databinding.FragmentDetailsBinding
+import com.suleimanzhukov.realestatemanagerapp.databinding.FragmentSettingBinding
 
-class DetailsFragment : Fragment() {
+class SettingsFragment : Fragment() {
 
-    private var _binding: FragmentDetailsBinding? = null
+    private var _binding: FragmentSettingBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        _binding = FragmentDetailsBinding.inflate(inflater, container, false)
+        _binding = FragmentSettingBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -23,6 +23,6 @@ class DetailsFragment : Fragment() {
     }
 
     companion object {
-        fun newInstance() = DetailsFragment()
+        fun newInstance() = SettingsFragment()
     }
 }
