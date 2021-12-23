@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.suleimanzhukov.realestatemanagerapp.R
 import com.suleimanzhukov.realestatemanagerapp.databinding.FragmentMainBinding
+import com.suleimanzhukov.realestatemanagerapp.framework.ui.agentslist.AgentsListFragment
 
 class MainFragment : Fragment() {
 
@@ -30,6 +31,9 @@ class MainFragment : Fragment() {
         }
         settingsButton.setOnClickListener {
             fragmentInit(SettingsFragment.newInstance())
+        }
+        searchButton.setOnClickListener {
+            fragmentInit(AgentsListFragment.newInstance())
         }
     }
 
