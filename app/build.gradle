@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
+    id 'kotlin-parcelize'
 }
 
 android {
@@ -61,6 +62,7 @@ dependencies {
     implementation 'androidx.room:room-ktx:2.4.0'
     kapt 'androidx.room:room-compiler:2.4.0'
     // Firebase
+    implementation 'com.google.firebase:firebase-analytics:20.0.2'
     implementation platform('com.google.firebase:firebase-bom:29.0.2')
     implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation 'com.google.firebase:firebase-auth-ktx:21.0.1'

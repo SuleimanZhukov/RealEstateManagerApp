@@ -4,9 +4,9 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-data class Entity(
+data class Publication(
     @PrimaryKey(autoGenerate = true)
-    var id: Long,
+    val id: Long,
 
     var cost: String,
     var address: String,

@@ -1,5 +1,8 @@
 package com.suleimanzhukov.realestatemanagerapp
 
-sealed class AppState {
+import com.suleimanzhukov.realestatemanagerapp.model.utils.Agent
 
+
+sealed class AppState {
+    data class registerAgent(val agent: Agent) : AppState()
 }
