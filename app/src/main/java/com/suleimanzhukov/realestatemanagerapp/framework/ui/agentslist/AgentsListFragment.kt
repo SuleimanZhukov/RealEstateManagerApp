@@ -4,11 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.suleimanzhukov.realestatemanagerapp.databinding.FragmentAgentsListBinding
-import com.suleimanzhukov.realestatemanagerapp.framework.ui.adapter.AgentListAdapter
+import com.suleimanzhukov.realestatemanagerapp.framework.ui.adapters.AgentListAdapter
 
 class AgentsListFragment : Fragment() {
 
@@ -24,7 +23,7 @@ class AgentsListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val agentListAdapter = AgentListAdapter()
-        agentListAdapter.setAgents()
+//        agentListAdapter.setAgents()
 
         binding.agentsListRecyclerView.adapter = agentListAdapter
         binding.agentsListRecyclerView.layoutManager =LinearLayoutManager(context)

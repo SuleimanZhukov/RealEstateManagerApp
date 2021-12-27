@@ -6,10 +6,9 @@ import com.suleimanzhukov.realestatemanagerapp.AppState
 import com.suleimanzhukov.realestatemanagerapp.model.repository.AgentRepositoryImpl
 import com.suleimanzhukov.realestatemanagerapp.model.utils.Agent
 
-class SignUpViewModel(
-    private val repository: AgentRepositoryImpl
-) : ViewModel() {
+class SignUpViewModel() : ViewModel() {
 
+    private val repository: AgentRepositoryImpl = AgentRepositoryImpl()
     private val signUpLiveData: MutableLiveData<AppState> = MutableLiveData()
 
     fun getSignUpLiveData() = signUpLiveData

@@ -1,4 +1,4 @@
-package com.suleimanzhukov.realestatemanagerapp.framework.ui.adapter
+package com.suleimanzhukov.realestatemanagerapp.framework.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.View

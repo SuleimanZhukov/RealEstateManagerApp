@@ -13,5 +13,6 @@ data class AgentEntity(
     var email: String,
     var password: String,
     var phone: String,
-    var isThisYou: Boolean
+    var isSignedIn: Boolean,
+    var profileImg: String
 )

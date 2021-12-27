@@ -29,15 +29,16 @@ class SignUpFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
         super.onViewCreated(view, savedInstanceState)
-
-        viewModel.getSignUpLiveData().observe(viewLifecycleOwner, Observer {
-            sigUpButton(
-                signUpNameEditText.text.toString(),
-                signUpEmailEditText.text.toString(),
-                signUpPasswordEditText.text.toString(),
-                signUpConfirmPasswordEditText.text.toString()
-            )
-        })
+        signUpButton.setOnClickListener {
+            viewModel.getSignUpLiveData().observe(viewLifecycleOwner, Observer {
+                sigUpButton(
+                    signUpNameEditText.text.toString(),
+                    signUpEmailEditText.text.toString(),
+                    signUpPasswordEditText.text.toString(),
+                    signUpConfirmPasswordEditText.text.toString()
+                )
+            })
+        }
     }
 
     private fun sigUpButton(name: String, email: String, password: String, confirmPassword: String) = with(binding) {
@@ -52,7 +53,7 @@ class SignUpFragment : Fragment() {
             return
         }
 
-        val agent = Agent(0, name, "", email, password, "")
+        val agent = Agent(0, name, "", email, password, "", false, "")
 
         val bundle = Bundle().apply {
             putParcelable(AccountAgentFragment.AGENT_KEY, agent)

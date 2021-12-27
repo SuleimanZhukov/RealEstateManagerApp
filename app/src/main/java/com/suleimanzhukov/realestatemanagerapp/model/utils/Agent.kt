@@ -10,5 +10,7 @@ data class Agent(
     var age: String,
     var email: String,
     var password: String,
-    var phone: String
+    var phone: String,
+    var isSignedIn: Boolean,
+    var profileImg: String
 ): Parcelable
