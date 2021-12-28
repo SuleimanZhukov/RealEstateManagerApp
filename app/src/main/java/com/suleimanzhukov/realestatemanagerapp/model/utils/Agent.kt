@@ -5,7 +5,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Agent(
-    var name: String,
+    var username: String,
     var age: String,
     var email: String,
     var password: String,

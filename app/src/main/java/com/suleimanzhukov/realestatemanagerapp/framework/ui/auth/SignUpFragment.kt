@@ -1,9 +1,7 @@
 package com.suleimanzhukov.realestatemanagerapp.framework.ui.auth
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Context
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,9 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.suleimanzhukov.realestatemanagerapp.R
 import com.suleimanzhukov.realestatemanagerapp.databinding.FragmentSignUpBinding
-import com.suleimanzhukov.realestatemanagerapp.framework.MainActivity
 import com.suleimanzhukov.realestatemanagerapp.model.utils.Agent
-import java.util.prefs.Preferences
 
 class SignUpFragment : Fragment() {
 
@@ -44,8 +40,8 @@ class SignUpFragment : Fragment() {
     }
 
     @SuppressLint("CommitPrefEdits")
-    private fun signUpButton(name: String, email: String, password: String, confirmPassword: String): Unit = with(binding) {
-        if (name.isBlank()) {
+    private fun signUpButton(username: String, email: String, password: String, confirmPassword: String): Unit = with(binding) {
+        if (username.isBlank()) {
             Toast.makeText(context, "Type your name", Toast.LENGTH_SHORT).show()
             return
         } else if (!email.contains('@') || !email.contains('.')) {
@@ -56,7 +52,7 @@ class SignUpFragment : Fragment() {
             return
         }
 
-        val agent = Agent(name, "", email, password, "", true, "")
+        val agent = Agent(username, "", email, password, "", "")
 
         val bundle = Bundle().apply {
             putParcelable(AccountAgentFragment.AGENT_KEY, agent)
@@ -65,6 +61,7 @@ class SignUpFragment : Fragment() {
         viewModel.registerAgent(agent, requireContext())
 
         val preferencesEditor = activity?.getSharedPreferences(SHARED_TAG, Context.MODE_PRIVATE)?.edit()
+        preferencesEditor?.putString(USERNAME_TAG, username)
         preferencesEditor?.putString(EMAIL_TAG, email)
 
         requireActivity().supportFragmentManager
@@ -82,6 +79,7 @@ class SignUpFragment : Fragment() {
     companion object {
         const val SHARED_TAG = "shared_tag"
         const val EMAIL_TAG = "email_tag"
+        const val USERNAME_TAG = "user_tag"
 
         fun newInstance() = SignUpFragment()
     }

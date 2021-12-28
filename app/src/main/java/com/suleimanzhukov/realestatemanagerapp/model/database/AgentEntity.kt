@@ -8,7 +8,7 @@ data class AgentEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Long,
 
-    var name: String,
+    var username: String,
     var age: String,
     var email: String,
     var password: String,

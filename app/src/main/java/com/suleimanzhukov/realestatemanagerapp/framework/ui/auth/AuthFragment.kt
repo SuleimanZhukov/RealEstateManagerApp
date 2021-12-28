@@ -4,14 +4,22 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.suleimanzhukov.realestatemanagerapp.R
 import com.suleimanzhukov.realestatemanagerapp.databinding.FragmentAuthBinding
+import com.suleimanzhukov.realestatemanagerapp.model.utils.Agent
+import java.lang.Exception
 
 class AuthFragment : Fragment() {
 
     private var _binding: FragmentAuthBinding? = null
     private val binding get() = _binding!!
+
+    private val viewModel: AuthViewModel by lazy {
+        ViewModelProvider(this).get(AuthViewModel::class.java)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentAuthBinding.inflate(inflater, container, false)
@@ -21,7 +29,23 @@ class AuthFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        loginInit()
         signUpInit()
+    }
+
+    private fun loginInit() = with(binding) {
+        val email = loginEmailEditText.toString()
+        val password = loginPasswordEditText.toString()
+
+        try {
+            viewModel.getAgentByEmail(email, requireContext())
+        } catch (e: Exception) {
+            Toast.makeText(context, "This email is not registered...\nTry different one or sign up.", Toast.LENGTH_SHORT).show()
+        }
+
+        loginButton.setOnClickListener {
+
+        }
     }
 
     private fun signUpInit() = with(binding) {

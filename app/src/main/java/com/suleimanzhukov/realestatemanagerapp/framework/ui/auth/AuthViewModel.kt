@@ -20,7 +20,7 @@ class AuthViewModel() : ViewModel() {
         }.start()
     }
 
-    fun logoutAgentByEmail(email: String, context: Context) {
+    fun getAgentByEmail(email: String, context: Context) {
         Thread {
             signUpLiveData.postValue(AppState.logoutAgentByEmail(repository.getAgentByEmail(email, context)))
         }

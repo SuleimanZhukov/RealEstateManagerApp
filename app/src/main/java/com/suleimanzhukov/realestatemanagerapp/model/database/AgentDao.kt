@@ -10,7 +10,7 @@ interface AgentDao {
     @Insert(onConflict = IGNORE)
     fun addAgent(agent: AgentEntity)
 
-    @Query("SELECT name FROM AgentEntity")
+    @Query("SELECT username FROM AgentEntity")
     fun getAllAgents(): List<String>
 
     @Query("SELECT * FROM AgentEntity WHERE id = :id")

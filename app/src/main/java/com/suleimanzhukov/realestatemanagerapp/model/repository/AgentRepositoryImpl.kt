@@ -18,7 +18,7 @@ class AgentRepositoryImpl() : AgentRepository {
 
     private fun convertToAgent(agentEntity: AgentEntity): Agent {
         return Agent(
-            agentEntity.name,
+            agentEntity.username,
             agentEntity.age,
             agentEntity.email,
             agentEntity.password,
@@ -30,7 +30,7 @@ class AgentRepositoryImpl() : AgentRepository {
     private fun convertToAgentEntity(agent: Agent): AgentEntity {
         return AgentEntity(
             0,
-            agent.name,
+            agent.username,
             agent.age,
             agent.email,
             agent.password,

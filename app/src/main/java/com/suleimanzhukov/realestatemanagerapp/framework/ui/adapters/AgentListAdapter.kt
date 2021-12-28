@@ -17,7 +17,7 @@ class AgentListAdapter() : RecyclerView.Adapter<AgentListAdapter.AgentsViewHolde
 
     inner class AgentsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(agent: Agent) = with(binding) {
-            agentListItemTextView.text = agent.name
+            agentListItemTextView.text = agent.username
         }
     }
 

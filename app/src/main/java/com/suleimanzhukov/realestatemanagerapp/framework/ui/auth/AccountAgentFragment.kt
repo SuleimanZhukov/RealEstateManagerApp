@@ -37,7 +37,7 @@ class AccountAgentFragment : Fragment() {
         val preferences = activity?.getSharedPreferences(SignUpFragment.SHARED_TAG, Context.MODE_PRIVATE)
         val email = preferences?.getString(SignUpFragment.EMAIL_TAG, "").toString()
 
-        viewModel.logoutAgentByEmail(email, requireContext())
+        viewModel.getAgentByEmail(email, requireContext())
     }
 
     override fun onDestroyView() {
