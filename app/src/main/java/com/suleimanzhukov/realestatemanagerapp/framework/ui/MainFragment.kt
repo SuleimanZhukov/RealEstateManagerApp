@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import com.suleimanzhukov.realestatemanagerapp.R
 import com.suleimanzhukov.realestatemanagerapp.databinding.FragmentMainBinding
 import com.suleimanzhukov.realestatemanagerapp.framework.ui.agentslist.AgentsListFragment
+import com.suleimanzhukov.realestatemanagerapp.framework.ui.auth.AuthFragment
 
 class MainFragment : Fragment() {
 
@@ -27,7 +28,11 @@ class MainFragment : Fragment() {
 
     private fun buttonsInit() = with(binding) {
         authButton.setOnClickListener {
-            fragmentInit(AuthFragment.newInstance())
+            if (true) {
+                fragmentInit(AuthFragment.newInstance())
+            } else {
+
+            }
         }
         settingsButton.setOnClickListener {
             fragmentInit(SettingsFragment.newInstance())

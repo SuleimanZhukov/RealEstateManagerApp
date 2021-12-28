@@ -1,11 +1,11 @@
 package com.suleimanzhukov.realestatemanagerapp.model.repository
 
-import com.suleimanzhukov.realestatemanagerapp.model.database.AgentEntity
+import android.content.Context
 import com.suleimanzhukov.realestatemanagerapp.model.utils.Agent
 
 interface AgentRepository {
 
-    fun addAgent(agent: Agent): Agent
-    fun getAgentByEmail(email: String): Agent
+    fun addAgent(agent: Agent, context: Context): Agent
+    fun getAgentByEmail(email: String, context: Context): Agent
 
 }

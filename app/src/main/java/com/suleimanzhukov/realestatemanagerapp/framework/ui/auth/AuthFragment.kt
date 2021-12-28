@@ -1,4 +1,4 @@
-package com.suleimanzhukov.realestatemanagerapp.framework.ui
+package com.suleimanzhukov.realestatemanagerapp.framework.ui.auth
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.suleimanzhukov.realestatemanagerapp.R
 import com.suleimanzhukov.realestatemanagerapp.databinding.FragmentAuthBinding
-import com.suleimanzhukov.realestatemanagerapp.framework.ui.signup.SignUpFragment
 
 class AuthFragment : Fragment() {
 

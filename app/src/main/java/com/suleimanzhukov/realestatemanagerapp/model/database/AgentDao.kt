@@ -1,13 +1,13 @@
 package com.suleimanzhukov.realestatemanagerapp.model.database
 
 import androidx.room.*
-import androidx.room.OnConflictStrategy.ABORT
+import androidx.room.OnConflictStrategy.*
 import com.suleimanzhukov.realestatemanagerapp.model.utils.Agent
 
 @Dao
 interface AgentDao {
 
-    @Insert(onConflict = ABORT)
+    @Insert(onConflict = IGNORE)
     fun addAgent(agent: AgentEntity)
 
     @Query("SELECT name FROM AgentEntity")

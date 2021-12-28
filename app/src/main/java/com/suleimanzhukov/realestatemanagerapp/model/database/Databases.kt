@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 
 @Database(entities = [AgentEntity::class], version = 1, exportSchema = false)
-abstract class Databases : RoomDatabase() {
+abstract class Databases() : RoomDatabase() {
     abstract fun agentDao(): AgentDao
 
     companion object {
