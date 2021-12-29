@@ -7,5 +7,6 @@ interface AgentRepository {
 
     fun addAgent(agent: Agent, context: Context): Agent
     fun getAgentByEmail(email: String, context: Context): Agent
+    fun getPasswordByEmail(email: String, context: Context): String
 
 }

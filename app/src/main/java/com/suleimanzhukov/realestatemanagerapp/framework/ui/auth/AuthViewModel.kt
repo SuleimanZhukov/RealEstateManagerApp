@@ -10,7 +10,9 @@ import com.suleimanzhukov.realestatemanagerapp.model.utils.Agent
 class AuthViewModel() : ViewModel() {
 
     private val repository: AgentRepositoryImpl = AgentRepositoryImpl()
+
     private val signUpLiveData: MutableLiveData<AppState> = MutableLiveData()
+    private val loginLiveData: MutableLiveData<AppState> = MutableLiveData()
 
     fun getSignUpLiveData() = signUpLiveData
 
@@ -20,10 +22,22 @@ class AuthViewModel() : ViewModel() {
         }.start()
     }
 
-    fun getAgentByEmail(email: String, context: Context) {
+    fun getAgentByEmail(email: String, context: Context): Agent {
+        lateinit var agent: Agent
         Thread {
-            signUpLiveData.postValue(AppState.logoutAgentByEmail(repository.getAgentByEmail(email, context)))
-        }
+            agent = repository.getAgentByEmail(email, context)
+            signUpLiveData.postValue(AppState.getAgentByEmail(agent))
+        }.start()
+        return agent
+    }
+
+    fun getPasswordByEmail(email: String, context: Context): String {
+        lateinit var password: String
+        Thread {
+            password = repository.getAgentByEmail(email, context).password
+            signUpLiveData.postValue(AppState.getAgentByEmail(repository.getAgentByEmail(email, context)))
+        }.start()
+        return password
     }
 
 }

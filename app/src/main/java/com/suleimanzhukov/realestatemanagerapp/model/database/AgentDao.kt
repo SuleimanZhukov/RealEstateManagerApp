@@ -19,6 +19,9 @@ interface AgentDao {
     @Query("SELECT * FROM AgentEntity WHERE email = :email")
     fun getAgentByEmail(email: String): Agent
 
+    @Query("SELECT password FROM AgentEntity WHERE email = :email")
+    fun getPasswordByEmail(email: String): String
+
     @Update
     fun updateAgent(agentEntity: AgentEntity)
 
