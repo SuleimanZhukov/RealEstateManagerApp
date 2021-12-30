@@ -6,15 +6,24 @@ import androidx.lifecycle.ViewModel
 import com.suleimanzhukov.realestatemanagerapp.AppState
 import com.suleimanzhukov.realestatemanagerapp.model.repository.AgentRepositoryImpl
 import com.suleimanzhukov.realestatemanagerapp.model.utils.Agent
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 class AuthViewModel() : ViewModel() {
 
     private val repository: AgentRepositoryImpl = AgentRepositoryImpl()
 
     private val signUpLiveData: MutableLiveData<AppState> = MutableLiveData()
-    private val loginLiveData: MutableLiveData<AppState> = MutableLiveData()
+    private val passwordLiveData: MutableLiveData<String> = MutableLiveData()
+    private val agentLiveData: MutableLiveData<Agent> = MutableLiveData()
 
     fun getSignUpLiveData() = signUpLiveData
+    fun getPasswordLiveData() = passwordLiveData
+    fun getAgentLiveData() = agentLiveData
 
     fun registerAgent(agent: Agent, context: Context) {
         Thread {
@@ -22,22 +31,16 @@ class AuthViewModel() : ViewModel() {
         }.start()
     }
 
-    fun getAgentByEmail(email: String, context: Context): Agent {
-        lateinit var agent: Agent
-        Thread {
-            agent = repository.getAgentByEmail(email, context)
-            signUpLiveData.postValue(AppState.getAgentByEmail(agent))
-        }.start()
-        return agent
+    fun getAgentByEmail(email: String, context: Context) {
+        CoroutineScope(Main).launch {
+            agentLiveData.postValue(repository.getAgentByEmail(email, context))
+        }
     }
 
-    fun getPasswordByEmail(email: String, context: Context): String {
-        lateinit var password: String
-        Thread {
-            password = repository.getAgentByEmail(email, context).password
-            signUpLiveData.postValue(AppState.getAgentByEmail(repository.getAgentByEmail(email, context)))
-        }.start()
-        return password
+    fun getPasswordByEmail(email: String, context: Context) {
+        CoroutineScope(Main).launch {
+            passwordLiveData.postValue(repository.getPasswordByEmail(email, context))
+        }
     }
 
 }

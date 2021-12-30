@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.suleimanzhukov.realestatemanagerapp.R
 import com.suleimanzhukov.realestatemanagerapp.databinding.FragmentAuthBinding
@@ -23,6 +24,9 @@ class AuthFragment : Fragment() {
         ViewModelProvider(this).get(AuthViewModel::class.java)
     }
 
+    private lateinit var inAgent: Agent
+    private lateinit var inPassword: String
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentAuthBinding.inflate(inflater, container, false)
         return binding.root
@@ -30,6 +34,8 @@ class AuthFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        initLiveData()
 
         loginInit()
         signUpInit()
@@ -61,6 +67,16 @@ class AuthFragment : Fragment() {
                 Toast.makeText(context, "This email is not registered...\nTry different one or sign up.", Toast.LENGTH_SHORT).show()
             }*/
         }
+    }
+
+    private fun initLiveData() {
+        viewModel.getAgentLiveData().observe(viewLifecycleOwner, Observer {
+            inAgent
+        })
+
+        viewModel.getPasswordLiveData().observe(viewLifecycleOwner, Observer {
+
+        })
     }
 
     private fun signUpInit() = with(binding) {

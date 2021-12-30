@@ -1,14 +1,18 @@
 package com.suleimanzhukov.realestatemanagerapp.framework.ui
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import coil.load
 import com.suleimanzhukov.realestatemanagerapp.R
 import com.suleimanzhukov.realestatemanagerapp.databinding.FragmentMainBinding
 import com.suleimanzhukov.realestatemanagerapp.framework.ui.agentslist.AgentsListFragment
+import com.suleimanzhukov.realestatemanagerapp.framework.ui.auth.AccountAgentFragment
 import com.suleimanzhukov.realestatemanagerapp.framework.ui.auth.AuthFragment
+import com.suleimanzhukov.realestatemanagerapp.framework.ui.auth.SignUpFragment
 
 class MainFragment : Fragment() {
 
@@ -23,17 +27,27 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        isLoggedIn()
         buttonsInit()
     }
 
-    private fun buttonsInit() = with(binding) {
-        authButton.setOnClickListener {
-            if (true) {
-                fragmentInit(AuthFragment.newInstance())
-            } else {
+    private fun isLoggedIn() = with(binding) {
+        val preferencesEditor = activity?.getSharedPreferences(SignUpFragment.SHARED_TAG, Context.MODE_PRIVATE)
+        val email = preferencesEditor?.getString(SignUpFragment.EMAIL_TAG, "")
 
+        if (email == "") {
+            authButton.setOnClickListener {
+                fragmentInit(AuthFragment.newInstance())
+            }
+        } else {
+            authImg.load(R.drawable.profile_image)
+            authButton.setOnClickListener {
+                fragmentInit(AccountAgentFragment.newInstanceEmpty())
             }
         }
+    }
+
+    private fun buttonsInit() = with(binding) {
         settingsButton.setOnClickListener {
             fragmentInit(SettingsFragment.newInstance())
         }

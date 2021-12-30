@@ -8,7 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.suleimanzhukov.realestatemanagerapp.R
 import com.suleimanzhukov.realestatemanagerapp.databinding.FragmentAccountAgentBinding
+import com.suleimanzhukov.realestatemanagerapp.framework.ui.MainFragment
 
 class AccountAgentFragment : Fragment() {
 
@@ -34,10 +36,14 @@ class AccountAgentFragment : Fragment() {
 
     @SuppressLint("CommitPrefEdits")
     private fun logoutAgentByEmail() {
-        val preferences = activity?.getSharedPreferences(SignUpFragment.SHARED_TAG, Context.MODE_PRIVATE)
-        val email = preferences?.getString(SignUpFragment.EMAIL_TAG, "").toString()
+        val preferencesEditor = activity?.getSharedPreferences(SignUpFragment.SHARED_TAG, Context.MODE_PRIVATE)?.edit()
+        preferencesEditor?.remove(SignUpFragment.USERNAME_TAG)
+        preferencesEditor?.remove(SignUpFragment.EMAIL_TAG)
 
-        viewModel.getAgentByEmail(email, requireContext())
+        requireActivity().supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.container_fragment_main, MainFragment.newInstance())
+            .commitAllowingStateLoss()
     }
 
     override fun onDestroyView() {
@@ -47,6 +53,8 @@ class AccountAgentFragment : Fragment() {
 
     companion object {
         const val AGENT_KEY = "agent_key_to_add"
+
+        fun newInstanceEmpty() = AccountAgentFragment()
 
         fun newInstance(bundle: Bundle): AccountAgentFragment {
             var fragment = AccountAgentFragment()
