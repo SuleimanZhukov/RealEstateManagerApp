@@ -18,8 +18,8 @@ class AuthViewModel() : ViewModel() {
     private val repository: AgentRepositoryImpl = AgentRepositoryImpl()
 
     private val signUpLiveData: MutableLiveData<AppState> = MutableLiveData()
-    private val passwordLiveData: MutableLiveData<String> = MutableLiveData()
-    private val agentLiveData: MutableLiveData<Agent> = MutableLiveData()
+    private val passwordLiveData: MutableLiveData<String?> = MutableLiveData()
+    private val agentLiveData: MutableLiveData<Agent?> = MutableLiveData()
 
     fun getSignUpLiveData() = signUpLiveData
     fun getPasswordLiveData() = passwordLiveData
@@ -32,15 +32,15 @@ class AuthViewModel() : ViewModel() {
     }
 
     fun getAgentByEmail(email: String, context: Context) {
-        CoroutineScope(Main).launch {
+        Thread {
             agentLiveData.postValue(repository.getAgentByEmail(email, context))
-        }
+        }.start()
     }
 
     fun getPasswordByEmail(email: String, context: Context) {
-        CoroutineScope(Main).launch {
+        Thread {
             passwordLiveData.postValue(repository.getPasswordByEmail(email, context))
-        }
+        }.start()
     }
 
 }

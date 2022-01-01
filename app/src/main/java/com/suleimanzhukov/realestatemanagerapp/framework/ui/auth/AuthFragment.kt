@@ -13,7 +13,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.suleimanzhukov.realestatemanagerapp.R
 import com.suleimanzhukov.realestatemanagerapp.databinding.FragmentAuthBinding
 import com.suleimanzhukov.realestatemanagerapp.model.utils.Agent
-import java.lang.Exception
 
 class AuthFragment : Fragment() {
 
@@ -24,8 +23,8 @@ class AuthFragment : Fragment() {
         ViewModelProvider(this).get(AuthViewModel::class.java)
     }
 
-    private lateinit var inAgent: Agent
-    private lateinit var inPassword: String
+    private var inAgent: Agent? = null
+    private var inPassword: String? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentAuthBinding.inflate(inflater, container, false)
@@ -35,47 +34,47 @@ class AuthFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initLiveData()
-
         loginInit()
         signUpInit()
     }
 
     @SuppressLint("CommitPrefEdits")
     private fun loginInit() = with(binding) {
-        loginButton.setOnClickListener {
-            val email = loginEmailEditText.toString()
-            val password = loginPasswordEditText.toString()
+        subscribeToLiveData()
 
-            val agent = viewModel.getAgentByEmail(email, requireContext())
+        loginButton.setOnClickListener {
+            var email = loginEmailEditText.text.toString()
+            var password = loginPasswordEditText.text.toString()
+
+            viewModel.getAgentByEmail(email, requireContext())
+            val agent = inAgent
 
             if (agent == null) {
-                Toast.makeText(context, "This email is not registered...\nTry different one or sign up.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "This email is not registered...\nTry different one or sign up.", Toast.LENGTH_LONG).show()
             } else {
-                if (viewModel.getPasswordByEmail(email, requireContext()) == password) {
+                viewModel.getPasswordByEmail(email, requireContext())
+                if (inPassword == password) {
                     val preferencesEditor = activity?.getSharedPreferences(SignUpFragment.SHARED_TAG, Context.MODE_PRIVATE)?.edit()
-                    preferencesEditor?.putString(SignUpFragment.USERNAME_TAG, agent.username)
+                    preferencesEditor?.putString(SignUpFragment.USERNAME_TAG, agent?.username)
                     preferencesEditor?.putString(SignUpFragment.EMAIL_TAG, email)
+
+                    requireActivity().supportFragmentManager
+                        .beginTransaction()
+                        .replace(R.id.container_fragment_main, AccountAgentFragment.newInstanceEmpty())
                 } else {
-                    Toast.makeText(context, "Wrong password", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Wrong password", Toast.LENGTH_LONG).show()
                 }
             }
-
-            /*try {
-                viewModel.getAgentByEmail(email, requireContext())
-            } catch (e: Exception) {
-                Toast.makeText(context, "This email is not registered...\nTry different one or sign up.", Toast.LENGTH_SHORT).show()
-            }*/
         }
     }
 
-    private fun initLiveData() {
+    private fun subscribeToLiveData() {
         viewModel.getAgentLiveData().observe(viewLifecycleOwner, Observer {
-            inAgent
+            inAgent = viewModel.getAgentLiveData().value
         })
 
         viewModel.getPasswordLiveData().observe(viewLifecycleOwner, Observer {
-
+            inPassword = viewModel.getPasswordLiveData().value
         })
     }
 

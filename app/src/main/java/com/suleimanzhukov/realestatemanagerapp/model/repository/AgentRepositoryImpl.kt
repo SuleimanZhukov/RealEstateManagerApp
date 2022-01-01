@@ -12,17 +12,17 @@ class AgentRepositoryImpl() : AgentRepository {
         return agent
     }
 
-    override fun getAgentByEmail(email: String, context: Context): Agent {
-        return Databases.getDatabase(context).agentDao().getAgentByEmail(email)
+    override fun getAgentByEmail(email: String, context: Context): Agent? {
+        return convertToAgent(Databases.getDatabase(context).agentDao().getAgentByEmail(email))
     }
 
-    override fun getPasswordByEmail(email: String, context: Context): String {
+    override fun getPasswordByEmail(email: String, context: Context): String? {
         return Databases.getDatabase(context).agentDao().getPasswordByEmail(email)
     }
 
-    private fun convertToAgent(agentEntity: AgentEntity): Agent {
+    private fun convertToAgent(agentEntity: AgentEntity?): Agent {
         return Agent(
-            agentEntity.username,
+            agentEntity!!.username,
             agentEntity.age,
             agentEntity.email,
             agentEntity.password,

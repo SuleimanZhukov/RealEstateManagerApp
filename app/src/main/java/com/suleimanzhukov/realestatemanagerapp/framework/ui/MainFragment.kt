@@ -35,7 +35,7 @@ class MainFragment : Fragment() {
         val preferencesEditor = activity?.getSharedPreferences(SignUpFragment.SHARED_TAG, Context.MODE_PRIVATE)
         val email = preferencesEditor?.getString(SignUpFragment.EMAIL_TAG, "")
 
-        if (email == "") {
+        if (email == null || email == "") {
             authButton.setOnClickListener {
                 fragmentInit(AuthFragment.newInstance())
             }

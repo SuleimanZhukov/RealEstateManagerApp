@@ -6,11 +6,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.suleimanzhukov.realestatemanagerapp.R
 import com.suleimanzhukov.realestatemanagerapp.databinding.FragmentAccountAgentBinding
 import com.suleimanzhukov.realestatemanagerapp.framework.ui.MainFragment
+import com.suleimanzhukov.realestatemanagerapp.model.utils.Agent
 
 class AccountAgentFragment : Fragment() {
 
@@ -21,6 +24,8 @@ class AccountAgentFragment : Fragment() {
         ViewModelProvider(this).get(AuthViewModel::class.java)
     }
 
+    private var agent: Agent? = null
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentAccountAgentBinding.inflate(inflater, container, false)
         return binding.root
@@ -28,6 +33,23 @@ class AccountAgentFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
         super.onViewCreated(view, savedInstanceState)
+
+        viewModel.getAgentLiveData().observe(viewLifecycleOwner, Observer {
+            agent = viewModel.getAgentLiveData().value
+        })
+        showDbButton.setOnClickListener {
+            viewModel.getAgentByEmail("suleimanzhukov@gmail.com", requireContext())
+
+            if (agent == null) {
+                Toast.makeText(context, "NOT there", Toast.LENGTH_LONG).show()
+            } else {
+                if (agent?.username == "Suleiman") {
+                    Toast.makeText(context, "It is there Suleiman", Toast.LENGTH_LONG).show()
+                } else {
+                    Toast.makeText(context, "It is there BUT NOT Suleiman", Toast.LENGTH_LONG).show()
+                }
+            }
+        }
 
         logOutButton.setOnClickListener {
             logoutAgentByEmail()
