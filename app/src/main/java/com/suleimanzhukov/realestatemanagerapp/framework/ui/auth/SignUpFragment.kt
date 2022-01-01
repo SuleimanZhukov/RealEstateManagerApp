@@ -63,11 +63,13 @@ class SignUpFragment : Fragment() {
         val preferencesEditor = activity?.getSharedPreferences(SHARED_TAG, Context.MODE_PRIVATE)?.edit()
         preferencesEditor?.putString(USERNAME_TAG, username)
         preferencesEditor?.putString(EMAIL_TAG, email)
+        preferencesEditor?.apply()
 
         requireActivity().supportFragmentManager
             .beginTransaction()
             .replace(R.id.container_fragment_main, AccountAgentFragment.newInstance(bundle))
-            .commitNowAllowingStateLoss()
+            .addToBackStack("")
+            .commit()
     }
 
 

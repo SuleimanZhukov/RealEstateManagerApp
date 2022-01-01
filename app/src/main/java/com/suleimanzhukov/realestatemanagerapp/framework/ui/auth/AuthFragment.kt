@@ -50,19 +50,21 @@ class AuthFragment : Fragment() {
             val agent = inAgent
 
             if (agent == null) {
-                Toast.makeText(context, "This email is not registered...\nTry different one or sign up.", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, "This email is not registered...\nTry different one or sign up.", Toast.LENGTH_SHORT).show()
             } else {
                 viewModel.getPasswordByEmail(email, requireContext())
                 if (inPassword == password) {
                     val preferencesEditor = activity?.getSharedPreferences(SignUpFragment.SHARED_TAG, Context.MODE_PRIVATE)?.edit()
                     preferencesEditor?.putString(SignUpFragment.USERNAME_TAG, agent?.username)
                     preferencesEditor?.putString(SignUpFragment.EMAIL_TAG, email)
+                    preferencesEditor?.apply()
 
                     requireActivity().supportFragmentManager
                         .beginTransaction()
                         .replace(R.id.container_fragment_main, AccountAgentFragment.newInstanceEmpty())
+                        .commitNowAllowingStateLoss()
                 } else {
-                    Toast.makeText(context, "Wrong password", Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, "Wrong password", Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -88,8 +90,7 @@ class AuthFragment : Fragment() {
         requireActivity().supportFragmentManager
             .beginTransaction()
             .add(R.id.container_fragment_main, fragment)
-            .addToBackStack("")
-            .commitAllowingStateLoss()
+            .commit()
     }
 
     override fun onDestroyView() {

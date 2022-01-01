@@ -37,19 +37,6 @@ class AccountAgentFragment : Fragment() {
         viewModel.getAgentLiveData().observe(viewLifecycleOwner, Observer {
             agent = viewModel.getAgentLiveData().value
         })
-        showDbButton.setOnClickListener {
-            viewModel.getAgentByEmail("suleimanzhukov@gmail.com", requireContext())
-
-            if (agent == null) {
-                Toast.makeText(context, "NOT there", Toast.LENGTH_LONG).show()
-            } else {
-                if (agent?.username == "Suleiman") {
-                    Toast.makeText(context, "It is there Suleiman", Toast.LENGTH_LONG).show()
-                } else {
-                    Toast.makeText(context, "It is there BUT NOT Suleiman", Toast.LENGTH_LONG).show()
-                }
-            }
-        }
 
         logOutButton.setOnClickListener {
             logoutAgentByEmail()
@@ -61,6 +48,7 @@ class AccountAgentFragment : Fragment() {
         val preferencesEditor = activity?.getSharedPreferences(SignUpFragment.SHARED_TAG, Context.MODE_PRIVATE)?.edit()
         preferencesEditor?.remove(SignUpFragment.USERNAME_TAG)
         preferencesEditor?.remove(SignUpFragment.EMAIL_TAG)
+        preferencesEditor?.apply()
 
         requireActivity().supportFragmentManager
             .beginTransaction()
