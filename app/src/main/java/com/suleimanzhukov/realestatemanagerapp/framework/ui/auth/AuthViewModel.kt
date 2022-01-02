@@ -32,15 +32,10 @@ class AuthViewModel() : ViewModel() {
     }
 
     fun getAgentByEmail(email: String, context: Context) {
-        Thread {
-            agentLiveData.postValue(repository.getAgentByEmail(email, context))
-        }.start()
+        agentLiveData.postValue(repository.getAgentByEmail(email, context))
     }
 
     fun getPasswordByEmail(email: String, context: Context) {
-        Thread {
-            passwordLiveData.postValue(repository.getPasswordByEmail(email, context))
-        }.start()
+        passwordLiveData.postValue(repository.getPasswordByEmail(email, context))
     }
-
 }

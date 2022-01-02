@@ -13,6 +13,11 @@ import androidx.lifecycle.ViewModelProvider
 import com.suleimanzhukov.realestatemanagerapp.R
 import com.suleimanzhukov.realestatemanagerapp.databinding.FragmentAuthBinding
 import com.suleimanzhukov.realestatemanagerapp.model.utils.Agent
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 class AuthFragment : Fragment() {
 
@@ -46,25 +51,33 @@ class AuthFragment : Fragment() {
             var email = loginEmailEditText.text.toString()
             var password = loginPasswordEditText.text.toString()
 
-            viewModel.getAgentByEmail(email, requireContext())
-            val agent = inAgent
+            CoroutineScope(Main).launch {
+                val job = async(IO) {
+                    viewModel.getAgentByEmail(email, requireContext())
+                }
+                job.await()
+                val agent = inAgent
 
-            if (agent == null) {
-                Toast.makeText(context, "This email is not registered...\nTry different one or sign up.", Toast.LENGTH_SHORT).show()
-            } else {
-                viewModel.getPasswordByEmail(email, requireContext())
-                if (inPassword == password) {
-                    val preferencesEditor = activity?.getSharedPreferences(SignUpFragment.SHARED_TAG, Context.MODE_PRIVATE)?.edit()
-                    preferencesEditor?.putString(SignUpFragment.USERNAME_TAG, agent?.username)
-                    preferencesEditor?.putString(SignUpFragment.EMAIL_TAG, email)
-                    preferencesEditor?.apply()
-
-                    requireActivity().supportFragmentManager
-                        .beginTransaction()
-                        .replace(R.id.container_fragment_main, AccountAgentFragment.newInstanceEmpty())
-                        .commitNowAllowingStateLoss()
+                if (agent == null) {
+                    Toast.makeText(context, "This email is not registered...\nTry different one or sign up.", Toast.LENGTH_SHORT).show()
                 } else {
-                    Toast.makeText(context, "Wrong password", Toast.LENGTH_SHORT).show()
+                    val jobPassword = async(IO) {
+                        viewModel.getPasswordByEmail(email, requireContext())
+                    }
+                    jobPassword.await()
+                    if (inPassword == password) {
+                        val preferencesEditor = activity?.getSharedPreferences(SignUpFragment.SHARED_TAG, Context.MODE_PRIVATE)?.edit()
+                        preferencesEditor?.putString(SignUpFragment.USERNAME_TAG, agent.username)
+                        preferencesEditor?.putString(SignUpFragment.EMAIL_TAG, email)
+                        preferencesEditor?.apply()
+
+                        requireActivity().supportFragmentManager
+                            .beginTransaction()
+                            .replace(R.id.container_fragment_main, AccountAgentFragment.newInstanceEmpty())
+                            .commitNowAllowingStateLoss()
+                    } else {
+                        Toast.makeText(context, "Wrong password", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         }
