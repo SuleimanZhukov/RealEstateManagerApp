@@ -56,26 +56,6 @@ class AccountAgentFragment : Fragment() {
         preferencesEditor?.apply()
 
         navController.navigate(R.id.action_accountAgentFragment_to_mainFragment)
-        /*requireActivity().supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.container_fragment_main, MainFragment.newInstance())
-            .commitAllowingStateLoss()*/
-    }
-
-    private fun onBackPressed() {
-        requireActivity().onBackPressedDispatcher.addCallback(this,
-            object : OnBackPressedCallback(true) {
-                override fun handleOnBackPressed() {
-                    requireActivity().supportFragmentManager
-                        .beginTransaction()
-                        .replace(R.id.container_fragment_main, MainFragment.newInstance())
-
-                    if (isEnabled) {
-                        isEnabled = false
-                        requireActivity().onBackPressed()
-                    }
-                }
-            })
     }
 
     override fun onDestroyView() {

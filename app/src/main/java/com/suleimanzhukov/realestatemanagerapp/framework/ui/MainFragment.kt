@@ -39,16 +39,11 @@ class MainFragment : Fragment() {
         if (email == null || email == "") {
             authButton.setOnClickListener {
                 navController.navigate(R.id.action_mainFragment_to_authFragment)
-                /*requireActivity().supportFragmentManager
-                    .beginTransaction()
-                    .add(R.id.container_fragment_main, AuthFragment.newInstance())
-                    .commitAllowingStateLoss()*/
             }
         } else {
             authImg.load(R.drawable.profile_image)
             authButton.setOnClickListener {
                 navController.navigate(R.id.action_mainFragment_to_accountAgentFragment)
-//                fragmentInit(AccountAgentFragment.newInstanceEmpty())
             }
         }
     }
@@ -56,20 +51,10 @@ class MainFragment : Fragment() {
     private fun buttonsInit() = with(binding) {
         settingsButton.setOnClickListener {
             navController.navigate(R.id.action_mainFragment_to_settingsFragment)
-//            fragmentInit(SettingsFragment.newInstance())
         }
         searchButton.setOnClickListener {
             navController.navigate(R.id.action_mainFragment_to_agentsListFragment)
-//            fragmentInit(AgentsListFragment.newInstance())
         }
-    }
-
-    private fun fragmentInit(fragment: Fragment) {
-        requireActivity().supportFragmentManager
-            .beginTransaction()
-            .add(R.id.container_fragment_main, fragment)
-            .addToBackStack("")
-            .commitAllowingStateLoss()
     }
 
     override fun onDestroyView() {

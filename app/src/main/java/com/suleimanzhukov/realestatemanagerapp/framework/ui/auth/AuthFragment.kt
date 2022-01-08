@@ -76,10 +76,6 @@ class AuthFragment : Fragment() {
                         preferencesEditor?.apply()
 
                         navController.navigate(R.id.action_authFragment_to_accountAgentFragment)
-                        /*requireActivity().supportFragmentManager
-                            .beginTransaction()
-                            .replace(R.id.container_fragment_main, AccountAgentFragment.newInstanceEmpty())
-                            .commitNowAllowingStateLoss()*/
                     } else {
                         Toast.makeText(context, "Wrong password", Toast.LENGTH_SHORT).show()
                     }
@@ -101,15 +97,7 @@ class AuthFragment : Fragment() {
     private fun signUpInit() = with(binding) {
         loginSignUpTextView.setOnClickListener {
             navController.navigate(R.id.action_authFragment_to_signUpFragment)
-//            fragmentInit(SignUpFragment.newInstance())
         }
-    }
-
-    private fun fragmentInit(fragment: Fragment) {
-        requireActivity().supportFragmentManager
-            .beginTransaction()
-            .add(R.id.container_fragment_main, fragment)
-            .commit()
     }
 
     override fun onDestroyView() {

@@ -71,11 +71,6 @@ class SignUpFragment : Fragment() {
         preferencesEditor?.apply()
 
         navController.navigate(R.id.action_signUpFragment_to_accountAgentFragment)
-        /*requireActivity().supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.container_fragment_main, AccountAgentFragment.newInstance(bundle))
-            .addToBackStack("")
-            .commit()*/
     }
 
 
