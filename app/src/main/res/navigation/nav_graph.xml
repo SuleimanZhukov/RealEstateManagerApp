@@ -34,7 +34,9 @@
             app:destination="@id/signUpFragment" />
         <action
             android:id="@+id/action_authFragment_to_accountAgentFragment"
-            app:destination="@id/accountAgentFragment" />
+            app:destination="@id/accountAgentFragment"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false" />
     </fragment>
 
     <fragment
@@ -43,7 +45,9 @@
         android:label="SignUpFragment">
         <action
             android:id="@+id/action_signUpFragment_to_accountAgentFragment"
-            app:destination="@id/accountAgentFragment" />
+            app:destination="@id/accountAgentFragment"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false" />
     </fragment>
 
     <fragment
@@ -52,7 +56,9 @@
         android:label="AccountAgentFragment" >
         <action
             android:id="@+id/action_accountAgentFragment_to_mainFragment"
-            app:destination="@id/mainFragment" />
+            app:destination="@id/mainFragment"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment
