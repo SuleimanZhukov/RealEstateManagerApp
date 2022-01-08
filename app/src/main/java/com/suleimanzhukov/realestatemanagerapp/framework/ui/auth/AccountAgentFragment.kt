@@ -2,6 +2,7 @@ package com.suleimanzhukov.realestatemanagerapp.framework.ui.auth
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -46,6 +47,18 @@ class AccountAgentFragment : Fragment() {
         logOutButton.setOnClickListener {
             logoutAgentByEmail()
         }
+
+        profileImage.setOnClickListener {
+            uploadProfileImage()
+        }
+    }
+
+    private fun uploadProfileImage() {
+        val intent = Intent().apply {
+            action = Intent.ACTION_PICK
+            type = "image/*"
+        }
+        startActivity(intent)
     }
 
     @SuppressLint("CommitPrefEdits")
