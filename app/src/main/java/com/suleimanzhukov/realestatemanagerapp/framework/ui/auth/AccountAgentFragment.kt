@@ -10,6 +10,8 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import com.suleimanzhukov.realestatemanagerapp.R
 import com.suleimanzhukov.realestatemanagerapp.databinding.FragmentAccountAgentBinding
 import com.suleimanzhukov.realestatemanagerapp.framework.ui.MainFragment
@@ -19,6 +21,8 @@ class AccountAgentFragment : Fragment() {
 
     private var _binding: FragmentAccountAgentBinding? = null
     private val binding get() = _binding!!
+
+    private lateinit var navController: NavController
 
     private val viewModel: AuthViewModel by lazy {
         ViewModelProvider(this).get(AuthViewModel::class.java)
@@ -33,11 +37,7 @@ class AccountAgentFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
         super.onViewCreated(view, savedInstanceState)
-
-        requireActivity().supportFragmentManager
-            .beginTransaction()
-            .remove(AuthFragment())
-            .remove(SignUpFragment())
+        navController = Navigation.findNavController(view)
 
         viewModel.getAgentLiveData().observe(viewLifecycleOwner, Observer {
             agent = viewModel.getAgentLiveData().value
@@ -55,10 +55,11 @@ class AccountAgentFragment : Fragment() {
         preferencesEditor?.remove(SignUpFragment.EMAIL_TAG)
         preferencesEditor?.apply()
 
-        requireActivity().supportFragmentManager
+        navController.navigate(R.id.action_accountAgentFragment_to_mainFragment)
+        /*requireActivity().supportFragmentManager
             .beginTransaction()
             .replace(R.id.container_fragment_main, MainFragment.newInstance())
-            .commitAllowingStateLoss()
+            .commitAllowingStateLoss()*/
     }
 
     private fun onBackPressed() {

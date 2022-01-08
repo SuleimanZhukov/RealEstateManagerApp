@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/mainFragment">
+
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.suleimanzhukov.realestatemanagerapp.framework.ui.MainFragment"
+        android:label="MainFragment" >
+        <action
+            android:id="@+id/action_mainFragment_to_authFragment"
+            app:destination="@id/authFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_agentsListFragment"
+            app:destination="@id/agentsListFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_accountAgentFragment"
+            app:destination="@id/accountAgentFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/authFragment"
+        android:name="com.suleimanzhukov.realestatemanagerapp.framework.ui.auth.AuthFragment"
+        android:label="AuthFragment">
+        <action
+            android:id="@+id/action_authFragment_to_signUpFragment"
+            app:destination="@id/signUpFragment" />
+        <action
+            android:id="@+id/action_authFragment_to_accountAgentFragment"
+            app:destination="@id/accountAgentFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/signUpFragment"
+        android:name="com.suleimanzhukov.realestatemanagerapp.framework.ui.auth.SignUpFragment"
+        android:label="SignUpFragment">
+        <action
+            android:id="@+id/action_signUpFragment_to_accountAgentFragment"
+            app:destination="@id/accountAgentFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/accountAgentFragment"
+        android:name="com.suleimanzhukov.realestatemanagerapp.framework.ui.auth.AccountAgentFragment"
+        android:label="AccountAgentFragment" >
+        <action
+            android:id="@+id/action_accountAgentFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.suleimanzhukov.realestatemanagerapp.framework.ui.SettingsFragment"
+        android:label="SettingsFragment" />
+
+    <fragment
+        android:id="@+id/detailsFragment"
+        android:name="com.suleimanzhukov.realestatemanagerapp.framework.ui.DetailsFragment"
+        android:label="DetailsFragment" />
+
+    <fragment
+        android:id="@+id/agentsListFragment"
+        android:name="com.suleimanzhukov.realestatemanagerapp.framework.ui.agentslist.AgentsListFragment"
+        android:label="AgentsListFragment" />
+</navigation>

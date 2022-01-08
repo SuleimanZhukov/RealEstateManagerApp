@@ -5,20 +5,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import coil.load
 import com.suleimanzhukov.realestatemanagerapp.R
 import com.suleimanzhukov.realestatemanagerapp.databinding.FragmentMainBinding
-import com.suleimanzhukov.realestatemanagerapp.framework.ui.agentslist.AgentsListFragment
-import com.suleimanzhukov.realestatemanagerapp.framework.ui.auth.AccountAgentFragment
-import com.suleimanzhukov.realestatemanagerapp.framework.ui.auth.AuthFragment
 import com.suleimanzhukov.realestatemanagerapp.framework.ui.auth.SignUpFragment
 
 class MainFragment : Fragment() {
 
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
+
+    private lateinit var navController: NavController
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentMainBinding.inflate(inflater, container, false)
@@ -27,7 +27,7 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        navController = Navigation.findNavController(view)
         isLoggedIn()
         buttonsInit()
     }
@@ -38,25 +38,29 @@ class MainFragment : Fragment() {
 
         if (email == null || email == "") {
             authButton.setOnClickListener {
-                requireActivity().supportFragmentManager
+                navController.navigate(R.id.action_mainFragment_to_authFragment)
+                /*requireActivity().supportFragmentManager
                     .beginTransaction()
                     .add(R.id.container_fragment_main, AuthFragment.newInstance())
-                    .commitAllowingStateLoss()
+                    .commitAllowingStateLoss()*/
             }
         } else {
             authImg.load(R.drawable.profile_image)
             authButton.setOnClickListener {
-                fragmentInit(AccountAgentFragment.newInstanceEmpty())
+                navController.navigate(R.id.action_mainFragment_to_accountAgentFragment)
+//                fragmentInit(AccountAgentFragment.newInstanceEmpty())
             }
         }
     }
 
     private fun buttonsInit() = with(binding) {
         settingsButton.setOnClickListener {
-            fragmentInit(SettingsFragment.newInstance())
+            navController.navigate(R.id.action_mainFragment_to_settingsFragment)
+//            fragmentInit(SettingsFragment.newInstance())
         }
         searchButton.setOnClickListener {
-            fragmentInit(AgentsListFragment.newInstance())
+            navController.navigate(R.id.action_mainFragment_to_agentsListFragment)
+//            fragmentInit(AgentsListFragment.newInstance())
         }
     }
 

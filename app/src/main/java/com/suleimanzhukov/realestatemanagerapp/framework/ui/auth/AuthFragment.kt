@@ -10,6 +10,8 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import com.suleimanzhukov.realestatemanagerapp.R
 import com.suleimanzhukov.realestatemanagerapp.databinding.FragmentAuthBinding
 import com.suleimanzhukov.realestatemanagerapp.model.utils.Agent
@@ -23,6 +25,8 @@ class AuthFragment : Fragment() {
 
     private var _binding: FragmentAuthBinding? = null
     private val binding get() = _binding!!
+
+    private lateinit var navController: NavController
 
     private val viewModel: AuthViewModel by lazy {
         ViewModelProvider(this).get(AuthViewModel::class.java)
@@ -38,7 +42,7 @@ class AuthFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        navController = Navigation.findNavController(view)
         loginInit()
         signUpInit()
     }
@@ -71,10 +75,11 @@ class AuthFragment : Fragment() {
                         preferencesEditor?.putString(SignUpFragment.EMAIL_TAG, email)
                         preferencesEditor?.apply()
 
-                        requireActivity().supportFragmentManager
+                        navController.navigate(R.id.action_authFragment_to_accountAgentFragment)
+                        /*requireActivity().supportFragmentManager
                             .beginTransaction()
                             .replace(R.id.container_fragment_main, AccountAgentFragment.newInstanceEmpty())
-                            .commitNowAllowingStateLoss()
+                            .commitNowAllowingStateLoss()*/
                     } else {
                         Toast.makeText(context, "Wrong password", Toast.LENGTH_SHORT).show()
                     }
@@ -95,7 +100,8 @@ class AuthFragment : Fragment() {
 
     private fun signUpInit() = with(binding) {
         loginSignUpTextView.setOnClickListener {
-            fragmentInit(SignUpFragment.newInstance())
+            navController.navigate(R.id.action_authFragment_to_signUpFragment)
+//            fragmentInit(SignUpFragment.newInstance())
         }
     }
 
