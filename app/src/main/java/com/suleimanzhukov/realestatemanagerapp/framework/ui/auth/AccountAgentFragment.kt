@@ -1,13 +1,16 @@
 package com.suleimanzhukov.realestatemanagerapp.framework.ui.auth
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.OnBackPressedCallback
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -15,7 +18,7 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.suleimanzhukov.realestatemanagerapp.R
 import com.suleimanzhukov.realestatemanagerapp.databinding.FragmentAccountAgentBinding
-import com.suleimanzhukov.realestatemanagerapp.framework.ui.MainFragment
+import com.suleimanzhukov.realestatemanagerapp.framework.MainActivity
 import com.suleimanzhukov.realestatemanagerapp.model.utils.Agent
 
 class AccountAgentFragment : Fragment() {
@@ -23,6 +26,7 @@ class AccountAgentFragment : Fragment() {
     private var _binding: FragmentAccountAgentBinding? = null
     private val binding get() = _binding!!
 
+    private lateinit var mainActivity: MainActivity
     private lateinit var navController: NavController
 
     private val viewModel: AuthViewModel by lazy {
@@ -38,6 +42,7 @@ class AccountAgentFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
         super.onViewCreated(view, savedInstanceState)
+        mainActivity = activity as MainActivity
         navController = Navigation.findNavController(view)
 
         viewModel.getAgentLiveData().observe(viewLifecycleOwner, Observer {
@@ -49,7 +54,15 @@ class AccountAgentFragment : Fragment() {
         }
 
         profileImage.setOnClickListener {
+            checkPermissions()
+        }
+    }
+
+    private fun checkPermissions() {
+        if (mainActivity.checkReadStoragePermission()) {
             uploadProfileImage()
+        } else {
+            mainActivity.requestReadStoragePermission()
         }
     }
 
