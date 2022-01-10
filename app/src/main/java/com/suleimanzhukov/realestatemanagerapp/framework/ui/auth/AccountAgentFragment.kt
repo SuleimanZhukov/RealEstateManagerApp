@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,6 +25,7 @@ import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import java.lang.NullPointerException
 
 class AccountAgentFragment : Fragment() {
 
@@ -53,10 +55,26 @@ class AccountAgentFragment : Fragment() {
             agent = viewModel.getAgentLiveData().value
         })
 
+        /*val email = getEmail()
+        CoroutineScope(Main).launch {
+            val job = async(IO) {
+                try {
+                    agent = viewModel.getAgentByEmail(email!!, requireContext())
+                } catch (e: NullPointerException) {
+                    Log.d("TAG", "AccountFragment: NULL AGENT")
+                }
+            }
+            job.await()
+        }*/
+
         logOutButton.setOnClickListener {
             logoutAgentByEmail()
         }
 
+        if (agent == null) {
+            Log.d("TAG", "onViewCreated: ALERT ALERT ALERT...AGENT IS NULL... AGENT IS NULL... AGENT IS NULL")
+        }
+        profileImage.load(agent?.profileImg)
         profileImage.setOnClickListener {
             checkPermissions()
         }
@@ -83,21 +101,25 @@ class AccountAgentFragment : Fragment() {
         ActivityResultContracts.StartActivityForResult()
     ) {
         if (it.resultCode == Activity.RESULT_OK) {
-            val preferences = activity?.getSharedPreferences(SignUpFragment.SHARED_TAG, Context.MODE_PRIVATE)
-            val email = preferences?.getString(SignUpFragment.EMAIL_TAG, "")
+            val email = getEmail()
             CoroutineScope(Main).launch {
                 val getAgentJob = async(IO) {
                     viewModel.getAgentByEmail(email!!, requireContext())
                 }
                 getAgentJob.await()
-                val agent = viewModel.getAgentLiveData().value
+                agent?.profileImg = it.data?.data.toString()
                 val updateJob = async(IO) {
                     viewModel.updateAgent(agent!!, requireContext())
                 }
                 updateJob.await()
-                binding.profileImage.load(it.data?.data)
+                binding.profileImage.load(agent!!.profileImg)
             }
         }
+    }
+
+    private fun getEmail(): String? {
+        val preferences = activity?.getSharedPreferences(SignUpFragment.SHARED_TAG, Context.MODE_PRIVATE)
+        return preferences?.getString(SignUpFragment.EMAIL_TAG, "")
     }
 
     @SuppressLint("CommitPrefEdits")
