@@ -1,4 +1,4 @@
-package com.suleimanzhukov.realestatemanagerapp.framework.ui.auth
+package com.suleimanzhukov.realestatemanagerapp.framework.ui.main
 
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
@@ -13,33 +13,14 @@ import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
-class AuthViewModel() : ViewModel() {
+class MainViewModel() : ViewModel() {
 
     private val repository: AgentRepositoryImpl = AgentRepositoryImpl()
-
-    private val signUpLiveData: MutableLiveData<AppState> = MutableLiveData()
-    private val passwordLiveData: MutableLiveData<String?> = MutableLiveData()
     private val agentLiveData: MutableLiveData<Agent?> = MutableLiveData()
 
-    fun getSignUpLiveData() = signUpLiveData
-    fun getPasswordLiveData() = passwordLiveData
     fun getAgentLiveData() = agentLiveData
-
-    fun registerAgent(agent: Agent, context: Context) {
-        Thread {
-            signUpLiveData.postValue(AppState.registerAgent(repository.addAgent(agent, context)))
-        }.start()
-    }
 
     fun getAgentByEmail(email: String, context: Context) {
         agentLiveData.postValue(repository.getAgentByEmail(email, context))
-    }
-
-    fun getPasswordByEmail(email: String, context: Context) {
-        passwordLiveData.postValue(repository.getPasswordByEmail(email, context))
-    }
-
-    fun updateAgent(agent: Agent, context: Context) {
-        repository.updataAgent(agent, context)
     }
 }
