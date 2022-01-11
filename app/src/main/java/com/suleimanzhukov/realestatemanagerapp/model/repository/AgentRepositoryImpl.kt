@@ -1,6 +1,7 @@
 package com.suleimanzhukov.realestatemanagerapp.model.repository
 
 import android.content.Context
+import android.util.Log
 import com.suleimanzhukov.realestatemanagerapp.model.database.AgentEntity
 import com.suleimanzhukov.realestatemanagerapp.model.database.Databases
 import com.suleimanzhukov.realestatemanagerapp.model.utils.Agent

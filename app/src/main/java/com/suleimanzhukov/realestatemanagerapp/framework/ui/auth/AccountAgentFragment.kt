@@ -40,13 +40,14 @@ class AccountAgentFragment : Fragment() {
     }
 
     private var agent: Agent? = null
+    private var email: String? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentAccountAgentBinding.inflate(inflater, container, false)
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?): Unit = with(binding) {
         super.onViewCreated(view, savedInstanceState)
         mainActivity = activity as MainActivity
         navController = Navigation.findNavController(view)
@@ -55,25 +56,24 @@ class AccountAgentFragment : Fragment() {
             agent = viewModel.getAgentLiveData().value
         })
 
-        /*val email = getEmail()
-        CoroutineScope(Main).launch {
-            val job = async(IO) {
-                try {
-                    agent = viewModel.getAgentByEmail(email!!, requireContext())
-                } catch (e: NullPointerException) {
-                    Log.d("TAG", "AccountFragment: NULL AGENT")
-                }
-            }
-            job.await()
-        }*/
-
         logOutButton.setOnClickListener {
             logoutAgentByEmail()
+        }
+
+        email = getEmail()
+        CoroutineScope(Main).launch {
+            val job = async(IO) {
+                Log.d("TAG", "onViewCreated: IN ASYNC(IO), Email: $email")
+                viewModel.getAgentByEmail(email!!, requireContext())
+                Log.d("TAG", "onViewCreated: Profile Picture: ${agent?.profileImg}")
+            }
+            job.await()
         }
 
         if (agent == null) {
             Log.d("TAG", "onViewCreated: ALERT ALERT ALERT...AGENT IS NULL... AGENT IS NULL... AGENT IS NULL")
         }
+
         profileImage.load(agent?.profileImg)
         profileImage.setOnClickListener {
             checkPermissions()
@@ -101,7 +101,6 @@ class AccountAgentFragment : Fragment() {
         ActivityResultContracts.StartActivityForResult()
     ) {
         if (it.resultCode == Activity.RESULT_OK) {
-            val email = getEmail()
             CoroutineScope(Main).launch {
                 val getAgentJob = async(IO) {
                     viewModel.getAgentByEmail(email!!, requireContext())
@@ -109,10 +108,12 @@ class AccountAgentFragment : Fragment() {
                 getAgentJob.await()
                 agent?.profileImg = it.data?.data.toString()
                 val updateJob = async(IO) {
+                    Log.d("NULL_AGENT", "AGENT IS NULL IN UPDATE_AGENT...AGENT IS NULL IN UPDATE_AGENT...AGENT IS NULL IN UPDATE_AGENT")
                     viewModel.updateAgent(agent!!, requireContext())
                 }
                 updateJob.await()
                 binding.profileImage.load(agent!!.profileImg)
+                Log.d("TAG", "onViewCreated: Profile Picture: ${agent?.profileImg}")
             }
         }
     }

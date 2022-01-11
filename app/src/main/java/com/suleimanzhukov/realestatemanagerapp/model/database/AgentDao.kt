@@ -1,5 +1,6 @@
 package com.suleimanzhukov.realestatemanagerapp.model.database
 
+import android.util.Log
 import androidx.room.*
 import androidx.room.OnConflictStrategy.*
 import com.suleimanzhukov.realestatemanagerapp.model.utils.Agent

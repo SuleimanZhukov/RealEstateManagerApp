@@ -38,6 +38,7 @@ class MainFragment : Fragment() {
     private lateinit var navController: NavController
 
     private var agent: Agent? = null
+    private var email: String? = null
     private lateinit var profileImage: String
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -51,36 +52,27 @@ class MainFragment : Fragment() {
 
         subscribeToLiveData()
 
-        /*val email = getEmail()
-        CoroutineScope(Main).launch {
-            val job = async(IO) {
-                try {
-                    agent = viewModel.getAgentByEmail(email!!, requireContext())
-                } catch (e: NullPointerException) {
-                    Log.d("TAG", "MainFragment: NULL AGENT")
-                }
-            }
-            job.await()
-        }*/
-
         isLoggedIn()
         buttonsInit()
     }
 
     private fun isLoggedIn() = with(binding) {
-        val email = getEmail()
+        email = getEmail()
         if (email == null || email == "") {
+            authImg.load(R.drawable.account_circle_icon)
             authButton.setOnClickListener {
-                authImg.load(R.drawable.account_circle_icon)
                 navController.navigate(R.id.action_mainFragment_to_authFragment)
             }
         } else {
             CoroutineScope(Main).launch {
                 val job = async(IO) {
-                    viewModel.getAgentByEmail(email, requireContext())
+                    Log.d("TAG", "onViewCreated: IN ASYNC(IO), Email: $email")
+                    viewModel.getAgentByEmail(email!!, requireContext())
                 }
                 job.await()
-                authImg.load(agent!!.profileImg)
+                Log.d("TAG", "onViewCreated: IN ASYNC(IO), Password: ${agent?.password}, Username: ${agent?.username}," +
+                        "Image: ${agent?.profileImg}")
+                authImg.load(agent?.profileImg)
                 authButton.setOnClickListener {
                     navController.navigate(R.id.action_mainFragment_to_accountAgentFragment)
                 }
