@@ -20,7 +20,7 @@ class MainViewModel() : ViewModel() {
 
     fun getAgentLiveData() = agentLiveData
 
-    fun getAgentByEmail(email: String, context: Context) {
+    suspend fun getAgentByEmail(email: String, context: Context) {
         agentLiveData.postValue(repository.getAgentByEmail(email, context))
     }
 }

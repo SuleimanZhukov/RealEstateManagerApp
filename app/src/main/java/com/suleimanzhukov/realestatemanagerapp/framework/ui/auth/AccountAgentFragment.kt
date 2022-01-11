@@ -70,10 +70,6 @@ class AccountAgentFragment : Fragment() {
             job.await()
         }
 
-        if (agent == null) {
-            Log.d("TAG", "onViewCreated: ALERT ALERT ALERT...AGENT IS NULL... AGENT IS NULL... AGENT IS NULL")
-        }
-
         profileImage.load(agent?.profileImg)
         profileImage.setOnClickListener {
             checkPermissions()
@@ -107,13 +103,19 @@ class AccountAgentFragment : Fragment() {
                 }
                 getAgentJob.await()
                 agent?.profileImg = it.data?.data.toString()
+                Log.d("TAG", "Before UpdateAgent: Username: ${agent?.username}, Image: ${agent?.profileImg}")
                 val updateJob = async(IO) {
-                    Log.d("NULL_AGENT", "AGENT IS NULL IN UPDATE_AGENT...AGENT IS NULL IN UPDATE_AGENT...AGENT IS NULL IN UPDATE_AGENT")
                     viewModel.updateAgent(agent!!, requireContext())
                 }
                 updateJob.await()
-                binding.profileImage.load(agent!!.profileImg)
-                Log.d("TAG", "onViewCreated: Profile Picture: ${agent?.profileImg}")
+                Log.d("TAG", "After UpdateAgent: Username: ${agent?.username}, Image: ${agent?.profileImg}")
+
+                val getJob = async(IO) {
+                    viewModel.getAgentByEmail(email!!, requireContext())
+                }
+                getJob.await()
+                Log.d("TAG", "UpdatedAgent: Username: ${agent?.username}, Image: ${agent?.profileImg}")
+//                binding.profileImage.load(agent!!.profileImg)
             }
         }
     }

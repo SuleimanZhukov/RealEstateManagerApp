@@ -14,6 +14,11 @@ import androidx.navigation.Navigation
 import com.suleimanzhukov.realestatemanagerapp.R
 import com.suleimanzhukov.realestatemanagerapp.databinding.FragmentSignUpBinding
 import com.suleimanzhukov.realestatemanagerapp.model.utils.Agent
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 class SignUpFragment : Fragment() {
 
@@ -63,7 +68,12 @@ class SignUpFragment : Fragment() {
             putParcelable(AccountAgentFragment.AGENT_KEY, agent)
         }
 
-        viewModel.registerAgent(agent, requireContext())
+        CoroutineScope(Main).launch {
+            val job = async(IO) {
+                viewModel.registerAgent(agent, requireContext())
+            }
+            job.await()
+        }
 
         val preferencesEditor = activity?.getSharedPreferences(SHARED_TAG, Context.MODE_PRIVATE)?.edit()
         preferencesEditor?.putString(USERNAME_TAG, username)

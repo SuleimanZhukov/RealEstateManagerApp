@@ -1,18 +1,11 @@
 package com.suleimanzhukov.realestatemanagerapp.framework.ui.auth
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.suleimanzhukov.realestatemanagerapp.AppState
 import com.suleimanzhukov.realestatemanagerapp.model.repository.AgentRepositoryImpl
 import com.suleimanzhukov.realestatemanagerapp.model.utils.Agent
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.Dispatchers.Main
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
 
 class AuthViewModel() : ViewModel() {
 
@@ -26,21 +19,19 @@ class AuthViewModel() : ViewModel() {
     fun getPasswordLiveData() = passwordLiveData
     fun getAgentLiveData() = agentLiveData
 
-    fun registerAgent(agent: Agent, context: Context) {
-        Thread {
-            signUpLiveData.postValue(AppState.registerAgent(repository.addAgent(agent, context)))
-        }.start()
+    suspend fun registerAgent(agent: Agent, context: Context) {
+        signUpLiveData.postValue(AppState.registerAgent(repository.addAgent(agent, context)))
     }
 
-    fun getAgentByEmail(email: String, context: Context) {
+    suspend fun getAgentByEmail(email: String, context: Context) {
         agentLiveData.postValue(repository.getAgentByEmail(email, context))
     }
 
-    fun getPasswordByEmail(email: String, context: Context) {
+    suspend fun getPasswordByEmail(email: String, context: Context) {
         passwordLiveData.postValue(repository.getPasswordByEmail(email, context))
     }
 
-    fun updateAgent(agent: Agent, context: Context) {
-        repository.updataAgent(agent, context)
+    suspend fun updateAgent(agent: Agent, context: Context) {
+        agentLiveData.postValue(repository.updateAgent(agent, context))
     }
 }
