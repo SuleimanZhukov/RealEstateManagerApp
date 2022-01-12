@@ -6,8 +6,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.annotation.UiThread
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -16,15 +14,14 @@ import androidx.navigation.Navigation
 import coil.load
 import com.suleimanzhukov.realestatemanagerapp.R
 import com.suleimanzhukov.realestatemanagerapp.databinding.FragmentMainBinding
-import com.suleimanzhukov.realestatemanagerapp.framework.ui.auth.AuthViewModel
 import com.suleimanzhukov.realestatemanagerapp.framework.ui.auth.SignUpFragment
+import com.suleimanzhukov.realestatemanagerapp.model.database.AgentEntity
 import com.suleimanzhukov.realestatemanagerapp.model.utils.Agent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-import java.lang.NullPointerException
 
 class MainFragment : Fragment() {
 
@@ -37,7 +34,7 @@ class MainFragment : Fragment() {
 
     private lateinit var navController: NavController
 
-    private var agent: Agent? = null
+    private var agent: AgentEntity? = null
     private var email: String? = null
     private lateinit var profileImage: String
 

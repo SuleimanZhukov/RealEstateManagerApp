@@ -19,13 +19,13 @@ import coil.load
 import com.suleimanzhukov.realestatemanagerapp.R
 import com.suleimanzhukov.realestatemanagerapp.databinding.FragmentAccountAgentBinding
 import com.suleimanzhukov.realestatemanagerapp.framework.MainActivity
+import com.suleimanzhukov.realestatemanagerapp.model.database.AgentEntity
 import com.suleimanzhukov.realestatemanagerapp.model.utils.Agent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-import java.lang.NullPointerException
 
 class AccountAgentFragment : Fragment() {
 
@@ -39,7 +39,7 @@ class AccountAgentFragment : Fragment() {
         ViewModelProvider(this).get(AuthViewModel::class.java)
     }
 
-    private var agent: Agent? = null
+    private var agent: AgentEntity? = null
     private var email: String? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -65,14 +65,36 @@ class AccountAgentFragment : Fragment() {
             val job = async(IO) {
                 Log.d("TAG", "onViewCreated: IN ASYNC(IO), Email: $email")
                 viewModel.getAgentByEmail(email!!, requireContext())
-                Log.d("TAG", "onViewCreated: Profile Picture: ${agent?.profileImg}")
             }
             job.await()
+            Log.d("TAG", "onViewCreated: Image: ${agent?.profileImg}")
         }
 
         profileImage.load(agent?.profileImg)
         profileImage.setOnClickListener {
             checkPermissions()
+        }
+
+        addPhoneButton.setOnClickListener {
+            addPhoneToDB(phoneNumberText.text.toString())
+            phoneNumberText.text = null
+            phoneNumberLayout.clearFocus()
+        }
+    }
+
+    private fun addPhoneToDB(phone: String) {
+        agent?.phone = phone
+        CoroutineScope(Main).launch {
+            val job = async(IO) {
+                viewModel.updateAgent(agent!!, requireContext())
+            }
+            job.await()
+            Log.d("TAG", "After UpdateAgent: Username: ${agent?.username}, Phone: ${agent?.phone}")
+            val getJob = async(IO) {
+                viewModel.getAgentByEmail(email!!, requireContext())
+            }
+            getJob.await()
+            Log.d("TAG", "After getAgent: Username: ${agent?.username}, Phone: ${agent?.phone}")
         }
     }
 
@@ -103,6 +125,7 @@ class AccountAgentFragment : Fragment() {
                 }
                 getAgentJob.await()
                 agent?.profileImg = it.data?.data.toString()
+
                 Log.d("TAG", "Before UpdateAgent: Username: ${agent?.username}, Image: ${agent?.profileImg}")
                 val updateJob = async(IO) {
                     viewModel.updateAgent(agent!!, requireContext())
@@ -115,7 +138,7 @@ class AccountAgentFragment : Fragment() {
                 }
                 getJob.await()
                 Log.d("TAG", "UpdatedAgent: Username: ${agent?.username}, Image: ${agent?.profileImg}")
-//                binding.profileImage.load(agent!!.profileImg)
+                binding.profileImage.load(agent!!.profileImg)
             }
         }
     }

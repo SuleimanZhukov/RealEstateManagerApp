@@ -1,6 +1,5 @@
 package com.suleimanzhukov.realestatemanagerapp.model.database
 
-import android.util.Log
 import androidx.room.*
 import androidx.room.OnConflictStrategy.*
 import com.suleimanzhukov.realestatemanagerapp.model.utils.Agent
@@ -15,7 +14,7 @@ interface AgentDao {
     suspend fun getAllAgents(): List<String>
 
     @Query("SELECT * FROM AgentEntity WHERE id = :id")
-    suspend fun getAgentById(id: Long): AgentEntity?
+    suspend fun getAgentById(id: Long): Agent?
 
     @Query("SELECT * FROM AgentEntity WHERE email = :email")
     suspend fun getAgentByEmail(email: String): AgentEntity?

@@ -13,6 +13,7 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.suleimanzhukov.realestatemanagerapp.R
 import com.suleimanzhukov.realestatemanagerapp.databinding.FragmentSignUpBinding
+import com.suleimanzhukov.realestatemanagerapp.model.database.AgentEntity
 import com.suleimanzhukov.realestatemanagerapp.model.utils.Agent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
@@ -62,7 +63,7 @@ class SignUpFragment : Fragment() {
             return
         }
 
-        val agent = Agent(username, "", email, password, "", "")
+        val agent = AgentEntity(0, username, "", email, password, "",  "")
 
         val bundle = Bundle().apply {
             putParcelable(AccountAgentFragment.AGENT_KEY, agent)
