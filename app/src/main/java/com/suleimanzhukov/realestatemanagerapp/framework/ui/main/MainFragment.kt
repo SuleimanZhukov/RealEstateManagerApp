@@ -1,6 +1,7 @@
 package com.suleimanzhukov.realestatemanagerapp.framework.ui.main
 
 import android.content.Context
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -36,7 +37,6 @@ class MainFragment : Fragment() {
 
     private var agent: AgentEntity? = null
     private var email: String? = null
-    private lateinit var profileImage: String
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentMainBinding.inflate(inflater, container, false)
@@ -48,7 +48,6 @@ class MainFragment : Fragment() {
         navController = Navigation.findNavController(view)
 
         subscribeToLiveData()
-
         isLoggedIn()
         buttonsInit()
     }
@@ -56,6 +55,7 @@ class MainFragment : Fragment() {
     private fun isLoggedIn() = with(binding) {
         email = getEmail()
         if (email == null || email == "") {
+            Log.d("TAG", "onViewCreated: Email: $email")
             authImg.load(R.drawable.account_circle_icon)
             authButton.setOnClickListener {
                 navController.navigate(R.id.action_mainFragment_to_authFragment)
@@ -63,13 +63,13 @@ class MainFragment : Fragment() {
         } else {
             CoroutineScope(Main).launch {
                 val job = async(IO) {
-                    Log.d("TAG", "onViewCreated: IN ASYNC(IO), Email: $email")
                     viewModel.getAgentByEmail(email!!, requireContext())
                 }
                 job.await()
-                Log.d("TAG", "onViewCreated: IN ASYNC(IO), Password: ${agent?.password}, Username: ${agent?.username}," +
+                Log.d("TAG", "onViewCreated: IN ASYNC(IO) Email: $email, Password: ${agent?.password}, Username: ${agent?.username}," +
                         "Image: ${agent?.profileImg}")
-                authImg.load(agent?.profileImg)
+                val uri = Uri.parse(agent?.profileImg)
+                authImg.load(uri)
                 authButton.setOnClickListener {
                     navController.navigate(R.id.action_mainFragment_to_accountAgentFragment)
                 }

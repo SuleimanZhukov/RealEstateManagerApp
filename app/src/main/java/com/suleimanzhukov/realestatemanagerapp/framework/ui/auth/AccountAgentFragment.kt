@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -20,7 +21,6 @@ import com.suleimanzhukov.realestatemanagerapp.R
 import com.suleimanzhukov.realestatemanagerapp.databinding.FragmentAccountAgentBinding
 import com.suleimanzhukov.realestatemanagerapp.framework.MainActivity
 import com.suleimanzhukov.realestatemanagerapp.model.database.AgentEntity
-import com.suleimanzhukov.realestatemanagerapp.model.utils.Agent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
@@ -52,9 +52,7 @@ class AccountAgentFragment : Fragment() {
         mainActivity = activity as MainActivity
         navController = Navigation.findNavController(view)
 
-        viewModel.getAgentLiveData().observe(viewLifecycleOwner, Observer {
-            agent = viewModel.getAgentLiveData().value
-        })
+        subscribeToLiveData()
 
         logOutButton.setOnClickListener {
             logoutAgentByEmail()
@@ -70,15 +68,34 @@ class AccountAgentFragment : Fragment() {
             Log.d("TAG", "onViewCreated: Image: ${agent?.profileImg}")
         }
 
-        profileImage.load(agent?.profileImg)
         profileImage.setOnClickListener {
             checkPermissions()
         }
 
-        addPhoneButton.setOnClickListener {
-            addPhoneToDB(phoneNumberText.text.toString())
-            phoneNumberText.text = null
-            phoneNumberLayout.clearFocus()
+        if (false) {
+            Log.d("TAG", "onViewCreated -- URI: It is here = Image: ${agent?.profileImg}")
+            val uri = Uri.parse(agent?.profileImg)
+            profileImage.load(uri)
+        }
+
+        initAccountFragment()
+        backButtonPress()
+    }
+
+    private fun initAccountFragment() = with(binding) {
+        Log.d("TAG", "initAccountFragment: ${agent?.username}")
+        profileAgentNameTextView.text = agent?.username.toString()
+        profileEmailTextView.text = agent?.email.toString()
+        profilePhoneNumberTextView.text = agent?.phone.toString()
+        profileAgeTextView.text = agent?.age.toString()
+    }
+
+    private fun backButtonPress() = with(binding) {
+        profileArrowBack.setOnClickListener {
+            mainActivity.onBackPressed()
+        }
+        profileBackButtonView.setOnClickListener {
+            mainActivity.onBackPressed()
         }
     }
 
@@ -111,7 +128,6 @@ class AccountAgentFragment : Fragment() {
             action = Intent.ACTION_PICK
             type = "image/*"
         }
-
         getImageResult.launch(intent)
     }
 
@@ -138,7 +154,8 @@ class AccountAgentFragment : Fragment() {
                 }
                 getJob.await()
                 Log.d("TAG", "UpdatedAgent: Username: ${agent?.username}, Image: ${agent?.profileImg}")
-                binding.profileImage.load(agent!!.profileImg)
+                val uri = Uri.parse(agent?.profileImg)
+                binding.profileImage.load(uri)
             }
         }
     }
@@ -156,6 +173,12 @@ class AccountAgentFragment : Fragment() {
         preferencesEditor?.apply()
 
         navController.navigate(R.id.action_accountAgentFragment_to_mainFragment)
+    }
+
+    private fun subscribeToLiveData() {
+        viewModel.getAgentLiveData().observe(viewLifecycleOwner, Observer {
+            agent = viewModel.getAgentLiveData().value
+        })
     }
 
     override fun onDestroyView() {

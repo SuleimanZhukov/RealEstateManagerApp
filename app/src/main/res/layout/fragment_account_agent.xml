@@ -1,9 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
+
+    <View
+        android:id="@+id/profile_back_button_view"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="30dp"
+        android:background="@drawable/stroke_view_rectangle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/profile_arrow_back"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/arrow_shape_grey"
+        app:layout_constraintBottom_toBottomOf="@+id/profile_back_button_view"
+        app:layout_constraintEnd_toEndOf="@+id/profile_back_button_view"
+        app:layout_constraintStart_toStartOf="@+id/profile_back_button_view"
+        app:layout_constraintTop_toTopOf="@+id/profile_back_button_view" />
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/profile_image"
@@ -18,33 +39,70 @@
         app:layout_constraintTop_toTopOf="@+id/guideline4"
         app:shapeAppearanceOverlay="@style/profile_image_view_corners" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/phone_number_layout"
+    <TextView
+        android:id="@+id/profile_agent_name_text_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="Phone"
-        app:layout_constraintBottom_toTopOf="@+id/guideline5"
-        app:layout_constraintEnd_toStartOf="@+id/guideline1"
-        app:layout_constraintStart_toStartOf="@+id/guideline2"
-        app:layout_constraintTop_toBottomOf="@+id/profile_image">
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="Suleiman Zhukov"
+        android:textColor="@color/black"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toStartOf="@+id/guideline7"
+        app:layout_constraintStart_toStartOf="@+id/guideline6"
+        app:layout_constraintTop_toBottomOf="@+id/profile_image" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/phone_number_text"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:inputType="number" />
+    <TextView
+        android:id="@+id/profile_place_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Amman, Jordan"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/guideline7"
+        app:layout_constraintStart_toStartOf="@+id/guideline6"
+        app:layout_constraintTop_toBottomOf="@+id/profile_agent_name_text_view" />
 
-    </com.google.android.material.textfield.TextInputLayout>
+    <TextView
+        android:id="@+id/profile_email_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="N/A"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profile_place_text_view" />
 
-    <com.google.android.material.button.MaterialButton
-    android:id="@+id/add_phone_button"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="20dp"
-    android:text="Add"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/phone_number_layout" />
+    <TextView
+        android:id="@+id/profile_phone_number_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="N/A"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toStartOf="@+id/guideline7"
+        app:layout_constraintStart_toStartOf="@+id/guideline6"
+        app:layout_constraintTop_toBottomOf="@+id/profile_email_text_view" />
+
+    <TextView
+        android:id="@+id/profile_age_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="N/A"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toStartOf="@+id/guideline7"
+        app:layout_constraintStart_toStartOf="@+id/guideline6"
+        app:layout_constraintTop_toBottomOf="@+id/profile_phone_number_text_view" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/log_out_button"
@@ -52,6 +110,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
         android:text="Logout"
+        android:background="@drawable/login_btn"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -86,10 +145,17 @@
         app:layout_constraintGuide_percent="0.1" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline5"
+        android:id="@+id/guideline6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.5" />
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.2" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.8" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
