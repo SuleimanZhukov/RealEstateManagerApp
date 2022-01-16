@@ -26,6 +26,7 @@ import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 class AccountAgentFragment : Fragment() {
 
@@ -35,9 +36,8 @@ class AccountAgentFragment : Fragment() {
     private lateinit var mainActivity: MainActivity
     private lateinit var navController: NavController
 
-    private val viewModel: AuthViewModel by lazy {
-        ViewModelProvider(this).get(AuthViewModel::class.java)
-    }
+    @Inject
+    private lateinit var viewModel: AuthViewModel
 
     private var agent: AgentEntity? = null
     private var email: String? = null
@@ -52,8 +52,6 @@ class AccountAgentFragment : Fragment() {
         mainActivity = activity as MainActivity
         navController = Navigation.findNavController(view)
 
-        subscribeToLiveData()
-
         logOutButton.setOnClickListener {
             logoutAgentByEmail()
         }
@@ -61,12 +59,13 @@ class AccountAgentFragment : Fragment() {
         email = getEmail()
         CoroutineScope(Main).launch {
             val job = async(IO) {
-                Log.d("TAG", "onViewCreated: IN ASYNC(IO), Email: $email")
                 viewModel.getAgentByEmail(email!!, requireContext())
             }
             job.await()
-            Log.d("TAG", "onViewCreated: Image: ${agent?.profileImg}")
+            Log.d("TAG", "onViewCreated: Image: ${agent!!.username}")
         }
+
+        subscribeToLiveData()
 
         profileImage.setOnClickListener {
             checkPermissions()
@@ -84,7 +83,7 @@ class AccountAgentFragment : Fragment() {
 
     private fun initAccountFragment() = with(binding) {
         Log.d("TAG", "initAccountFragment: ${agent?.username}")
-        profileAgentNameTextView.text = agent?.username.toString()
+        profileAgentNameTextView.text = agent!!.username.toString()
         profileEmailTextView.text = agent?.email.toString()
         profilePhoneNumberTextView.text = agent?.phone.toString()
         profileAgeTextView.text = agent?.age.toString()
@@ -187,7 +186,7 @@ class AccountAgentFragment : Fragment() {
     }
 
     companion object {
-        const val AGENT_KEY = "agent_key_to_add"
+        const val AGENT_KEY = "agent_key_for_bundle"
 
         fun newInstanceEmpty() = AccountAgentFragment()
 

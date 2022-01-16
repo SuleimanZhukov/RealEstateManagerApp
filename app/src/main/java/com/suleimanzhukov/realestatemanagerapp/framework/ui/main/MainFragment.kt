@@ -15,6 +15,7 @@ import androidx.navigation.Navigation
 import coil.load
 import com.suleimanzhukov.realestatemanagerapp.R
 import com.suleimanzhukov.realestatemanagerapp.databinding.FragmentMainBinding
+import com.suleimanzhukov.realestatemanagerapp.framework.ui.auth.AuthViewModel
 import com.suleimanzhukov.realestatemanagerapp.framework.ui.auth.SignUpFragment
 import com.suleimanzhukov.realestatemanagerapp.model.database.AgentEntity
 import com.suleimanzhukov.realestatemanagerapp.model.utils.Agent
@@ -23,15 +24,15 @@ import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 class MainFragment : Fragment() {
 
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: MainViewModel by lazy {
-        ViewModelProvider(this).get(MainViewModel::class.java)
-    }
+    @Inject
+    private lateinit var viewModel: MainViewModel
 
     private lateinit var navController: NavController
 

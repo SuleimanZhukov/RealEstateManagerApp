@@ -21,6 +21,7 @@ import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 class AuthFragment : Fragment() {
 
@@ -29,9 +30,8 @@ class AuthFragment : Fragment() {
 
     private lateinit var navController: NavController
 
-    private val viewModel: AuthViewModel by lazy {
-        ViewModelProvider(this).get(AuthViewModel::class.java)
-    }
+    @Inject
+    private lateinit var viewModel: AuthViewModel
 
     private var inAgent: AgentEntity? = null
     private var inPassword: String? = null

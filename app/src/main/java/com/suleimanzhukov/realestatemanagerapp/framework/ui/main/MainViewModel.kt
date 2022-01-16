@@ -6,10 +6,12 @@ import androidx.lifecycle.ViewModel
 import com.suleimanzhukov.realestatemanagerapp.model.database.AgentEntity
 import com.suleimanzhukov.realestatemanagerapp.model.repository.AgentRepositoryImpl
 import com.suleimanzhukov.realestatemanagerapp.model.utils.Agent
+import javax.inject.Inject
 
-class MainViewModel() : ViewModel() {
+class MainViewModel(
+    @Inject val repository: AgentRepositoryImpl
+) : ViewModel() {
 
-    private val repository: AgentRepositoryImpl = AgentRepositoryImpl()
     private val agentLiveData: MutableLiveData<AgentEntity?> = MutableLiveData()
 
     fun getAgentLiveData() = agentLiveData

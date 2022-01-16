@@ -5,9 +5,11 @@ import com.suleimanzhukov.realestatemanagerapp.model.database.AgentEntity
 import com.suleimanzhukov.realestatemanagerapp.model.database.Databases
 import com.suleimanzhukov.realestatemanagerapp.model.utils.Agent
 
-class AgentRepositoryImpl() : AgentRepository {
+class AgentRepositoryImpl(
+    private val context: Context
+) : AgentRepository {
 
-    override suspend fun addAgent(agent: AgentEntity, context: Context): AgentEntity {
+    override suspend fun addAgent(agent: AgentEntity): AgentEntity {
         Databases.getDatabase(context).agentDao().addAgent(agent)
         return agent
     }
