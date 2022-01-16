@@ -15,8 +15,11 @@ data class AgentEntity(
     var age: String,
     var email: String,
     var password: String,
-    var phone: String,
+    var mobile: String,
     var profileImg: String,
+    var location: String,
+    var overview: String,
+    var languages: String,
     var forSale: Int,
     var forRent: Int
 ): Parcelable
