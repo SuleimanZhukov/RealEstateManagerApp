@@ -15,7 +15,6 @@ import androidx.navigation.Navigation
 import com.suleimanzhukov.realestatemanagerapp.R
 import com.suleimanzhukov.realestatemanagerapp.databinding.FragmentAuthBinding
 import com.suleimanzhukov.realestatemanagerapp.model.database.AgentEntity
-import com.suleimanzhukov.realestatemanagerapp.model.utils.Agent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main

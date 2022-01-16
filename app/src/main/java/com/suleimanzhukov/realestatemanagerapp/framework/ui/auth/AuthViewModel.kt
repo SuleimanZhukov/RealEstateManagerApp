@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.suleimanzhukov.realestatemanagerapp.model.database.AgentEntity
 import com.suleimanzhukov.realestatemanagerapp.model.repository.AgentRepositoryImpl
-import com.suleimanzhukov.realestatemanagerapp.model.utils.Agent
 import javax.inject.Inject
 
 class AuthViewModel(

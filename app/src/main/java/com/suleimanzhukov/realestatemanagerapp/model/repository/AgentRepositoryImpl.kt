@@ -3,7 +3,6 @@ package com.suleimanzhukov.realestatemanagerapp.model.repository
 import android.content.Context
 import com.suleimanzhukov.realestatemanagerapp.model.database.AgentEntity
 import com.suleimanzhukov.realestatemanagerapp.model.database.Databases
-import com.suleimanzhukov.realestatemanagerapp.model.utils.Agent
 
 class AgentRepositoryImpl(
     private val context: Context
@@ -25,28 +24,5 @@ class AgentRepositoryImpl(
     override suspend fun updateAgent(agent: AgentEntity, context: Context): AgentEntity {
         Databases.getDatabase(context).agentDao().updateAgent(agent)
         return agent
-    }
-
-    private fun convertToAgent(agentEntity: AgentEntity?): Agent {
-        return com.suleimanzhukov.realestatemanagerapp.model.utils.Agent(
-            agentEntity!!.username,
-            agentEntity.age,
-            agentEntity.email,
-            agentEntity.password,
-            agentEntity.phone,
-            agentEntity.profileImg
-        )
-    }
-
-    private fun convertToAgentEntity(agent: Agent): AgentEntity {
-        return AgentEntity(
-            0,
-            agent.username,
-            agent.age,
-            agent.email,
-            agent.password,
-            agent.phone,
-            agent.profileImg
-        )
     }
 }

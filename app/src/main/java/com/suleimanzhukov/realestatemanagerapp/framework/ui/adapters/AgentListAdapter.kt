@@ -5,18 +5,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.suleimanzhukov.realestatemanagerapp.databinding.AgentListItemBinding
-import com.suleimanzhukov.realestatemanagerapp.model.utils.Agent
+import com.suleimanzhukov.realestatemanagerapp.model.database.AgentEntity
 
 class AgentListAdapter() : RecyclerView.Adapter<AgentListAdapter.AgentsViewHolder>() {
     private lateinit var binding: AgentListItemBinding
-    private var agents: List<Agent> = mutableListOf()
+    private var agents: List<AgentEntity> = mutableListOf()
 
-    fun setAgents(tempAgents: List<Agent>) {
+    fun setAgents(tempAgents: List<AgentEntity>) {
         agents = tempAgents
     }
 
     inner class AgentsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(agent: Agent) = with(binding) {
+        fun bind(agent: AgentEntity) = with(binding) {
             agentListItemTextView.text = agent.username
         }
     }
