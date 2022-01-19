@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.suleimanzhukov.realestatemanagerapp.databinding.AgentListItemBinding
-import com.suleimanzhukov.realestatemanagerapp.model.database.AgentEntity
+import com.suleimanzhukov.realestatemanagerapp.model.database.entities.AgentEntity
 
 class AgentListAdapter() : RecyclerView.Adapter<AgentListAdapter.AgentsViewHolder>() {
     private lateinit var binding: AgentListItemBinding

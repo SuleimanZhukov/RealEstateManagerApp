@@ -1,7 +1,8 @@
-package com.suleimanzhukov.realestatemanagerapp.model.database
+package com.suleimanzhukov.realestatemanagerapp.model.database.dao
 
 import androidx.room.*
 import androidx.room.OnConflictStrategy.*
+import com.suleimanzhukov.realestatemanagerapp.model.database.entities.AgentEntity
 
 @Dao
 interface AgentDao {

@@ -13,14 +13,13 @@ import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import coil.load
 import com.suleimanzhukov.realestatemanagerapp.R
 import com.suleimanzhukov.realestatemanagerapp.databinding.FragmentAccountAgentBinding
 import com.suleimanzhukov.realestatemanagerapp.framework.MainActivity
-import com.suleimanzhukov.realestatemanagerapp.model.database.AgentEntity
+import com.suleimanzhukov.realestatemanagerapp.model.database.entities.AgentEntity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main

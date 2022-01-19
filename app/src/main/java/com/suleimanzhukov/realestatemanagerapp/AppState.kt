@@ -1,6 +1,6 @@
 package com.suleimanzhukov.realestatemanagerapp
 
-import com.suleimanzhukov.realestatemanagerapp.model.database.AgentEntity
+import com.suleimanzhukov.realestatemanagerapp.model.database.entities.AgentEntity
 
 
 sealed class AppState {

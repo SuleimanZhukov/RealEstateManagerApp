@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.suleimanzhukov.realestatemanagerapp.model.database.dao.AgentDao
+import com.suleimanzhukov.realestatemanagerapp.model.database.entities.AgentEntity
 
 @Database(entities = [AgentEntity::class], version = 1, exportSchema = false)
 abstract class Databases() : RoomDatabase() {

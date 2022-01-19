@@ -1,4 +1,4 @@
-package com.suleimanzhukov.realestatemanagerapp.model.database
+package com.suleimanzhukov.realestatemanagerapp.model.database.entities
 
 import android.os.Parcelable
 import androidx.room.Entity
@@ -10,7 +10,6 @@ import kotlinx.android.parcel.Parcelize
 data class AgentEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Long,
-
     var username: String,
     var age: String,
     var email: String,
