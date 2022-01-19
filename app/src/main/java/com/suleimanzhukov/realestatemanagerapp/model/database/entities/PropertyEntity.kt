@@ -14,7 +14,8 @@ data class PropertyEntity(
     var timePublished: String,
     var beds: Int,
     var baths: Int,
+    var garages: Int,
     var details: String,
-    var images: List<String>,
+    var images: String,
     var location: String
 )
