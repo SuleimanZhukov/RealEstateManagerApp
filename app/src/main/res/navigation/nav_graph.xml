@@ -59,6 +59,9 @@
             app:destination="@id/mainFragment"
             app:popUpTo="@id/mainFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_accountAgentFragment_to_publishFragment"
+            app:destination="@id/publishFragment" />
     </fragment>
 
     <fragment
@@ -75,4 +78,14 @@
         android:id="@+id/agentsListFragment"
         android:name="com.suleimanzhukov.realestatemanagerapp.framework.ui.agentslist.AgentsListFragment"
         android:label="AgentsListFragment" />
+    <fragment
+        android:id="@+id/publishFragment"
+        android:name="com.suleimanzhukov.realestatemanagerapp.framework.ui.auth.PublishFragment"
+        android:label="PublishFragment" >
+        <action
+            android:id="@+id/action_publishFragment_to_mainFragment"
+            app:destination="@id/mainFragment"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
 </navigation>

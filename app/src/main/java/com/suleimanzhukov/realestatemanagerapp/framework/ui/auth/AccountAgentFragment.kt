@@ -51,9 +51,9 @@ class AccountAgentFragment : Fragment() {
         mainActivity = activity as MainActivity
         navController = Navigation.findNavController(view)
 
-        logOutButton.setOnClickListener {
-            logoutAgentByEmail()
-        }
+//        logOutButton.setOnClickListener {
+//            logoutAgentByEmail()
+//        }
 
         email = getEmail()
         CoroutineScope(Main).launch {
@@ -76,16 +76,17 @@ class AccountAgentFragment : Fragment() {
             profileImage.load(uri)
         }
 
-        initAccountFragment()
+        onAddPropertyButtonPress()
         backButtonPress()
     }
 
-    private fun initAccountFragment() = with(binding) {
-        Log.d("TAG", "initAccountFragment: ${agent?.username}")
-        profileAgentNameTextView.text = agent!!.username.toString()
-        profileEmailTextView.text = agent?.email.toString()
-        profilePhoneNumberTextView.text = agent?.phone.toString()
-        profileAgeTextView.text = agent?.age.toString()
+    private fun onAddPropertyButtonPress() = with(binding) {
+        addPropertyButtonView.setOnClickListener {
+            navController.navigate(R.id.action_accountAgentFragment_to_publishFragment)
+        }
+        addButtonPlusSign.setOnClickListener {
+            navController.navigate(R.id.action_accountAgentFragment_to_publishFragment)
+        }
     }
 
     private fun backButtonPress() = with(binding) {
@@ -98,18 +99,17 @@ class AccountAgentFragment : Fragment() {
     }
 
     private fun addPhoneToDB(phone: String) {
-        agent?.phone = phone
         CoroutineScope(Main).launch {
             val job = async(IO) {
                 viewModel.updateAgent(agent!!, requireContext())
             }
             job.await()
-            Log.d("TAG", "After UpdateAgent: Username: ${agent?.username}, Phone: ${agent?.phone}")
+            Log.d("TAG", "After UpdateAgent: Username: ${agent?.username}")
             val getJob = async(IO) {
                 viewModel.getAgentByEmail(email!!, requireContext())
             }
             getJob.await()
-            Log.d("TAG", "After getAgent: Username: ${agent?.username}, Phone: ${agent?.phone}")
+            Log.d("TAG", "After getAgent: Username: ${agent?.username}")
         }
     }
 

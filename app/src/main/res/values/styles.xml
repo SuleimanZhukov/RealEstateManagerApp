@@ -9,4 +9,8 @@
         <item name="cornerSize">50dp</item>
     </style>
 
+    <style name="profile_image_main_view_corners">
+        <item name="cornerSize">8dp</item>
+    </style>
+
 </resources>

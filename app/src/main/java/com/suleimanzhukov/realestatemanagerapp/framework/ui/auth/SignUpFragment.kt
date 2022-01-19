@@ -61,7 +61,8 @@ class SignUpFragment : Fragment() {
             return
         }
 
-        val agent = AgentEntity(0, username, "", email, password, "",  "")
+        val agent = AgentEntity(0, username, "", email, password, "",  "",
+        "", "", "", 0, 0)
 
         val bundle = Bundle().apply {
             putParcelable(AccountAgentFragment.AGENT_KEY, agent)

@@ -64,14 +64,17 @@
                 app:layout_constraintStart_toEndOf="@+id/settings_button"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.appcompat.widget.AppCompatImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/auth_img"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
                 app:layout_constraintEnd_toEndOf="@+id/auth_button"
                 app:layout_constraintTop_toTopOf="@+id/auth_button"
                 app:layout_constraintStart_toStartOf="@+id/auth_button"
-                app:layout_constraintBottom_toBottomOf="@+id/auth_button" />
+                app:layout_constraintBottom_toBottomOf="@+id/auth_button"
+                app:shapeAppearanceOverlay="@style/profile_image_main_view_corners" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

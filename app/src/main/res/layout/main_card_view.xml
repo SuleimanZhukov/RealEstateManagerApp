@@ -72,7 +72,7 @@
             android:paddingBottom="20dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/main_card_price_text_view"
-            tools:text="4 bedrooms / 2 bathrooms / 1.416 ft²" />
+            tools:text="4 bedrooms / 2 bathrooms / 250 m²" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

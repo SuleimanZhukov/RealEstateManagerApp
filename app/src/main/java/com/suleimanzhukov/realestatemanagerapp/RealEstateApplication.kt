@@ -15,7 +15,6 @@ class RealEstateApplication : Application(), HasAndroidInjector {
 
     override fun onCreate() {
         super.onCreate()
-        
     }
 
     override fun androidInjector(): AndroidInjector<Any> = mainInject

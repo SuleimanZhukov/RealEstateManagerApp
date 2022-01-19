@@ -16,6 +16,7 @@
         <entry key="..\:/Programs/RealEstateManagerApp/app/src/main/res/drawable/settings_icon.xml" value="0.23941368078175895" />
         <entry key="..\:/Programs/RealEstateManagerApp/app/src/main/res/drawable/stroke_auth.xml" value="0.23941368078175895" />
         <entry key="..\:/Programs/RealEstateManagerApp/app/src/main/res/drawable/stroke_view_rectangle.xml" value="0.23941368078175895" />
+        <entry key="..\:/Programs/RealEstateManagerApp/app/src/main/res/drawable/stroke_view_rectangle_darker.xml" value="0.23941368078175895" />
         <entry key="..\:/Programs/RealEstateManagerApp/app/src/main/res/drawable/stroke_view_square.xml" value="0.23941368078175895" />
         <entry key="..\:/Programs/RealEstateManagerApp/app/src/main/res/layout/activity_main.xml" value="0.11376858435681965" />
         <entry key="..\:/Programs/RealEstateManagerApp/app/src/main/res/layout/agent_list_item.xml" value="0.23157894736842105" />
@@ -25,7 +26,8 @@
         <entry key="..\:/Programs/RealEstateManagerApp/app/src/main/res/layout/fragment_agents_list.xml" value="0.21" />
         <entry key="..\:/Programs/RealEstateManagerApp/app/src/main/res/layout/fragment_auth.xml" value="0.22" />
         <entry key="..\:/Programs/RealEstateManagerApp/app/src/main/res/layout/fragment_details.xml" value="0.25" />
-        <entry key="..\:/Programs/RealEstateManagerApp/app/src/main/res/layout/fragment_main.xml" value="0.4791666666666667" />
+        <entry key="..\:/Programs/RealEstateManagerApp/app/src/main/res/layout/fragment_main.xml" value="0.22" />
+        <entry key="..\:/Programs/RealEstateManagerApp/app/src/main/res/layout/fragment_publish.xml" value="0.22269736842105264" />
         <entry key="..\:/Programs/RealEstateManagerApp/app/src/main/res/layout/fragment_setting.xml" value="0.23157894736842105" />
         <entry key="..\:/Programs/RealEstateManagerApp/app/src/main/res/layout/fragment_sign_up.xml" value="0.22" />
         <entry key="..\:/Programs/RealEstateManagerApp/app/src/main/res/layout/main_card_view.xml" value="0.23157894736842105" />
