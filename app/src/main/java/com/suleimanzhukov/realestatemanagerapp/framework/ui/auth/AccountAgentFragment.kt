@@ -36,7 +36,7 @@ class AccountAgentFragment : Fragment() {
     private lateinit var navController: NavController
 
     @Inject
-    private lateinit var viewModel: AuthViewModel
+    lateinit var viewModel: AuthViewModel
 
     private var agent: AgentEntity? = null
     private var email: String? = null

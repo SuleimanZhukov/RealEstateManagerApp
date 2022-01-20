@@ -29,7 +29,7 @@ class AuthFragment : Fragment() {
     private lateinit var navController: NavController
 
     @Inject
-    private lateinit var viewModel: AuthViewModel
+    lateinit var viewModel: AuthViewModel
 
     private var inAgent: AgentEntity? = null
     private var inPassword: String? = null

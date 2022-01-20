@@ -16,5 +16,13 @@ class AppModule() {
 
     @Singleton
     @Provides
-    fun getMainViewModel(): MainViewModel = MainViewModel()
+    fun providesAgentRepositoryImpl(): AgentRepository = AgentRepositoryImpl()
+
+    @Singleton
+    @Provides
+    fun providesMainViewModel(): MainViewModel = MainViewModel()
+
+    @Singleton
+    @Provides
+    fun providesAuthViewModel(): AuthViewModel = AuthViewModel()
 }

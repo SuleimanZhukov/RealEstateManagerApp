@@ -15,6 +15,7 @@ import coil.load
 import com.suleimanzhukov.realestatemanagerapp.R
 import com.suleimanzhukov.realestatemanagerapp.RealEstateApplication
 import com.suleimanzhukov.realestatemanagerapp.databinding.FragmentMainBinding
+import com.suleimanzhukov.realestatemanagerapp.di.DaggerRealEstateComponent
 import com.suleimanzhukov.realestatemanagerapp.framework.ui.auth.SignUpFragment
 import com.suleimanzhukov.realestatemanagerapp.model.database.entities.AgentEntity
 import kotlinx.coroutines.CoroutineScope
@@ -30,12 +31,17 @@ class MainFragment : Fragment() {
     private val binding get() = _binding!!
 
     @Inject
-    private lateinit var viewModel: MainViewModel
+    lateinit var viewModel: MainViewModel
 
     private lateinit var navController: NavController
 
     private var agent: AgentEntity? = null
     private var email: String? = null
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        DaggerRealEstateComponent.builder().build().inject(this)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentMainBinding.inflate(inflater, container, false)
@@ -65,8 +71,8 @@ class MainFragment : Fragment() {
                     viewModel.getAgentByEmail(email!!, requireContext())
                 }
                 job.await()
-                Log.d("TAG", "onViewCreated: IN ASYNC(IO) Email: $email, Password: ${agent?.password}, Username: ${agent?.username}," +
-                        "Image: ${agent?.profileImg}")
+                Log.d("TAG", "onViewCreated: IN ASYNC(IO) Email: $email, Password: ${agent?.password}," +
+                        "Username: ${agent?.username}, Image: ${agent?.profileImg}")
                 val uri = Uri.parse(agent?.profileImg)
                 authImg.load(uri)
                 authButton.setOnClickListener {

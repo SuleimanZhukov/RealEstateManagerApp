@@ -28,7 +28,7 @@ class SignUpFragment : Fragment() {
     private lateinit var navController: NavController
 
     @Inject
-    private lateinit var viewModel: AuthViewModel
+    lateinit var viewModel: AuthViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentSignUpBinding.inflate(inflater, container, false)
