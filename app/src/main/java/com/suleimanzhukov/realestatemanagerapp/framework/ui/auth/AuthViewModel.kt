@@ -4,12 +4,13 @@ import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.suleimanzhukov.realestatemanagerapp.model.database.entities.AgentEntity
+import com.suleimanzhukov.realestatemanagerapp.model.repository.AgentRepository
 import com.suleimanzhukov.realestatemanagerapp.model.repository.AgentRepositoryImpl
 import javax.inject.Inject
 
-class AuthViewModel(
-    @Inject val repository: AgentRepositoryImpl
-) : ViewModel() {
+class AuthViewModel() : ViewModel() {
+
+    private val repository: AgentRepository = AgentRepositoryImpl()
 
     private val signUpLiveData: MutableLiveData<AgentEntity?> = MutableLiveData()
     private val passwordLiveData: MutableLiveData<String?> = MutableLiveData()
@@ -20,7 +21,7 @@ class AuthViewModel(
     fun getAgentLiveData() = agentLiveData
 
     suspend fun registerAgent(agent: AgentEntity, context: Context) {
-        signUpLiveData.postValue(repository.addAgent(agent))
+        signUpLiveData.postValue(repository.addAgent(agent, context))
     }
 
     suspend fun getAgentByEmail(email: String, context: Context) {

@@ -1,19 +1,16 @@
 package com.suleimanzhukov.realestatemanagerapp.di
 
-import com.suleimanzhukov.realestatemanagerapp.RealEstateApplication
+import com.suleimanzhukov.realestatemanagerapp.framework.ui.main.MainFragment
 import dagger.Component
-import dagger.android.AndroidInjectionModule
-import dagger.android.AndroidInjector
 import javax.inject.Singleton
 
 @Singleton
 @Component(
-        modules = [
-        AndroidInjectionModule::class,
-        AppModule::class,
-        AuthFragmentsModule::class
+    modules = [
+        AppModule::class
     ]
 )
-interface RealEstateComponent : AndroidInjector<RealEstateApplication> {
-    override fun inject(application: RealEstateApplication)
+interface RealEstateComponent {
+
+    fun inject(mainFragment: MainFragment)
 }

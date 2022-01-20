@@ -13,6 +13,7 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import coil.load
 import com.suleimanzhukov.realestatemanagerapp.R
+import com.suleimanzhukov.realestatemanagerapp.RealEstateApplication
 import com.suleimanzhukov.realestatemanagerapp.databinding.FragmentMainBinding
 import com.suleimanzhukov.realestatemanagerapp.framework.ui.auth.SignUpFragment
 import com.suleimanzhukov.realestatemanagerapp.model.database.entities.AgentEntity

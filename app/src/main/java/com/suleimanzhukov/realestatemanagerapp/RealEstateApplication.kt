@@ -2,13 +2,12 @@ package com.suleimanzhukov.realestatemanagerapp
 
 import android.app.AppComponentFactory
 import android.app.Application
+import android.content.res.Configuration
 import com.suleimanzhukov.realestatemanagerapp.di.RealEstateComponent
-import dagger.android.AndroidInjector
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasAndroidInjector
+import dagger.android.*
 import javax.inject.Inject
 
-class RealEstateApplication : Application(), HasAndroidInjector {
+class RealEstateApplication : Application() {
 
     @Inject
     lateinit var mainInject: DispatchingAndroidInjector<Any>
@@ -17,5 +16,5 @@ class RealEstateApplication : Application(), HasAndroidInjector {
         super.onCreate()
     }
 
-    override fun androidInjector(): AndroidInjector<Any> = mainInject
+    fun androidInjector(): AndroidInjector<Any> = mainInject
 }

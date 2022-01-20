@@ -4,11 +4,9 @@ import android.content.Context
 import com.suleimanzhukov.realestatemanagerapp.model.database.entities.AgentEntity
 import com.suleimanzhukov.realestatemanagerapp.model.database.Databases
 
-class AgentRepositoryImpl(
-    private val context: Context
-) : AgentRepository {
+class AgentRepositoryImpl() : AgentRepository {
 
-    override suspend fun addAgent(agent: AgentEntity): AgentEntity {
+    override suspend fun addAgent(agent: AgentEntity, context: Context): AgentEntity {
         Databases.getDatabase(context).agentDao().addAgent(agent)
         return agent
     }
