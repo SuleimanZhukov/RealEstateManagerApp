@@ -18,6 +18,7 @@ import androidx.navigation.Navigation
 import coil.load
 import com.suleimanzhukov.realestatemanagerapp.R
 import com.suleimanzhukov.realestatemanagerapp.databinding.FragmentAccountAgentBinding
+import com.suleimanzhukov.realestatemanagerapp.di.DaggerRealEstateComponent
 import com.suleimanzhukov.realestatemanagerapp.framework.MainActivity
 import com.suleimanzhukov.realestatemanagerapp.model.database.entities.AgentEntity
 import kotlinx.coroutines.CoroutineScope
@@ -40,6 +41,11 @@ class AccountAgentFragment : Fragment() {
 
     private var agent: AgentEntity? = null
     private var email: String? = null
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        DaggerRealEstateComponent.builder().build().getForAccountFragment(this)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentAccountAgentBinding.inflate(inflater, container, false)

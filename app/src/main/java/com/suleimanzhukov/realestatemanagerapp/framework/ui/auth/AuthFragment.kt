@@ -13,6 +13,7 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.suleimanzhukov.realestatemanagerapp.R
 import com.suleimanzhukov.realestatemanagerapp.databinding.FragmentAuthBinding
+import com.suleimanzhukov.realestatemanagerapp.di.DaggerRealEstateComponent
 import com.suleimanzhukov.realestatemanagerapp.model.database.entities.AgentEntity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
@@ -33,6 +34,11 @@ class AuthFragment : Fragment() {
 
     private var inAgent: AgentEntity? = null
     private var inPassword: String? = null
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        DaggerRealEstateComponent.builder().build().getForAuthFragment(this)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentAuthBinding.inflate(inflater, container, false)

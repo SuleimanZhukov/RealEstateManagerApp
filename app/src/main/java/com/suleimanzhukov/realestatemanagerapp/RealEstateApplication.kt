@@ -17,7 +17,6 @@ class RealEstateApplication : Application(), HasAndroidInjector {
     /*override fun onCreate() {
         super.onCreate()
         DaggerRealEstateComponent.builder()
-            .appModule(AppModule())
             .build()
             .inject(this)
     }*/

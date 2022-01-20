@@ -13,7 +13,6 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import coil.load
 import com.suleimanzhukov.realestatemanagerapp.R
-import com.suleimanzhukov.realestatemanagerapp.RealEstateApplication
 import com.suleimanzhukov.realestatemanagerapp.databinding.FragmentMainBinding
 import com.suleimanzhukov.realestatemanagerapp.di.DaggerRealEstateComponent
 import com.suleimanzhukov.realestatemanagerapp.framework.ui.auth.SignUpFragment
@@ -40,7 +39,7 @@ class MainFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        DaggerRealEstateComponent.builder().build().inject(this)
+        DaggerRealEstateComponent.builder().build().getForMainFragment(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {

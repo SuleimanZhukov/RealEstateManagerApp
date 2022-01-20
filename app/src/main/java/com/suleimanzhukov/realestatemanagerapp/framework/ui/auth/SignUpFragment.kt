@@ -12,6 +12,7 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.suleimanzhukov.realestatemanagerapp.R
 import com.suleimanzhukov.realestatemanagerapp.databinding.FragmentSignUpBinding
+import com.suleimanzhukov.realestatemanagerapp.di.DaggerRealEstateComponent
 import com.suleimanzhukov.realestatemanagerapp.model.database.entities.AgentEntity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
@@ -29,6 +30,11 @@ class SignUpFragment : Fragment() {
 
     @Inject
     lateinit var viewModel: AuthViewModel
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        DaggerRealEstateComponent.builder().build().getForSignUpFragment(this)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentSignUpBinding.inflate(inflater, container, false)
