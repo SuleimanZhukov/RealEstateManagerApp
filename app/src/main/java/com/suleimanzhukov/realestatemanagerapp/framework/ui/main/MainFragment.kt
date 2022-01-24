@@ -11,12 +11,15 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import com.suleimanzhukov.realestatemanagerapp.R
 import com.suleimanzhukov.realestatemanagerapp.databinding.FragmentMainBinding
 import com.suleimanzhukov.realestatemanagerapp.di.DaggerRealEstateComponent
+import com.suleimanzhukov.realestatemanagerapp.framework.ui.adapters.PropertiesListAdapter
 import com.suleimanzhukov.realestatemanagerapp.framework.ui.auth.SignUpFragment
 import com.suleimanzhukov.realestatemanagerapp.model.database.entities.AgentEntity
+import com.suleimanzhukov.realestatemanagerapp.model.database.entities.PropertyEntity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
@@ -36,6 +39,7 @@ class MainFragment : Fragment() {
 
     private var agent: AgentEntity? = null
     private var email: String? = null
+    private var properties: List<PropertyEntity?> = mutableListOf()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -54,6 +58,25 @@ class MainFragment : Fragment() {
         subscribeToLiveData()
         isLoggedIn()
         buttonsInit()
+
+        setProperties()
+    }
+
+    private fun setProperties() {
+        CoroutineScope(Main).launch {
+            val job = async(IO) {
+                viewModel.getAllProperties(requireContext())
+            }
+             job.await()
+            setAdapter()
+        }
+    }
+
+    private fun setAdapter() = with(binding) {
+        val propertiesAdapter = PropertiesListAdapter()
+        propertiesAdapter.setProperties(properties)
+        mainRecyclerView.adapter = propertiesAdapter
+        mainRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
     }
 
     private fun isLoggedIn() = with(binding) {
@@ -98,6 +121,9 @@ class MainFragment : Fragment() {
     private fun subscribeToLiveData() {
         viewModel.getAgentLiveData().observe(viewLifecycleOwner, Observer {
             agent = viewModel.getAgentLiveData().value
+        })
+        viewModel.getPropertyLiveData().observe(viewLifecycleOwner, Observer {
+            properties = viewModel.getPropertyLiveData().value!!
         })
     }
 
