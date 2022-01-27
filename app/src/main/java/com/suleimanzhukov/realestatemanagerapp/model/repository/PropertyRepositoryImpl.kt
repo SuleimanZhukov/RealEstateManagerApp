@@ -1,7 +1,6 @@
 package com.suleimanzhukov.realestatemanagerapp.model.repository
 
 import android.content.Context
-import android.provider.ContactsContract
 import com.suleimanzhukov.realestatemanagerapp.model.database.Databases
 import com.suleimanzhukov.realestatemanagerapp.model.database.entities.PropertyEntity
 

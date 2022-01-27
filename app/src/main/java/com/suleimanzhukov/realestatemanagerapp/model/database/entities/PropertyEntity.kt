@@ -1,8 +1,11 @@
 package com.suleimanzhukov.realestatemanagerapp.model.database.entities
 
+import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 @Entity
 data class PropertyEntity(
     @PrimaryKey(autoGenerate = true)
@@ -18,4 +21,4 @@ data class PropertyEntity(
     var details: String,
     var images: String,
     var location: String
-)
+): Parcelable
