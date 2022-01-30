@@ -1,5 +1,6 @@
 package com.suleimanzhukov.realestatemanagerapp.di
 
+import com.suleimanzhukov.realestatemanagerapp.framework.ui.DetailsFragment
 import com.suleimanzhukov.realestatemanagerapp.framework.ui.auth.AccountAgentFragment
 import com.suleimanzhukov.realestatemanagerapp.framework.ui.auth.AuthFragment
 import com.suleimanzhukov.realestatemanagerapp.framework.ui.auth.PublishFragment
@@ -23,4 +24,5 @@ interface RealEstateComponent {
     fun getForSignUpFragment(signUpFragment: SignUpFragment)
     fun getForAccountFragment(accountAgentFragment: AccountAgentFragment)
     fun getForPublishFragment(publishFragment: PublishFragment)
+    fun getForDetailsFragment(detailsFragment: DetailsFragment)
 }

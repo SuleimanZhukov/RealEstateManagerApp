@@ -72,7 +72,12 @@
     <fragment
         android:id="@+id/detailsFragment"
         android:name="com.suleimanzhukov.realestatemanagerapp.framework.ui.DetailsFragment"
-        android:label="DetailsFragment" />
+        android:label="DetailsFragment">
+
+        <argument android:name="receiver"
+            android:defaultValue="None"/>
+
+    </fragment>
 
     <fragment
         android:id="@+id/agentsListFragment"

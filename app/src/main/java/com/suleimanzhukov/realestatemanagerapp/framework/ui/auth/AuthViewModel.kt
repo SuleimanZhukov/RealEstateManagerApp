@@ -24,10 +24,12 @@ class AuthViewModel(
     private val agentLiveData: MutableLiveData<AgentEntity?> = MutableLiveData()
 
     private val propertyLiveData: MutableLiveData<PropertyEntity?> = MutableLiveData()
+    private val propertiesLiveData: MutableLiveData<List<PropertyEntity?>> = MutableLiveData()
 
     fun getSignUpLiveData() = signUpLiveData
     fun getPasswordLiveData() = passwordLiveData
     fun getAgentLiveData() = agentLiveData
+    fun getPropertiesLiveData() = propertiesLiveData
 
     suspend fun registerAgent(agent: AgentEntity, context: Context) {
         signUpLiveData.postValue(repository.addAgent(agent, context))
@@ -51,5 +53,9 @@ class AuthViewModel(
 
     suspend fun getAllProperties(context: Context): List<PropertyEntity?> {
         return propertyRepository.getAllProperties(context)
+    }
+
+    suspend fun getPropertyById(context: Context, id: Long): PropertyEntity? {
+        return propertyRepository.getPropertyById(context, id)
     }
 }

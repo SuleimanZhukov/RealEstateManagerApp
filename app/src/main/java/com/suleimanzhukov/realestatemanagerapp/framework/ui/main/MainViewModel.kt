@@ -13,8 +13,8 @@ import com.suleimanzhukov.realestatemanagerapp.model.repository.PropertyReposito
 import javax.inject.Inject
 
 class MainViewModel(
-    @JvmField @Inject public var repository: AgentRepository,
-    @JvmField @Inject public var propertyRepository: PropertyRepository
+    @JvmField @Inject var repository: AgentRepository,
+    @JvmField @Inject var propertyRepository: PropertyRepository
 ) : ViewModel() {
 
 //    private val repository: AgentRepository = AgentRepositoryImpl()

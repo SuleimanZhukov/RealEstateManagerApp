@@ -7,4 +7,5 @@ interface PropertyRepository {
 
     suspend fun addProperty(property: PropertyEntity, context: Context): PropertyEntity
     suspend fun getAllProperties(context: Context): List<PropertyEntity>
+    suspend fun getPropertyById(context: Context, id: Long): PropertyEntity?
 }

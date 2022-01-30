@@ -15,6 +15,7 @@ import com.suleimanzhukov.realestatemanagerapp.di.DaggerRealEstateComponent
 import com.suleimanzhukov.realestatemanagerapp.model.database.entities.PropertyEntity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -68,13 +69,13 @@ class PublishFragment : Fragment() {
             var properties: List<PropertyEntity?> = mutableListOf()
 
             CoroutineScope(Dispatchers.Main).launch {
-                val job = async(Dispatchers.IO) {
+                val job = async(IO) {
                     viewModel.addProperty(property, requireContext())
                 }
                 job.await()
                 navController.navigate(R.id.action_publishFragment_to_mainFragment)
 
-                val getJobs = async {
+                val getJobs = async(IO) {
                     properties = viewModel.getAllProperties(requireContext())
                 }
                 getJobs.await()
