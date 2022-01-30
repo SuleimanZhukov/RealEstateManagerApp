@@ -57,9 +57,9 @@ class AccountAgentFragment : Fragment() {
         mainActivity = activity as MainActivity
         navController = Navigation.findNavController(view)
 
-//        logOutButton.setOnClickListener {
-//            logoutAgentByEmail()
-//        }
+        logOutButton.setOnClickListener {
+            logoutAgentByEmail()
+        }
 
         email = getEmail()
         CoroutineScope(Main).launch {
