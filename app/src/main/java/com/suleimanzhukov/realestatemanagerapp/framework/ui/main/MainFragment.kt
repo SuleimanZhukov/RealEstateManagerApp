@@ -73,7 +73,11 @@ class MainFragment : Fragment() {
     }
 
     private fun setAdapter() = with(binding) {
-        val propertiesAdapter = PropertiesListAdapter()
+        val propertiesAdapter = PropertiesListAdapter(object : OnAdapterItemClickListener {
+            override fun onItemClick(position: Int) {
+                navController.navigate(R.id.action_mainFragment_to_detailsFragment)
+            }
+        })
         propertiesAdapter.setProperties(properties)
         mainRecyclerView.adapter = propertiesAdapter
         mainRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
@@ -125,6 +129,10 @@ class MainFragment : Fragment() {
         viewModel.getPropertyLiveData().observe(viewLifecycleOwner, Observer {
             properties = viewModel.getPropertyLiveData().value!!
         })
+    }
+
+    interface OnAdapterItemClickListener {
+        fun onItemClick(position: Int)
     }
 
     override fun onDestroyView() {

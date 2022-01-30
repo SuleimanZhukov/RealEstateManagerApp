@@ -5,10 +5,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.suleimanzhukov.realestatemanagerapp.databinding.MainCardViewBinding
+import com.suleimanzhukov.realestatemanagerapp.framework.ui.main.MainFragment
 import com.suleimanzhukov.realestatemanagerapp.model.database.entities.AgentEntity
 import com.suleimanzhukov.realestatemanagerapp.model.database.entities.PropertyEntity
 
-class PropertiesListAdapter() : RecyclerView.Adapter<PropertiesListAdapter.PropertiesViewHolder>() {
+class PropertiesListAdapter(
+    private val onItemClick: MainFragment.OnAdapterItemClickListener
+) : RecyclerView.Adapter<PropertiesListAdapter.PropertiesViewHolder>() {
     private lateinit var binding: MainCardViewBinding
     private var properties: List<PropertyEntity?> = mutableListOf()
 
@@ -17,9 +20,16 @@ class PropertiesListAdapter() : RecyclerView.Adapter<PropertiesListAdapter.Prope
     }
 
     inner class PropertiesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(property: PropertyEntity) = with(binding) {
+        fun bind(property: PropertyEntity, position: Int) = with(binding) {
+            mainCardPriceTextView.text = property.price.toString()
+            mainCardAddressTextView.text = property.address
+            val text = "${property.beds} bedrooms / ${property.baths} bathrooms / ${property.area} m²"
+            mainCardParamsTextView.text = text
 
+            root.setOnClickListener { onItemClick.onItemClick(position) }
         }
+
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PropertiesViewHolder {
@@ -28,7 +38,7 @@ class PropertiesListAdapter() : RecyclerView.Adapter<PropertiesListAdapter.Prope
     }
 
     override fun onBindViewHolder(holder: PropertiesViewHolder, position: Int) {
-        holder.bind(properties[position]!!)
+        holder.bind(properties[position]!!, position)
     }
 
     override fun getItemCount(): Int {

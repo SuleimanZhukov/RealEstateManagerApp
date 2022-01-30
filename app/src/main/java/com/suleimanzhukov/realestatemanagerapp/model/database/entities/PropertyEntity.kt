@@ -18,6 +18,7 @@ data class PropertyEntity(
     var beds: Int,
     var baths: Int,
     var garages: Int,
+    var area: Int,
     var details: String,
     var images: String,
     var location: String
