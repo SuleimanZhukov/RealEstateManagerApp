@@ -11,10 +11,13 @@ import com.suleimanzhukov.realestatemanagerapp.model.repository.PropertyReposito
 import com.suleimanzhukov.realestatemanagerapp.model.repository.PropertyRepositoryImpl
 import javax.inject.Inject
 
-class AuthViewModel() : ViewModel() {
+class AuthViewModel(
+    @JvmField @Inject var repository: AgentRepository,
+    @JvmField @Inject var propertyRepository: PropertyRepository
+) : ViewModel() {
 
-    private val repository: AgentRepository = AgentRepositoryImpl()
-    private val propertyRepository: PropertyRepository = PropertyRepositoryImpl()
+//    private val repository: AgentRepository = AgentRepositoryImpl()
+//    private val propertyRepository: PropertyRepository = PropertyRepositoryImpl()
 
     private val signUpLiveData: MutableLiveData<AgentEntity?> = MutableLiveData()
     private val passwordLiveData: MutableLiveData<String?> = MutableLiveData()
@@ -44,5 +47,9 @@ class AuthViewModel() : ViewModel() {
 
     suspend fun addProperty(property: PropertyEntity, context: Context) {
         propertyLiveData.postValue(propertyRepository.addProperty(property, context))
+    }
+
+    suspend fun getAllProperties(context: Context): List<PropertyEntity?> {
+        return propertyRepository.getAllProperties(context)
     }
 }

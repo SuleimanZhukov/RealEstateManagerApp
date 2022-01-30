@@ -6,6 +6,8 @@ import com.suleimanzhukov.realestatemanagerapp.framework.ui.auth.AuthViewModel
 import com.suleimanzhukov.realestatemanagerapp.framework.ui.main.MainViewModel
 import com.suleimanzhukov.realestatemanagerapp.model.repository.AgentRepository
 import com.suleimanzhukov.realestatemanagerapp.model.repository.AgentRepositoryImpl
+import com.suleimanzhukov.realestatemanagerapp.model.repository.PropertyRepository
+import com.suleimanzhukov.realestatemanagerapp.model.repository.PropertyRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import javax.inject.Inject
@@ -20,9 +22,13 @@ class AppModule() {
 
     @Singleton
     @Provides
-    fun providesMainViewModel(): MainViewModel = MainViewModel()
+    fun providesPropertyRepositoryImpl(): PropertyRepository = PropertyRepositoryImpl()
 
     @Singleton
     @Provides
-    fun providesAuthViewModel(): AuthViewModel = AuthViewModel()
+    fun providesMainViewModel(): MainViewModel = MainViewModel(providesAgentRepositoryImpl(), providesPropertyRepositoryImpl())
+
+    @Singleton
+    @Provides
+    fun providesAuthViewModel(): AuthViewModel = AuthViewModel(providesAgentRepositoryImpl(), providesPropertyRepositoryImpl())
 }

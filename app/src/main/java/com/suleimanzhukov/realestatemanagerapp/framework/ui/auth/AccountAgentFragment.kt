@@ -67,7 +67,7 @@ class AccountAgentFragment : Fragment() {
                 viewModel.getAgentByEmail(email!!, requireContext())
             }
             job.await()
-            Log.d("TAG", "onViewCreated: Image: ${agent!!.username}")
+            Log.d("TAG", "onViewCreated: Image: ${agent!!.email}")
         }
 
         subscribeToLiveData()
