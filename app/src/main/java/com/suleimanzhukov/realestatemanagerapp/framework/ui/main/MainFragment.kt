@@ -79,6 +79,7 @@ class MainFragment : Fragment() {
             override fun onItemClick(property: PropertyEntity, position: Int) {
                 val bundle = Bundle().apply {
                     putString("receiver", property.id.toString())
+                    Log.d("TAG", "onItemClick: ${property.id.toString()}")
                 }
                 navController.navigate(R.id.action_mainFragment_to_detailsFragment, bundle)
             }

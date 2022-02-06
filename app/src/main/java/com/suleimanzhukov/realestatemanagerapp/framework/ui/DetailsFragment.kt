@@ -56,7 +56,6 @@ class DetailsFragment : Fragment() {
         navController = Navigation.findNavController(view)
 
         getPropertyDetails()
-        setAdapter()
         backButtonPress()
     }
 
@@ -66,6 +65,7 @@ class DetailsFragment : Fragment() {
         CoroutineScope(Main).launch {
             val job = async(IO) {
                 property = viewModel.getPropertyById(requireContext(), id!!.toLong())
+                Log.d("TAG", "getPropertyDetails: ${property!!.garages}")
             }
             job.await()
             Log.d("TAG", "getPropertyDetails: ${property!!.area}")
@@ -74,13 +74,6 @@ class DetailsFragment : Fragment() {
             detailsDescriptionTextView.text = property?.details
 
         }
-    }
-
-    private fun setAdapter() = with(binding) {
-        val detailsListAdapter = DetailsListAdapter()
-        detailsListAdapter.setDetails(property)
-        detailsRecyclerViewInfo.adapter = detailsListAdapter
-        detailsRecyclerViewInfo.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
     }
 
     private fun backButtonPress() = with(binding) {
