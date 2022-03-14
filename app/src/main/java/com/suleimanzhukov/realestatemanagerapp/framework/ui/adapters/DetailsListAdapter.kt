@@ -1,22 +1,18 @@
 package com.suleimanzhukov.realestatemanagerapp.framework.ui.adapters
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.suleimanzhukov.realestatemanagerapp.databinding.DetailsInfoCardViewBinding
-import com.suleimanzhukov.realestatemanagerapp.databinding.MainCardViewBinding
-import com.suleimanzhukov.realestatemanagerapp.framework.ui.main.MainFragment
-import com.suleimanzhukov.realestatemanagerapp.model.database.entities.AgentEntity
 import com.suleimanzhukov.realestatemanagerapp.model.database.entities.PropertyEntity
 
 class DetailsListAdapter() : RecyclerView.Adapter<DetailsListAdapter.PropertiesViewHolder>() {
     private lateinit var binding: DetailsInfoCardViewBinding
-    private var properties: List<Int?> = mutableListOf()
+    private var propertyDetails: List<Int?> = mutableListOf()
 
     fun setDetails(details: PropertyEntity?) {
-        properties = listOf(
+        propertyDetails = listOf(
             details?.beds,
             details?.baths,
             details?.garages,
@@ -43,10 +39,10 @@ class DetailsListAdapter() : RecyclerView.Adapter<DetailsListAdapter.PropertiesV
     }
 
     override fun onBindViewHolder(holder: PropertiesViewHolder, position: Int) {
-        holder.bind(properties[position]!!, position)
+        holder.bind(propertyDetails[position]!!, position)
     }
 
     override fun getItemCount(): Int {
-        return properties.size
+        return propertyDetails.size
     }
 }

@@ -57,6 +57,7 @@ class DetailsFragment : Fragment() {
 
         getPropertyDetails()
         backButtonPress()
+        setAdapter()
     }
 
     private fun getPropertyDetails() = with(binding) {
@@ -69,11 +70,19 @@ class DetailsFragment : Fragment() {
             }
             job.await()
             Log.d("TAG", "getPropertyDetails: ${property!!.area}")
-            detailsPriceTextView.text = property?.price.toString()
-            detailsAddressTextView.text = property?.address
-            detailsDescriptionTextView.text = property?.details
-
+            detailsPriceTextView.text = property!!.price.toString()
+            detailsAddressTextView.text = property!!.address
+            detailsDescriptionTextView.text = property!!.details
         }
+        Log.d("TAG", "getPropertyDetails: ${property!!.area}")
+    }
+
+    private fun setAdapter() = with(binding) {
+        val detailsAdapter = DetailsListAdapter()
+        Log.d("TAG", "getPropertyDetails: ${property!!.area}")
+        detailsAdapter.setDetails(property)
+        detailsRecyclerViewInfo.adapter = detailsAdapter
+        detailsRecyclerViewInfo.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
     }
 
     private fun backButtonPress() = with(binding) {
