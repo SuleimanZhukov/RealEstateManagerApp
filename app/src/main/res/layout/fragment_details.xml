@@ -114,19 +114,20 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
             android:layout_marginTop="20dp"
+            android:text="House information"
             android:gravity="start"
             android:textSize="16sp"
             android:textStyle="bold"
             android:textColor="@color/black"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/details_address_text_view"
-            tools:text="House information" />
+            app:layout_constraintTop_toBottomOf="@id/details_address_text_view" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/details_recycler_view_info"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
+            android:background="@android:color/transparent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/details_info_text_view"/>
 
@@ -137,12 +138,12 @@
             android:paddingStart="30dp"
             android:paddingEnd="30dp"
             android:layout_marginTop="20dp"
+            android:text="Flowless 2 story on a family cul-de-sac in the heart of Blue Valley!"
             android:gravity="start"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/details_recycler_view_info"
-            app:layout_constraintEnd_toEndOf="parent"
-            tools:text="Flowless 2 story on a family cul-de-sac in the heart of Blue Valley!" />
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <ImageView
             android:id="@+id/details_map"
