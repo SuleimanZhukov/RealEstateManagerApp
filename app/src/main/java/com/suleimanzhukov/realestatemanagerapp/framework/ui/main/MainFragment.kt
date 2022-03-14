@@ -59,6 +59,7 @@ class MainFragment : Fragment() {
 
         subscribeToLiveData()
         isLoggedIn()
+
         buttonsInit()
 
         setProperties()
