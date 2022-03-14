@@ -57,7 +57,6 @@ class DetailsFragment : Fragment() {
 
         getPropertyDetails()
         backButtonPress()
-        setAdapter()
     }
 
     private fun getPropertyDetails() = with(binding) {
@@ -73,8 +72,8 @@ class DetailsFragment : Fragment() {
             detailsPriceTextView.text = property!!.price.toString()
             detailsAddressTextView.text = property!!.address
             detailsDescriptionTextView.text = property!!.details
+            setAdapter()
         }
-        Log.d("TAG", "getPropertyDetails: ${property!!.area}")
     }
 
     private fun setAdapter() = with(binding) {
