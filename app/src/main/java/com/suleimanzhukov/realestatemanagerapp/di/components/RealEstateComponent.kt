@@ -1,4 +1,4 @@
-package com.suleimanzhukov.realestatemanagerapp.di
+package com.suleimanzhukov.realestatemanagerapp.di.components
 
 import com.suleimanzhukov.realestatemanagerapp.di.modules.ContextModule
 import com.suleimanzhukov.realestatemanagerapp.di.modules.ReposModule
