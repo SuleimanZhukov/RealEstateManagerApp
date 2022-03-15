@@ -1,5 +1,7 @@
 package com.suleimanzhukov.realestatemanagerapp.di
 
+import com.suleimanzhukov.realestatemanagerapp.di.modules.ContextModule
+import com.suleimanzhukov.realestatemanagerapp.di.modules.ReposModule
 import com.suleimanzhukov.realestatemanagerapp.framework.ui.DetailsFragment
 import com.suleimanzhukov.realestatemanagerapp.framework.ui.auth.AccountAgentFragment
 import com.suleimanzhukov.realestatemanagerapp.framework.ui.auth.AuthFragment
@@ -7,22 +9,26 @@ import com.suleimanzhukov.realestatemanagerapp.framework.ui.auth.PublishFragment
 import com.suleimanzhukov.realestatemanagerapp.framework.ui.auth.SignUpFragment
 import com.suleimanzhukov.realestatemanagerapp.framework.ui.main.MainFragment
 import dagger.Component
-import dagger.android.AndroidInjectionModule
 import javax.inject.Singleton
 
-@Singleton
 @Component(
     modules = [
-        AndroidInjectionModule::class,
-        AppModule::class
+        ReposModule::class,
+        ContextModule::class
     ]
 )
+@Singleton
 interface RealEstateComponent {
 
-    fun getForMainFragment(mainFragment: MainFragment)
-    fun getForAuthFragment(authFragment: AuthFragment)
-    fun getForSignUpFragment(signUpFragment: SignUpFragment)
-    fun getForAccountFragment(accountAgentFragment: AccountAgentFragment)
-    fun getForPublishFragment(publishFragment: PublishFragment)
-    fun getForDetailsFragment(detailsFragment: DetailsFragment)
+    fun inject(mainFragment: MainFragment)
+
+    fun inject(authFragment: AuthFragment)
+
+    fun inject(signUpFragment: SignUpFragment)
+
+    fun inject(accountAgentFragment: AccountAgentFragment)
+
+    fun inject(publishFragment: PublishFragment)
+
+    fun inject(detailsFragment: DetailsFragment)
 }

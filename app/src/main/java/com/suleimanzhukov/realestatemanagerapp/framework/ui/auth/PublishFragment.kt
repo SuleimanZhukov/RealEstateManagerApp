@@ -10,8 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.suleimanzhukov.realestatemanagerapp.R
+import com.suleimanzhukov.realestatemanagerapp.RealEstateApplication
 import com.suleimanzhukov.realestatemanagerapp.databinding.FragmentPublishBinding
-import com.suleimanzhukov.realestatemanagerapp.di.DaggerRealEstateComponent
 import com.suleimanzhukov.realestatemanagerapp.model.database.entities.PropertyEntity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -30,9 +30,9 @@ class PublishFragment : Fragment() {
     @Inject
     lateinit var viewModel: AuthViewModel
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        DaggerRealEstateComponent.builder().build().getForPublishFragment(this)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        RealEstateApplication.instance.appComponent.inject(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -70,13 +70,13 @@ class PublishFragment : Fragment() {
 
             CoroutineScope(Dispatchers.Main).launch {
                 val job = async(IO) {
-                    viewModel.addProperty(property, requireContext())
+                    viewModel.addProperty(property)
                 }
                 job.await()
                 navController.navigate(R.id.action_publishFragment_to_mainFragment)
 
                 val getJobs = async(IO) {
-                    properties = viewModel.getAllProperties(requireContext())
+                    properties = viewModel.getAllProperties()
                 }
                 getJobs.await()
                 Log.d("TAG", "onPublish: ${properties.get(0)?.address}")

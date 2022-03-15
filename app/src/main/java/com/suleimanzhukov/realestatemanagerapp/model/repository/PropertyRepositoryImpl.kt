@@ -5,19 +5,22 @@ import android.content.LocusId
 import android.provider.ContactsContract
 import com.suleimanzhukov.realestatemanagerapp.model.database.Databases
 import com.suleimanzhukov.realestatemanagerapp.model.database.entities.PropertyEntity
+import javax.inject.Inject
 
-class PropertyRepositoryImpl : PropertyRepository {
+class PropertyRepositoryImpl @Inject constructor(
+    private val context: Context
+) : PropertyRepository {
 
-    override suspend fun addProperty(property: PropertyEntity, context: Context): PropertyEntity {
+    override suspend fun addProperty(property: PropertyEntity): PropertyEntity {
         Databases.getDatabase(context).propertyDao().addProperty(property)
         return property
     }
 
-    override suspend fun getAllProperties(context: Context): List<PropertyEntity> {
+    override suspend fun getAllProperties(): List<PropertyEntity> {
         return Databases.getDatabase(context).propertyDao().getAllProperties()
     }
 
-    override suspend fun getPropertyById(context: Context, id: Long): PropertyEntity? {
+    override suspend fun getPropertyById(id: Long): PropertyEntity? {
         return Databases.getDatabase(context).propertyDao().getPropertyById(id)
     }
 }

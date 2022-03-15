@@ -1,24 +1,19 @@
 package com.suleimanzhukov.realestatemanagerapp.framework.ui
 
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.suleimanzhukov.realestatemanagerapp.R
+import com.suleimanzhukov.realestatemanagerapp.RealEstateApplication
 import com.suleimanzhukov.realestatemanagerapp.databinding.FragmentDetailsBinding
-import com.suleimanzhukov.realestatemanagerapp.di.DaggerRealEstateComponent
 import com.suleimanzhukov.realestatemanagerapp.framework.MainActivity
 import com.suleimanzhukov.realestatemanagerapp.framework.ui.adapters.DetailsListAdapter
-import com.suleimanzhukov.realestatemanagerapp.framework.ui.adapters.PropertiesListAdapter
 import com.suleimanzhukov.realestatemanagerapp.framework.ui.auth.AuthViewModel
-import com.suleimanzhukov.realestatemanagerapp.framework.ui.main.MainFragment
 import com.suleimanzhukov.realestatemanagerapp.model.database.entities.PropertyEntity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
@@ -40,9 +35,9 @@ class DetailsFragment : Fragment() {
 
     private var property: PropertyEntity? = null
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        DaggerRealEstateComponent.builder().build().getForDetailsFragment(this)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        RealEstateApplication.instance.appComponent.inject(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -64,7 +59,7 @@ class DetailsFragment : Fragment() {
 
         CoroutineScope(Main).launch {
             val job = async(IO) {
-                property = viewModel.getPropertyById(requireContext(), id!!.toLong())
+                property = viewModel.getPropertyById(id!!.toLong())
                 Log.d("TAG", "getPropertyDetails: ${property!!.garages}")
             }
             job.await()

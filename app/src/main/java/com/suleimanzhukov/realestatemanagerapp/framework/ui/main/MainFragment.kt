@@ -7,7 +7,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
@@ -15,8 +14,8 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import com.suleimanzhukov.realestatemanagerapp.R
+import com.suleimanzhukov.realestatemanagerapp.RealEstateApplication
 import com.suleimanzhukov.realestatemanagerapp.databinding.FragmentMainBinding
-import com.suleimanzhukov.realestatemanagerapp.di.DaggerRealEstateComponent
 import com.suleimanzhukov.realestatemanagerapp.framework.ui.adapters.PropertiesListAdapter
 import com.suleimanzhukov.realestatemanagerapp.framework.ui.auth.AuthViewModel
 import com.suleimanzhukov.realestatemanagerapp.framework.ui.auth.SignUpFragment
@@ -43,9 +42,9 @@ class MainFragment : Fragment() {
     private var email: String? = null
     private var properties: List<PropertyEntity?> = mutableListOf()
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        DaggerRealEstateComponent.builder().build().getForMainFragment(this)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        RealEstateApplication.instance.appComponent.inject(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -68,7 +67,7 @@ class MainFragment : Fragment() {
     private fun setProperties() {
         CoroutineScope(Main).launch {
             val job = async(IO) {
-                properties = viewModel.getAllProperties(requireContext())
+                properties = viewModel.getAllProperties()
             }
             job.await()
             setAdapter()
@@ -101,7 +100,7 @@ class MainFragment : Fragment() {
         } else {
             CoroutineScope(Main).launch {
                 val job = async(IO) {
-                    viewModel.getAgentByEmail(email!!, requireContext())
+                    viewModel.getAgentByEmail(email!!)
                 }
                 job.await()
                 Log.d("TAG", "onViewCreated: IN ASYNC(IO) Email: $email, Password: ${agent?.password}," +

@@ -11,9 +11,9 @@ import com.suleimanzhukov.realestatemanagerapp.model.repository.PropertyReposito
 import com.suleimanzhukov.realestatemanagerapp.model.repository.PropertyRepositoryImpl
 import javax.inject.Inject
 
-class AuthViewModel(
-    @JvmField @Inject var repository: AgentRepository,
-    @JvmField @Inject var propertyRepository: PropertyRepository
+class AuthViewModel @Inject constructor(
+    private val repository: AgentRepository,
+    private val propertyRepository: PropertyRepository
 ) : ViewModel() {
 
 //    private val repository: AgentRepository = AgentRepositoryImpl()
@@ -31,31 +31,31 @@ class AuthViewModel(
     fun getAgentLiveData() = agentLiveData
     fun getPropertiesLiveData() = propertiesLiveData
 
-    suspend fun registerAgent(agent: AgentEntity, context: Context) {
-        signUpLiveData.postValue(repository.addAgent(agent, context))
+    suspend fun registerAgent(agent: AgentEntity) {
+        signUpLiveData.postValue(repository.addAgent(agent))
     }
 
-    suspend fun getAgentByEmail(email: String, context: Context) {
-        agentLiveData.postValue(repository.getAgentByEmail(email, context))
+    suspend fun getAgentByEmail(email: String) {
+        agentLiveData.postValue(repository.getAgentByEmail(email))
     }
 
-    suspend fun getPasswordByEmail(email: String, context: Context) {
-        passwordLiveData.postValue(repository.getPasswordByEmail(email, context))
+    suspend fun getPasswordByEmail(email: String) {
+        passwordLiveData.postValue(repository.getPasswordByEmail(email))
     }
 
-    suspend fun updateAgent(agent: AgentEntity, context: Context) {
-        agentLiveData.postValue(repository.updateAgent(agent, context))
+    suspend fun updateAgent(agent: AgentEntity) {
+        agentLiveData.postValue(repository.updateAgent(agent))
     }
 
-    suspend fun addProperty(property: PropertyEntity, context: Context) {
-        propertyLiveData.postValue(propertyRepository.addProperty(property, context))
+    suspend fun addProperty(property: PropertyEntity) {
+        propertyLiveData.postValue(propertyRepository.addProperty(property))
     }
 
-    suspend fun getAllProperties(context: Context): List<PropertyEntity?> {
-        return propertyRepository.getAllProperties(context)
+    suspend fun getAllProperties(): List<PropertyEntity?> {
+        return propertyRepository.getAllProperties()
     }
 
-    suspend fun getPropertyById(context: Context, id: Long): PropertyEntity? {
-        return propertyRepository.getPropertyById(context, id)
+    suspend fun getPropertyById(id: Long): PropertyEntity? {
+        return propertyRepository.getPropertyById(id)
     }
 }

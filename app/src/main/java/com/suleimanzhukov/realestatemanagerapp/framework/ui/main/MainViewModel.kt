@@ -12,9 +12,9 @@ import com.suleimanzhukov.realestatemanagerapp.model.repository.PropertyReposito
 import com.suleimanzhukov.realestatemanagerapp.model.repository.PropertyRepositoryImpl
 import javax.inject.Inject
 
-class MainViewModel(
-    @JvmField @Inject var repository: AgentRepository,
-    @JvmField @Inject var propertyRepository: PropertyRepository
+class MainViewModel @Inject constructor(
+    private val repository: AgentRepository,
+    private val propertyRepository: PropertyRepository
 ) : ViewModel() {
 
 //    private val repository: AgentRepository = AgentRepositoryImpl()
@@ -26,11 +26,11 @@ class MainViewModel(
     fun getAgentLiveData() = agentLiveData
     fun getPropertyLiveData() = propertyLiveData
 
-    suspend fun getAgentByEmail(email: String, context: Context) {
-        agentLiveData.postValue(repository.getAgentByEmail(email, context))
+    suspend fun getAgentByEmail(email: String) {
+        agentLiveData.postValue(repository.getAgentByEmail(email))
     }
 
-    suspend fun getAllProperties(context: Context) {
-        propertyLiveData.postValue(propertyRepository.getAllProperties(context))
+    suspend fun getAllProperties() {
+        propertyLiveData.postValue(propertyRepository.getAllProperties())
     }
 }

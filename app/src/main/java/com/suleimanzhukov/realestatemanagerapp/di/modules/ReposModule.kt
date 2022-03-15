@@ -1,4 +1,4 @@
-package com.suleimanzhukov.realestatemanagerapp.di
+package com.suleimanzhukov.realestatemanagerapp.di.modules
 
 import android.content.Context
 import androidx.core.content.contentValuesOf
@@ -14,21 +14,25 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Module
-class AppModule() {
+class ReposModule() {
 
-    @Singleton
     @Provides
-    fun providesAgentRepositoryImpl(): AgentRepository = AgentRepositoryImpl()
+    @Singleton
+    fun providesAgentRepository(context: Context): AgentRepository = AgentRepositoryImpl(context)
 
-    @Singleton
     @Provides
-    fun providesPropertyRepositoryImpl(): PropertyRepository = PropertyRepositoryImpl()
+    @Singleton
+    fun providesPropertyRepository(context: Context): PropertyRepository = PropertyRepositoryImpl(context)
 
-    @Singleton
     @Provides
-    fun providesMainViewModel(): MainViewModel = MainViewModel(providesAgentRepositoryImpl(), providesPropertyRepositoryImpl())
+    @Singleton
+    fun providesMainViewModel(agentRepository: AgentRepository, propertyRepository: PropertyRepository): MainViewModel {
+        return MainViewModel(agentRepository, propertyRepository)
+    }
 
-    @Singleton
     @Provides
-    fun providesAuthViewModel(): AuthViewModel = AuthViewModel(providesAgentRepositoryImpl(), providesPropertyRepositoryImpl())
+    @Singleton
+    fun providesAuthViewModel(agentRepository: AgentRepository, propertyRepository: PropertyRepository): AuthViewModel {
+        return AuthViewModel(agentRepository, propertyRepository)
+    }
 }

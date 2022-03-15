@@ -17,8 +17,8 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import coil.load
 import com.suleimanzhukov.realestatemanagerapp.R
+import com.suleimanzhukov.realestatemanagerapp.RealEstateApplication
 import com.suleimanzhukov.realestatemanagerapp.databinding.FragmentAccountAgentBinding
-import com.suleimanzhukov.realestatemanagerapp.di.DaggerRealEstateComponent
 import com.suleimanzhukov.realestatemanagerapp.framework.MainActivity
 import com.suleimanzhukov.realestatemanagerapp.model.database.entities.AgentEntity
 import kotlinx.coroutines.CoroutineScope
@@ -42,9 +42,9 @@ class AccountAgentFragment : Fragment() {
     private var agent: AgentEntity? = null
     private var email: String? = null
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        DaggerRealEstateComponent.builder().build().getForAccountFragment(this)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        RealEstateApplication.instance.appComponent.inject(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -64,7 +64,7 @@ class AccountAgentFragment : Fragment() {
         email = getEmail()
         CoroutineScope(Main).launch {
             val job = async(IO) {
-                viewModel.getAgentByEmail(email!!, requireContext())
+                viewModel.getAgentByEmail(email!!)
             }
             job.await()
 //            Log.d("TAG", "onViewCreated: Image: ${agent!!.email}")
@@ -107,12 +107,12 @@ class AccountAgentFragment : Fragment() {
     private fun addPhoneToDB(phone: String) {
         CoroutineScope(Main).launch {
             val job = async(IO) {
-                viewModel.updateAgent(agent!!, requireContext())
+                viewModel.updateAgent(agent!!)
             }
             job.await()
             Log.d("TAG", "After UpdateAgent: Username: ${agent?.username}")
             val getJob = async(IO) {
-                viewModel.getAgentByEmail(email!!, requireContext())
+                viewModel.getAgentByEmail(email!!)
             }
             getJob.await()
             Log.d("TAG", "After getAgent: Username: ${agent?.username}")
@@ -141,20 +141,20 @@ class AccountAgentFragment : Fragment() {
         if (it.resultCode == Activity.RESULT_OK) {
             CoroutineScope(Main).launch {
                 val getAgentJob = async(IO) {
-                    viewModel.getAgentByEmail(email!!, requireContext())
+                    viewModel.getAgentByEmail(email!!)
                 }
                 getAgentJob.await()
                 agent?.profileImg = it.data?.data.toString()
 
                 Log.d("TAG", "Before UpdateAgent: Username: ${agent?.username}, Image: ${agent?.profileImg}")
                 val updateJob = async(IO) {
-                    viewModel.updateAgent(agent!!, requireContext())
+                    viewModel.updateAgent(agent!!)
                 }
                 updateJob.await()
                 Log.d("TAG", "After UpdateAgent: Username: ${agent?.username}, Image: ${agent?.profileImg}")
 
                 val getJob = async(IO) {
-                    viewModel.getAgentByEmail(email!!, requireContext())
+                    viewModel.getAgentByEmail(email!!)
                 }
                 getJob.await()
                 Log.d("TAG", "UpdatedAgent: Username: ${agent?.username}, Image: ${agent?.profileImg}")
