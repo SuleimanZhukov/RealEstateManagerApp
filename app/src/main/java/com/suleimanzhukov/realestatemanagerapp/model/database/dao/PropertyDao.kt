@@ -16,6 +16,9 @@ interface PropertyDao {
     @Query("SELECT * FROM PropertyEntity")
     suspend fun getAllProperties(): List<PropertyEntity>
 
+    @Query("SELECT * FROM PropertyEntity WHERE publisher = :agentEmail")
+    suspend fun getAllPropertiesWithAgent(agentEmail: String?): List<PropertyEntity>
+
     @Query("SELECT * FROM PropertyEntity WHERE id = :id")
     suspend fun getPropertyById(id: Long): PropertyEntity?
 }

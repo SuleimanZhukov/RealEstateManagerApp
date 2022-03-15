@@ -62,25 +62,27 @@
 
         <TextView
             android:id="@+id/details_price_text_view"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
             android:layout_marginTop="20dp"
             android:gravity="start"
+            android:textColor="@color/black"
             android:textSize="30sp"
             android:textStyle="bold"
-            android:textColor="@color/black"
+            app:layout_constraintEnd_toStartOf="@+id/guideline11"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/details_image_view"
-            tools:text="$200.000" />
+            tools:text="$200,000" />
 
         <TextView
             android:id="@+id/details_address_text_view"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
             android:gravity="start"
             android:textSize="14sp"
+            app:layout_constraintEnd_toStartOf="@+id/guideline11"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/details_price_text_view"
             tools:text="Jenison, MI 49428, SF" />
@@ -102,6 +104,7 @@
             android:textColor="@color/black"
             android:textSize="16sp"
             android:textStyle="bold"
+            android:text="N/A"
             app:layout_constraintBottom_toBottomOf="@+id/time_posted_view"
             app:layout_constraintEnd_toEndOf="@+id/time_posted_view"
             app:layout_constraintStart_toStartOf="@+id/time_posted_view"
@@ -133,12 +136,12 @@
 
         <TextView
             android:id="@+id/details_description_text_view"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingStart="30dp"
             android:paddingEnd="30dp"
             android:layout_marginTop="20dp"
-            android:text="Flowless 2 story on a family cul-de-sac in the heart of Blue Valley!"
+            android:text="N/A"
             android:gravity="start"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
@@ -166,10 +169,86 @@
             android:gravity="start"
             android:textSize="16sp"
             android:textStyle="bold"
+            android:text="Location"
             android:textColor="@color/black"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/details_map"
-            tools:text="Location" />
+            app:layout_constraintTop_toBottomOf="@id/details_map" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/details_agent_profile"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:background="@color/grey"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/details_location_text_view">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/agent_card_details_fragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/grey">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/agent_profile_image_details_fragment"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="30dp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintTop_toTopOf="@+id/agent_card_details_fragment"
+                    app:layout_constraintStart_toStartOf="@+id/agent_card_details_fragment"
+                    app:layout_constraintBottom_toBottomOf="@+id/agent_card_details_fragment"
+                    app:shapeAppearanceOverlay="@style/profile_image_main_view_corners" />
+
+                <TextView
+                    android:id="@+id/details_agent_name_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:gravity="start"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:text="N/A"
+                    app:layout_constraintBottom_toBottomOf="@id/agent_card_details_fragment"
+                    app:layout_constraintStart_toEndOf="@+id/agent_profile_image_details_fragment"
+                    app:layout_constraintTop_toTopOf="@+id/agent_card_details_fragment"
+                    tools:text="Hulk" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/details_other_properties_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="20dp"
+            android:gravity="start"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:text="Other properties from this agent"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/details_agent_profile" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/details_recycler_view_other_properties"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@android:color/transparent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/details_other_properties_text_view"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline11"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.6" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

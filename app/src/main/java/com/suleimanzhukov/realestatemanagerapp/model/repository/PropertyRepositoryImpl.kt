@@ -20,6 +20,10 @@ class PropertyRepositoryImpl @Inject constructor(
         return Databases.getDatabase(context).propertyDao().getAllProperties()
     }
 
+    override suspend fun getAllPropertiesWithAgent(agentEmail: String?): List<PropertyEntity> {
+        return Databases.getDatabase(context).propertyDao().getAllPropertiesWithAgent(agentEmail)
+    }
+
     override suspend fun getPropertyById(id: Long): PropertyEntity? {
         return Databases.getDatabase(context).propertyDao().getPropertyById(id)
     }

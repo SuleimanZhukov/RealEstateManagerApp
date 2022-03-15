@@ -10,6 +10,7 @@ import kotlinx.android.parcel.Parcelize
 data class PropertyEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Long,
+    val publisherUsername: String,
     var publisher: String,
     var price: Int,
     var address: String,

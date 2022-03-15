@@ -21,7 +21,7 @@ class PropertiesListAdapter(
 
     inner class PropertiesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(property: PropertyEntity, position: Int) = with(binding) {
-            mainCardPriceTextView.text = property.price.toString()
+            mainCardPriceTextView.text = "$${property.price}"
             mainCardAddressTextView.text = property.address
             val text = "${property.beds} bedrooms / ${property.baths} bathrooms / ${property.area} m²"
             mainCardParamsTextView.text = text

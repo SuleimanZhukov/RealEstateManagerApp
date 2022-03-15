@@ -49,7 +49,8 @@ class PublishFragment : Fragment() {
 
     private fun onPublish() = with(binding) {
         publishButton.setOnClickListener {
-            val publisher = getUsername()!!
+            val publisher = getEmail()!!
+            val publisherUsername = getUsername()!!
             val price = priceInputEditText.text.toString().toInt()
             val address = "${provinceInputEditText.text.toString()}, ${cityInputEditText.text.toString()}," +
                     " ${firstAddressInputEditText.text.toString()}, ${secondAddressInputEditText.text.toString()}"
@@ -58,13 +59,13 @@ class PublishFragment : Fragment() {
             val beds = bedsInputEditText.text.toString().toInt()
             val baths = bathsInputEditText.text.toString().toInt()
             val garages = garagesInputEditText.text.toString().toInt()
-            val details = publishDetailsTextView.text.toString()
+            val details = aboutEditText.text.toString()
             val area = squareInputEditText.text.toString().toInt()
             val images = ""
             val location = ""
 
-            val property = PropertyEntity(0, publisher, price, address, type, timePublished, beds, baths, garages, area, details,
-            images, location)
+            val property = PropertyEntity(0, publisherUsername, publisher, price, address,
+                type, timePublished, beds, baths, garages, area, details, images, location)
 
             var properties: List<PropertyEntity?> = mutableListOf()
 
@@ -82,6 +83,11 @@ class PublishFragment : Fragment() {
                 Log.d("TAG", "onPublish: ${properties.get(0)?.address}")
             }
         }
+    }
+
+    private fun getEmail(): String? {
+        val preferencesEditor = activity?.getSharedPreferences(SignUpFragment.SHARED_TAG, Context.MODE_PRIVATE)
+        return preferencesEditor?.getString(SignUpFragment.EMAIL_TAG, "")
     }
 
     private fun getUsername(): String? {

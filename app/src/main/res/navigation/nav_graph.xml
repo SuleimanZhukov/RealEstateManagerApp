@@ -77,6 +77,10 @@
         <argument android:name="receiver"
             android:defaultValue="None"/>
 
+        <action
+            android:id="@+id/action_detailsFragment_self"
+            app:destination="@id/detailsFragment" />
+
     </fragment>
 
     <fragment

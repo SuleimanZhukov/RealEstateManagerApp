@@ -9,11 +9,14 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.suleimanzhukov.realestatemanagerapp.R
 import com.suleimanzhukov.realestatemanagerapp.RealEstateApplication
 import com.suleimanzhukov.realestatemanagerapp.databinding.FragmentDetailsBinding
 import com.suleimanzhukov.realestatemanagerapp.framework.MainActivity
 import com.suleimanzhukov.realestatemanagerapp.framework.ui.adapters.DetailsListAdapter
+import com.suleimanzhukov.realestatemanagerapp.framework.ui.adapters.OtherPropertiesAdapter
 import com.suleimanzhukov.realestatemanagerapp.framework.ui.auth.AuthViewModel
+import com.suleimanzhukov.realestatemanagerapp.framework.ui.main.MainFragment
 import com.suleimanzhukov.realestatemanagerapp.model.database.entities.PropertyEntity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
@@ -34,6 +37,8 @@ class DetailsFragment : Fragment() {
     private lateinit var navController: NavController
 
     private var property: PropertyEntity? = null
+    private var otherProperties: List<PropertyEntity> = mutableListOf()
+    private var agentEmail: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,6 +56,7 @@ class DetailsFragment : Fragment() {
         navController = Navigation.findNavController(view)
 
         getPropertyDetails()
+        getOtherProperties()
         backButtonPress()
     }
 
@@ -64,19 +70,51 @@ class DetailsFragment : Fragment() {
             }
             job.await()
             Log.d("TAG", "getPropertyDetails: ${property!!.area}")
-            detailsPriceTextView.text = property!!.price.toString()
+            detailsPriceTextView.text = "$${property!!.price}"
             detailsAddressTextView.text = property!!.address
             detailsDescriptionTextView.text = property!!.details
-            setAdapter()
+            detailsAgentNameTextView.text = property!!.publisherUsername
+            agentEmail = property!!.publisher
+            setInfoAdapter()
         }
     }
 
-    private fun setAdapter() = with(binding) {
+    private fun setInfoAdapter() = with(binding) {
         val detailsAdapter = DetailsListAdapter()
         Log.d("TAG", "getPropertyDetails: ${property!!.area}")
         detailsAdapter.setDetails(property)
         detailsRecyclerViewInfo.adapter = detailsAdapter
         detailsRecyclerViewInfo.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+    }
+
+    private fun getOtherProperties() = with(binding) {
+        CoroutineScope(Main).launch {
+            val job = async(IO) {
+                otherProperties = viewModel.getAllPropertiesWithAgent(agentEmail)
+            }
+            job.await()
+            setOtherPropertiesAdapter()
+        }
+    }
+
+    private fun setOtherPropertiesAdapter() = with(binding) {
+        val otherPropertiesAdapter = OtherPropertiesAdapter(object : MainFragment.OnAdapterItemClickListener {
+            override fun onItemClick(property: PropertyEntity, position: Int) {
+                val bundle = Bundle().apply {
+                    putString("receiver", property.id.toString())
+                    Log.d("TAG", "onItemClick: ${property.id.toString()}")
+                }
+                navController.navigate(R.id.action_detailsFragment_self, bundle)
+            }
+
+        })
+        Log.d("TAG", "getPropertyDetails: ${property!!.area}")
+        otherPropertiesAdapter.setOtherProperties(otherProperties)
+        detailsRecyclerViewOtherProperties.adapter = otherPropertiesAdapter
+        detailsRecyclerViewOtherProperties.layoutManager = LinearLayoutManager(
+            context,
+            LinearLayoutManager.HORIZONTAL,
+            false)
     }
 
     private fun backButtonPress() = with(binding) {

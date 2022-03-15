@@ -1,7 +1,7 @@
 package com.suleimanzhukov.realestatemanagerapp
 
 import android.app.Application
-import com.suleimanzhukov.realestatemanagerapp.di.DaggerRealEstateComponent
+import com.suleimanzhukov.realestatemanagerapp.di.components.DaggerRealEstateComponent
 import com.suleimanzhukov.realestatemanagerapp.di.modules.ContextModule
 
 class RealEstateApplication : Application() {
