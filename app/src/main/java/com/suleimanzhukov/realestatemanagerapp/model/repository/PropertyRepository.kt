@@ -9,7 +9,7 @@ interface PropertyRepository {
 
     suspend fun getAllProperties(): List<PropertyEntity>
 
-    suspend fun getAllPropertiesWithAgent(agentEmail: String?): List<PropertyEntity>
+    suspend fun getAllPropertiesWithAgent(agentEmail: String): MutableList<PropertyEntity>
 
     suspend fun getPropertyById(id: Long): PropertyEntity?
 }

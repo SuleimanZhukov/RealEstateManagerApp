@@ -23,6 +23,7 @@ import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import java.util.function.Predicate
 import javax.inject.Inject
 
 class DetailsFragment : Fragment() {
@@ -37,7 +38,7 @@ class DetailsFragment : Fragment() {
     private lateinit var navController: NavController
 
     private var property: PropertyEntity? = null
-    private var otherProperties: List<PropertyEntity> = mutableListOf()
+    private var otherProperties: MutableList<PropertyEntity> = mutableListOf()
     private var agentEmail: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,7 +57,6 @@ class DetailsFragment : Fragment() {
         navController = Navigation.findNavController(view)
 
         getPropertyDetails()
-        getOtherProperties()
         backButtonPress()
     }
 
@@ -76,6 +76,7 @@ class DetailsFragment : Fragment() {
             detailsAgentNameTextView.text = property!!.publisherUsername
             agentEmail = property!!.publisher
             setInfoAdapter()
+            getOtherProperties()
         }
     }
 
@@ -90,7 +91,7 @@ class DetailsFragment : Fragment() {
     private fun getOtherProperties() = with(binding) {
         CoroutineScope(Main).launch {
             val job = async(IO) {
-                otherProperties = viewModel.getAllPropertiesWithAgent(agentEmail)
+                otherProperties = viewModel.getAllPropertiesWithAgent(agentEmail!!)
             }
             job.await()
             setOtherPropertiesAdapter()
@@ -108,8 +109,9 @@ class DetailsFragment : Fragment() {
             }
 
         })
-        Log.d("TAG", "getPropertyDetails: ${property!!.area}")
-        otherPropertiesAdapter.setOtherProperties(otherProperties)
+
+        addOtherProperties(otherPropertiesAdapter)
+
         detailsRecyclerViewOtherProperties.adapter = otherPropertiesAdapter
         detailsRecyclerViewOtherProperties.layoutManager = LinearLayoutManager(
             context,
@@ -124,6 +126,12 @@ class DetailsFragment : Fragment() {
         backButtonView.setOnClickListener {
             mainActivity.onBackPressed()
         }
+    }
+
+    private fun addOtherProperties(otherPropertiesAdapter: OtherPropertiesAdapter) {
+        val condition = Predicate {theProperty: PropertyEntity -> theProperty.id == property!!.id}
+        otherProperties.removeIf(condition)
+        otherPropertiesAdapter.setOtherProperties(otherProperties)
     }
 
     override fun onDestroyView() {

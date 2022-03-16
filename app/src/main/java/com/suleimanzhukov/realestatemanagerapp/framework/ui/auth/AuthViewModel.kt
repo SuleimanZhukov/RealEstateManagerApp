@@ -55,7 +55,7 @@ class AuthViewModel @Inject constructor(
         return propertyRepository.getAllProperties()
     }
 
-    suspend fun getAllPropertiesWithAgent(agentEmail: String?): List<PropertyEntity> {
+    suspend fun getAllPropertiesWithAgent(agentEmail: String): MutableList<PropertyEntity> {
         return propertyRepository.getAllPropertiesWithAgent(agentEmail)
     }
 
