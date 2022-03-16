@@ -6,15 +6,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.suleimanzhukov.realestatemanagerapp.model.database.entities.AgentEntity
 import com.suleimanzhukov.realestatemanagerapp.model.database.entities.PropertyEntity
-import com.suleimanzhukov.realestatemanagerapp.model.repository.AgentRepository
-import com.suleimanzhukov.realestatemanagerapp.model.repository.AgentRepositoryImpl
-import com.suleimanzhukov.realestatemanagerapp.model.repository.PropertyRepository
-import com.suleimanzhukov.realestatemanagerapp.model.repository.PropertyRepositoryImpl
+import com.suleimanzhukov.realestatemanagerapp.model.repository.*
 import javax.inject.Inject
 
 class MainViewModel @Inject constructor(
     private val repository: AgentRepository,
-    private val propertyRepository: PropertyRepository
+    private val propertyRepository: PropertyRepository,
+    private val pictureRepository: PictureRepository
 ) : ViewModel() {
 
 //    private val repository: AgentRepository = AgentRepositoryImpl()

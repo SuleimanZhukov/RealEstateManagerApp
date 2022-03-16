@@ -42,6 +42,7 @@ class DetailsFragment : Fragment() {
 
     private var property: PropertyEntity? = null
     private var otherProperties: MutableList<PropertyEntity> = mutableListOf()
+    private var pictures: List<PictureEntity> = mutableListOf()
     private var agentEmail: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -92,9 +93,19 @@ class DetailsFragment : Fragment() {
     }
 
     private fun setSliderAdapter() = with(binding) {
-        val sliderAdapter = DetailsSliderAdapter(requireContext(), listOf())
+        val sliderAdapter = DetailsSliderAdapter(requireContext(), pictures) //TODO
         detailsSliderView.setAutoCycleDirection(SliderView.LAYOUT_DIRECTION_LTR)
         detailsSliderView.setSliderAdapter(sliderAdapter)
+    }
+
+    private fun getPictures() = with(binding) {
+        CoroutineScope(Main).launch {
+            val job = async(IO) {
+                pictures = viewModel.getAllPicturesForPropertyId(property!!.id)
+            }
+            job.await()
+            setSliderAdapter()
+        }
     }
 
     private fun getOtherProperties() = with(binding) {

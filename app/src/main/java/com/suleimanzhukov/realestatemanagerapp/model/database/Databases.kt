@@ -6,27 +6,23 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.suleimanzhukov.realestatemanagerapp.model.database.dao.AgentDao
+import com.suleimanzhukov.realestatemanagerapp.model.database.dao.PictureDao
 import com.suleimanzhukov.realestatemanagerapp.model.database.dao.PropertyDao
 import com.suleimanzhukov.realestatemanagerapp.model.database.entities.AgentEntity
+import com.suleimanzhukov.realestatemanagerapp.model.database.entities.PictureEntity
 import com.suleimanzhukov.realestatemanagerapp.model.database.entities.PropertyEntity
 
 @Database(
-    entities = [AgentEntity::class, PropertyEntity::class],
+    entities = [AgentEntity::class, PropertyEntity::class, PictureEntity::class],
     version = 1,
     exportSchema = false
 )
 abstract class Databases() : RoomDatabase() {
     abstract fun agentDao(): AgentDao
     abstract fun propertyDao(): PropertyDao
+    abstract fun pictureDao(): PictureDao
 
     companion object {
-        /*val db: Databases by lazy {
-            Room.databaseBuilder(
-                context,
-                Databases::class.java,
-                "real_estate_database"
-            ).build()
-        }*/
         @Volatile
         var INSTANCE: Databases? = null
 
