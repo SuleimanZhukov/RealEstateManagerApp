@@ -23,4 +23,4 @@ data class PropertyEntity(
     var details: String,
     var images: String,
     var location: String
-): Parcelable
+) : Parcelable

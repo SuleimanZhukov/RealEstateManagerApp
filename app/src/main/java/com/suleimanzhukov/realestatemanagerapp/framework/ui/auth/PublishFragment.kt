@@ -12,6 +12,7 @@ import androidx.navigation.Navigation
 import com.suleimanzhukov.realestatemanagerapp.R
 import com.suleimanzhukov.realestatemanagerapp.RealEstateApplication
 import com.suleimanzhukov.realestatemanagerapp.databinding.FragmentPublishBinding
+import com.suleimanzhukov.realestatemanagerapp.framework.MainActivity
 import com.suleimanzhukov.realestatemanagerapp.model.database.entities.PropertyEntity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -25,6 +26,7 @@ class PublishFragment : Fragment() {
     private var _binding: FragmentPublishBinding? = null
     private val binding get() = _binding!!
 
+    private lateinit var mainActivity: MainActivity
     private lateinit var navController: NavController
 
     @Inject
@@ -42,8 +44,10 @@ class PublishFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        mainActivity = activity as MainActivity
         navController = Navigation.findNavController(view)
 
+        backButtonPress()
         onPublish()
     }
 
@@ -93,6 +97,15 @@ class PublishFragment : Fragment() {
     private fun getUsername(): String? {
         val preferencesEditor = activity?.getSharedPreferences(SignUpFragment.SHARED_TAG, Context.MODE_PRIVATE)
         return preferencesEditor?.getString(SignUpFragment.USERNAME_TAG, "")
+    }
+
+    private fun backButtonPress() = with(binding) {
+        publishArrowBack.setOnClickListener {
+            mainActivity.onBackPressed()
+        }
+        publishBackButtonView.setOnClickListener {
+            mainActivity.onBackPressed()
+        }
     }
 
     override fun onDestroyView() {

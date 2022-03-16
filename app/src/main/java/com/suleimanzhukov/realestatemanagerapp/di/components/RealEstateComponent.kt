@@ -2,7 +2,7 @@ package com.suleimanzhukov.realestatemanagerapp.di.components
 
 import com.suleimanzhukov.realestatemanagerapp.di.modules.ContextModule
 import com.suleimanzhukov.realestatemanagerapp.di.modules.ReposModule
-import com.suleimanzhukov.realestatemanagerapp.framework.ui.DetailsFragment
+import com.suleimanzhukov.realestatemanagerapp.framework.ui.details.DetailsFragment
 import com.suleimanzhukov.realestatemanagerapp.framework.ui.auth.AccountAgentFragment
 import com.suleimanzhukov.realestatemanagerapp.framework.ui.auth.AuthFragment
 import com.suleimanzhukov.realestatemanagerapp.framework.ui.auth.PublishFragment

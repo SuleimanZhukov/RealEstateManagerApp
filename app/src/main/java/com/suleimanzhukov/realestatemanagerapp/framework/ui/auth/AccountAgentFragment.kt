@@ -67,7 +67,6 @@ class AccountAgentFragment : Fragment() {
                 viewModel.getAgentByEmail(email!!)
             }
             job.await()
-//            Log.d("TAG", "onViewCreated: Image: ${agent!!.email}")
         }
 
         subscribeToLiveData()
@@ -76,8 +75,7 @@ class AccountAgentFragment : Fragment() {
             checkPermissions()
         }
 
-        if (false) {
-            Log.d("TAG", "onViewCreated -- URI: It is here = Image: ${agent?.profileImg}")
+        if (agent != null) {
             val uri = Uri.parse(agent?.profileImg)
             profileImage.load(uri)
         }
@@ -110,12 +108,10 @@ class AccountAgentFragment : Fragment() {
                 viewModel.updateAgent(agent!!)
             }
             job.await()
-            Log.d("TAG", "After UpdateAgent: Username: ${agent?.username}")
             val getJob = async(IO) {
                 viewModel.getAgentByEmail(email!!)
             }
             getJob.await()
-            Log.d("TAG", "After getAgent: Username: ${agent?.username}")
         }
     }
 
@@ -146,18 +142,15 @@ class AccountAgentFragment : Fragment() {
                 getAgentJob.await()
                 agent?.profileImg = it.data?.data.toString()
 
-                Log.d("TAG", "Before UpdateAgent: Username: ${agent?.username}, Image: ${agent?.profileImg}")
                 val updateJob = async(IO) {
                     viewModel.updateAgent(agent!!)
                 }
                 updateJob.await()
-                Log.d("TAG", "After UpdateAgent: Username: ${agent?.username}, Image: ${agent?.profileImg}")
 
                 val getJob = async(IO) {
                     viewModel.getAgentByEmail(email!!)
                 }
                 getJob.await()
-                Log.d("TAG", "UpdatedAgent: Username: ${agent?.username}, Image: ${agent?.profileImg}")
                 val uri = Uri.parse(agent?.profileImg)
                 binding.profileImage.load(uri)
             }

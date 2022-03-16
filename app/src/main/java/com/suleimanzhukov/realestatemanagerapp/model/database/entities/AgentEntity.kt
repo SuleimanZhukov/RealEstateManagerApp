@@ -21,4 +21,4 @@ data class AgentEntity(
     var languages: String,
     var forSale: Int,
     var forRent: Int
-): Parcelable
+) : Parcelable

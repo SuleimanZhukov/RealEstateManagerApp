@@ -1,4 +1,4 @@
-package com.suleimanzhukov.realestatemanagerapp.framework.ui
+package com.suleimanzhukov.realestatemanagerapp.framework.ui.details
 
 import android.os.Bundle
 import android.util.Log
@@ -9,14 +9,17 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.smarteist.autoimageslider.SliderView
 import com.suleimanzhukov.realestatemanagerapp.R
 import com.suleimanzhukov.realestatemanagerapp.RealEstateApplication
 import com.suleimanzhukov.realestatemanagerapp.databinding.FragmentDetailsBinding
 import com.suleimanzhukov.realestatemanagerapp.framework.MainActivity
 import com.suleimanzhukov.realestatemanagerapp.framework.ui.adapters.DetailsListAdapter
+import com.suleimanzhukov.realestatemanagerapp.framework.ui.adapters.DetailsSliderAdapter
 import com.suleimanzhukov.realestatemanagerapp.framework.ui.adapters.OtherPropertiesAdapter
 import com.suleimanzhukov.realestatemanagerapp.framework.ui.auth.AuthViewModel
 import com.suleimanzhukov.realestatemanagerapp.framework.ui.main.MainFragment
+import com.suleimanzhukov.realestatemanagerapp.model.database.entities.PictureEntity
 import com.suleimanzhukov.realestatemanagerapp.model.database.entities.PropertyEntity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
@@ -86,6 +89,12 @@ class DetailsFragment : Fragment() {
         detailsAdapter.setDetails(property)
         detailsRecyclerViewInfo.adapter = detailsAdapter
         detailsRecyclerViewInfo.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+    }
+
+    private fun setSliderAdapter() = with(binding) {
+        val sliderAdapter = DetailsSliderAdapter(requireContext(), listOf())
+        detailsSliderView.setAutoCycleDirection(SliderView.LAYOUT_DIRECTION_LTR)
+        detailsSliderView.setSliderAdapter(sliderAdapter)
     }
 
     private fun getOtherProperties() = with(binding) {

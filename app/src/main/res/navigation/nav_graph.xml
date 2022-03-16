@@ -66,12 +66,12 @@
 
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="com.suleimanzhukov.realestatemanagerapp.framework.ui.SettingsFragment"
+        android:name="com.suleimanzhukov.realestatemanagerapp.framework.ui.settings.SettingsFragment"
         android:label="SettingsFragment" />
 
     <fragment
         android:id="@+id/detailsFragment"
-        android:name="com.suleimanzhukov.realestatemanagerapp.framework.ui.DetailsFragment"
+        android:name="com.suleimanzhukov.realestatemanagerapp.framework.ui.details.DetailsFragment"
         android:label="DetailsFragment">
 
         <argument android:name="receiver"

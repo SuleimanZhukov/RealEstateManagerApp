@@ -37,6 +37,8 @@
             android:layout_marginEnd="30dp"
             android:text="Preparing Property"
             android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -87,6 +89,8 @@
             android:layout_marginTop="40dp"
             android:text="Details"
             android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
             app:layout_constraintStart_toStartOf="@+id/guide01"
             app:layout_constraintTop_toBottomOf="@+id/textInputLayout_type" />
 
@@ -177,6 +181,8 @@
             android:layout_marginTop="40dp"
             android:text="Location"
             android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
             app:layout_constraintStart_toStartOf="@+id/guide01"
             app:layout_constraintTop_toBottomOf="@+id/textInputLayout_square" />
 
@@ -266,7 +272,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
             android:text="About property"
+            android:textColor="@color/black"
             android:textSize="18sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/guide01"
             app:layout_constraintTop_toBottomOf="@+id/textInputLayout_first_address" />
 
@@ -277,6 +285,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
+            android:gravity="start"
             android:background="@color/grey"
             android:textColor="@color/black"
             app:layout_constraintTop_toBottomOf="@id/publish_about_text_view"
@@ -290,6 +299,8 @@
             android:layout_marginTop="40dp"
             android:text="Upload Image"
             android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
             app:layout_constraintStart_toStartOf="@+id/guide01"
             app:layout_constraintTop_toBottomOf="@+id/about_edit_text" />
         
@@ -297,6 +308,7 @@
             android:id="@+id/publish_uploaded_image"
             android:layout_width="match_parent"
             android:layout_height="100dp"
+            android:src="@color/grey"
             android:layout_marginTop="20dp"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
