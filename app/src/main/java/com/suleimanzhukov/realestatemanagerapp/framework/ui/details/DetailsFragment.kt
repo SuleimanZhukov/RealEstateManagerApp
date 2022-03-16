@@ -15,7 +15,7 @@ import com.suleimanzhukov.realestatemanagerapp.RealEstateApplication
 import com.suleimanzhukov.realestatemanagerapp.databinding.FragmentDetailsBinding
 import com.suleimanzhukov.realestatemanagerapp.framework.MainActivity
 import com.suleimanzhukov.realestatemanagerapp.framework.ui.adapters.DetailsListAdapter
-import com.suleimanzhukov.realestatemanagerapp.framework.ui.adapters.DetailsSliderAdapter
+import com.suleimanzhukov.realestatemanagerapp.framework.ui.adapters.DetailsPicturesAdapter
 import com.suleimanzhukov.realestatemanagerapp.framework.ui.adapters.OtherPropertiesAdapter
 import com.suleimanzhukov.realestatemanagerapp.framework.ui.auth.AuthViewModel
 import com.suleimanzhukov.realestatemanagerapp.framework.ui.main.MainFragment
@@ -70,10 +70,8 @@ class DetailsFragment : Fragment() {
         CoroutineScope(Main).launch {
             val job = async(IO) {
                 property = viewModel.getPropertyById(id!!.toLong())
-                Log.d("TAG", "getPropertyDetails: ${property!!.garages}")
             }
             job.await()
-            Log.d("TAG", "getPropertyDetails: ${property!!.area}")
             detailsPriceTextView.text = "$${property!!.price}"
             detailsAddressTextView.text = property!!.address
             detailsDescriptionTextView.text = property!!.details
@@ -86,14 +84,13 @@ class DetailsFragment : Fragment() {
 
     private fun setInfoAdapter() = with(binding) {
         val detailsAdapter = DetailsListAdapter()
-        Log.d("TAG", "getPropertyDetails: ${property!!.area}")
         detailsAdapter.setDetails(property)
         detailsRecyclerViewInfo.adapter = detailsAdapter
         detailsRecyclerViewInfo.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
     }
 
     private fun setSliderAdapter() = with(binding) {
-        val sliderAdapter = DetailsSliderAdapter(requireContext(), pictures) //TODO
+        val sliderAdapter = DetailsPicturesAdapter(requireContext(), pictures) //TODO
         detailsSliderView.setAutoCycleDirection(SliderView.LAYOUT_DIRECTION_LTR)
         detailsSliderView.setSliderAdapter(sliderAdapter)
     }

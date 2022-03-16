@@ -303,15 +303,26 @@
             android:textColor="@color/black"
             app:layout_constraintStart_toStartOf="@+id/guide01"
             app:layout_constraintTop_toBottomOf="@+id/about_edit_text" />
-        
-        <ImageView
-            android:id="@+id/publish_uploaded_image"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:src="@color/grey"
-            android:layout_marginTop="20dp"
-            android:layout_marginStart="20dp"
+
+        <Button
+            android:id="@+id/publish_add_image_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
             android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp"
+            android:text="Add Image"
+            android:background="@drawable/login_btn"
+            app:layout_constraintEnd_toEndOf="@+id/guide03"
+            app:layout_constraintTop_toBottomOf="@+id/about_edit_text"
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/publish_images_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@android:color/transparent"
             app:layout_constraintTop_toBottomOf="@+id/publish_upload_text_view"
             />
 
@@ -324,7 +335,7 @@
             android:layout_marginStart="20dp"
             android:text="publish"
             android:background="@drawable/login_btn"
-            app:layout_constraintTop_toBottomOf="@+id/publish_uploaded_image"
+            app:layout_constraintTop_toBottomOf="@+id/publish_images_recycler_view"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/guide02"
             />
@@ -338,7 +349,7 @@
             android:layout_marginStart="20dp"
             android:text="cancel"
             android:background="@drawable/cancel_btn"
-            app:layout_constraintTop_toBottomOf="@+id/publish_uploaded_image"
+            app:layout_constraintTop_toBottomOf="@+id/publish_images_recycler_view"
             app:layout_constraintEnd_toEndOf="@+id/guide02"
             app:layout_constraintStart_toStartOf="parent"
             />
@@ -349,6 +360,13 @@
             android:layout_height="0dp"
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.05" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guide03"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.95" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guide02"

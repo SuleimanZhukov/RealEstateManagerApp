@@ -13,6 +13,7 @@ import com.suleimanzhukov.realestatemanagerapp.R
 import com.suleimanzhukov.realestatemanagerapp.RealEstateApplication
 import com.suleimanzhukov.realestatemanagerapp.databinding.FragmentPublishBinding
 import com.suleimanzhukov.realestatemanagerapp.framework.MainActivity
+import com.suleimanzhukov.realestatemanagerapp.framework.ui.adapters.PublishPicturesAdapter
 import com.suleimanzhukov.realestatemanagerapp.model.database.entities.PropertyEntity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -87,6 +88,10 @@ class PublishFragment : Fragment() {
                 Log.d("TAG", "onPublish: ${properties.get(0)?.address}")
             }
         }
+    }
+
+    private fun setPublishPicturesAdapter() = with(binding) {
+        val publishPicturesAdapter = PublishPicturesAdapter(requireContext())
     }
 
     private fun getEmail(): String? {

@@ -9,14 +9,14 @@ import com.smarteist.autoimageslider.SliderViewAdapter
 import com.suleimanzhukov.realestatemanagerapp.databinding.SliderImageLayoutBinding
 import com.suleimanzhukov.realestatemanagerapp.model.database.entities.PictureEntity
 
-class DetailsSliderAdapter(
+class DetailsPicturesAdapter(
     private val context: Context,
     private val pictures: List<PictureEntity>
-) : SliderViewAdapter<DetailsSliderAdapter.DetailsSliderViewHolder>() {
+) : SliderViewAdapter<DetailsPicturesAdapter.DetailsPicturesViewHolder>() {
 
     private lateinit var binding: SliderImageLayoutBinding
 
-    inner class DetailsSliderViewHolder(itemView: View) : SliderViewAdapter.ViewHolder(itemView) {
+    inner class DetailsPicturesViewHolder(itemView: View) : SliderViewAdapter.ViewHolder(itemView) {
         fun bind(position: Int) = with(binding) {
             sliderImage.load(pictures[position].url)
         }
@@ -26,12 +26,12 @@ class DetailsSliderAdapter(
         return pictures.size
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup?): DetailsSliderViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup?): DetailsPicturesViewHolder {
         binding = SliderImageLayoutBinding.inflate(LayoutInflater.from(context), parent, false)
-        return DetailsSliderViewHolder(binding.root)
+        return DetailsPicturesViewHolder(binding.root)
     }
 
-    override fun onBindViewHolder(viewHolder: DetailsSliderViewHolder, position: Int) {
+    override fun onBindViewHolder(viewHolder: DetailsPicturesViewHolder, position: Int) {
         viewHolder.bind(position)
     }
 }
