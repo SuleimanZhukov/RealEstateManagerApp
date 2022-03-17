@@ -79,6 +79,7 @@ class DetailsFragment : Fragment() {
             agentEmail = property!!.publisher
             setInfoAdapter()
             getOtherProperties()
+            getPictures()
         }
     }
 
@@ -90,7 +91,7 @@ class DetailsFragment : Fragment() {
     }
 
     private fun setSliderAdapter() = with(binding) {
-        val sliderAdapter = DetailsPicturesAdapter(requireContext(), pictures) //TODO
+        val sliderAdapter = DetailsPicturesAdapter(requireContext(), pictures)
         detailsSliderView.setAutoCycleDirection(SliderView.LAYOUT_DIRECTION_LTR)
         detailsSliderView.setSliderAdapter(sliderAdapter)
     }
@@ -120,7 +121,6 @@ class DetailsFragment : Fragment() {
             override fun onItemClick(property: PropertyEntity, position: Int) {
                 val bundle = Bundle().apply {
                     putString("receiver", property.id.toString())
-                    Log.d("TAG", "onItemClick: ${property.id.toString()}")
                 }
                 navController.navigate(R.id.action_detailsFragment_self, bundle)
             }

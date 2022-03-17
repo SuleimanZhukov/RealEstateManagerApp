@@ -10,7 +10,7 @@ import kotlinx.android.parcel.Parcelize
 data class PictureEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Long,
-    val propertyId: Long,
-    val url: String,
-    val orderNumber: Int
+    var propertyId: Long,
+    var url: String,
+    var orderNumber: Int
 ) : Parcelable

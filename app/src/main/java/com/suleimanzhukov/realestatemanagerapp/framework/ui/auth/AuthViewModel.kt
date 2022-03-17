@@ -72,4 +72,8 @@ class AuthViewModel @Inject constructor(
     suspend fun addPicture(picture: PictureEntity) {
         pictureLiveData.postValue(pictureRepository.addPicture(picture))
     }
+
+    suspend fun updatePictures(pictures: List<PictureEntity>) {
+        pictureLiveData.postValue(pictureRepository.updatePictures(pictures))
+    }
 }

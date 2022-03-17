@@ -40,6 +40,7 @@ class PublishFragment : Fragment() {
 
     private lateinit var publishPicturesAdapter: PublishPicturesAdapter
     private lateinit var picture: PictureEntity
+    private val pictures = mutableListOf<PictureEntity>()
 
     @Inject
     lateinit var viewModel: AuthViewModel
@@ -62,6 +63,7 @@ class PublishFragment : Fragment() {
         subscribeToLiveData()
         backButtonPress()
         setPublishPicturesAdapter()
+        onAddImageButton()
         onPublish()
     }
 
@@ -87,7 +89,7 @@ class PublishFragment : Fragment() {
 
             var properties: List<PropertyEntity?> = mutableListOf()
 
-            CoroutineScope(Dispatchers.Main).launch {
+            CoroutineScope(Main).launch {
                 val job = async(IO) {
                     viewModel.addProperty(property)
                 }
@@ -98,7 +100,16 @@ class PublishFragment : Fragment() {
                     properties = viewModel.getAllProperties()
                 }
                 getJobs.await()
-                Log.d("TAG", "onPublish: ${properties.get(0)?.address}")
+
+                val id = properties[properties.lastIndex]!!.id
+                pictures.forEach {
+                    it.propertyId = id
+                }
+
+                val getLastJob = async(IO) {
+                    viewModel.updatePictures(pictures)
+                }
+                getLastJob.await()
             }
         }
     }
@@ -145,6 +156,8 @@ class PublishFragment : Fragment() {
                     ))
                 }
                 getPictureEntityJob.await()
+                picture.url = it.data?.data.toString()
+                pictures.add(picture)
                 publishPicturesAdapter.addPublishPictures(picture)
             }
         }

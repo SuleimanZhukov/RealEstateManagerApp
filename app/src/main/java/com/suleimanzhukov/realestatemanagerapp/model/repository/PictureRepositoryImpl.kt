@@ -18,4 +18,9 @@ class PictureRepositoryImpl @Inject constructor(
         Databases.getDatabase(context).pictureDao().addPicture(picture)
         return picture
     }
+
+    override suspend fun updatePictures(pictures: List<PictureEntity>): PictureEntity {
+        Databases.getDatabase(context).pictureDao().updatePictures(pictures)
+        return pictures[0]
+    }
 }
