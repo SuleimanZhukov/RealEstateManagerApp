@@ -79,8 +79,8 @@ class DetailsFragment : Fragment() {
             agentEmail = property!!.publisher
             setInfoAdapter()
             getOtherProperties()
-            getPictures()
         }
+        getPictures()
     }
 
     private fun setInfoAdapter() = with(binding) {
@@ -97,11 +97,15 @@ class DetailsFragment : Fragment() {
     }
 
     private fun getPictures() = with(binding) {
+        val id = requireArguments().getString("receiver")
+
         CoroutineScope(Main).launch {
-            val job = async(IO) {
-                pictures = viewModel.getAllPicturesForPropertyId(property!!.id)
+            val getPictureJob = async(IO) {
+                pictures = viewModel.getAllPicturesForPropertyId(id!!.toLong())
+                pictures = viewModel.getAllPictures()
+                Log.d("TAG", "getPictures: ${pictures[0].url}")
             }
-            job.await()
+            getPictureJob.await()
             setSliderAdapter()
         }
     }

@@ -12,6 +12,9 @@ interface PictureDao {
     @Query("SELECT * FROM PictureEntity WHERE propertyId = :id")
     suspend fun getAllPicturesForPropertyId(id: Long): List<PictureEntity>
 
+    @Query("SELECT * FROM PictureEntity")
+    suspend fun getAllPictures(): List<PictureEntity>
+
     @Update
     suspend fun updatePictures(pictures: List<PictureEntity>)
 }

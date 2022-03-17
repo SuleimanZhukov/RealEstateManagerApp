@@ -29,6 +29,7 @@ import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.system.measureNanoTime
 
 class PublishFragment : Fragment() {
 
@@ -102,6 +103,7 @@ class PublishFragment : Fragment() {
                 getJobs.await()
 
                 val id = properties[properties.lastIndex]!!.id
+                Log.d("TAG", "onPublish: PUBLISHING... Id: $id")
                 pictures.forEach {
                     it.propertyId = id
                 }
@@ -159,6 +161,10 @@ class PublishFragment : Fragment() {
                 picture.url = it.data?.data.toString()
                 pictures.add(picture)
                 publishPicturesAdapter.addPublishPictures(picture)
+                val addPictureJob = async(IO) {
+                    viewModel.addPicture(picture)
+                }
+                addPictureJob.await()
             }
         }
     }

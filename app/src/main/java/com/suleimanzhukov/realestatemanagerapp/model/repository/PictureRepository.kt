@@ -8,5 +8,7 @@ interface PictureRepository {
 
     suspend fun addPicture(picture: PictureEntity): PictureEntity
 
+    suspend fun getAllPictures(): List<PictureEntity>
+
     suspend fun updatePictures(pictures: List<PictureEntity>): PictureEntity
 }
