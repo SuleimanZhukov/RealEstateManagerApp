@@ -107,6 +107,7 @@ class DetailsFragment : Fragment() {
 
             val uri = Uri.parse(agent.profileImg)
             agentProfileImageDetailsFragment.load(uri)
+
         }
     }
 
