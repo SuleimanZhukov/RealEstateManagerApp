@@ -25,10 +25,13 @@ class AuthViewModel @Inject constructor(
     private val propertyLiveData: MutableLiveData<PropertyEntity?> = MutableLiveData()
     private val propertiesLiveData: MutableLiveData<List<PropertyEntity?>> = MutableLiveData()
 
+    private val pictureLiveData: MutableLiveData<PictureEntity> = MutableLiveData()
+
     fun getSignUpLiveData() = signUpLiveData
     fun getPasswordLiveData() = passwordLiveData
     fun getAgentLiveData() = agentLiveData
     fun getPropertiesLiveData() = propertiesLiveData
+    fun getPictureLiveData() = pictureLiveData
 
     suspend fun registerAgent(agent: AgentEntity) {
         signUpLiveData.postValue(repository.addAgent(agent))
@@ -64,5 +67,9 @@ class AuthViewModel @Inject constructor(
 
     suspend fun getAllPicturesForPropertyId(id: Long): List<PictureEntity> {
         return pictureRepository.getAllPicturesForPropertyId(id)
+    }
+
+    suspend fun addPicture(picture: PictureEntity) {
+        pictureLiveData.postValue(pictureRepository.addPicture(picture))
     }
 }

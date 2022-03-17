@@ -10,7 +10,7 @@ import com.suleimanzhukov.realestatemanagerapp.model.database.entities.PictureEn
 interface PictureDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun addPictures(pictures: List<PictureEntity>)
+    suspend fun addPicture(picture: PictureEntity)
 
     @Query("SELECT * FROM PictureEntity WHERE id = :id")
     suspend fun getAllPicturesForPropertyId(id: Long): List<PictureEntity>

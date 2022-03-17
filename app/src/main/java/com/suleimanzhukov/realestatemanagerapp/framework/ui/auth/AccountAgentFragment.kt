@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -62,22 +63,12 @@ class AccountAgentFragment : Fragment() {
         }
 
         email = getEmail()
-        CoroutineScope(Main).launch {
-            val job = async(IO) {
-                viewModel.getAgentByEmail(email!!)
-            }
-            job.await()
-        }
+        setProfileImage(profileImage)
 
         subscribeToLiveData()
 
         profileImage.setOnClickListener {
             checkPermissions()
-        }
-
-        if (agent != null) {
-            val uri = Uri.parse(agent?.profileImg)
-            profileImage.load(uri)
         }
 
         onAddPropertyButtonPress()
@@ -176,6 +167,17 @@ class AccountAgentFragment : Fragment() {
         viewModel.getAgentLiveData().observe(viewLifecycleOwner, Observer {
             agent = viewModel.getAgentLiveData().value
         })
+    }
+
+    private fun setProfileImage(profileImage: ImageView) {
+        CoroutineScope(Main).launch {
+            val job = async(IO) {
+                viewModel.getAgentByEmail(email!!)
+            }
+            job.await()
+            val uri = Uri.parse(agent?.profileImg)
+            profileImage.load(uri)
+        }
     }
 
     override fun onDestroyView() {

@@ -1,5 +1,6 @@
 package com.suleimanzhukov.realestatemanagerapp.framework.ui.adapters
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -17,8 +18,10 @@ class PublishPicturesAdapter(
     private val pictures = mutableListOf<PictureEntity>()
     private lateinit var binding: PublishPicturesViewBinding
 
-    fun setPublishPictures(listOfPictures: MutableList<PictureEntity>) {
-
+    @SuppressLint("NotifyDataSetChanged")
+    fun addPublishPictures(picture: PictureEntity) {
+        pictures.add(picture)
+        notifyDataSetChanged()
     }
 
     inner class PublishPicturesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

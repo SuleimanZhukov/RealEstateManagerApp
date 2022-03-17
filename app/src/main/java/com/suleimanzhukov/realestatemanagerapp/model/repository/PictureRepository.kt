@@ -5,4 +5,6 @@ import com.suleimanzhukov.realestatemanagerapp.model.database.entities.PictureEn
 interface PictureRepository {
 
     suspend fun getAllPicturesForPropertyId(id: Long): List<PictureEntity>
+
+    suspend fun addPicture(picture: PictureEntity): PictureEntity
 }

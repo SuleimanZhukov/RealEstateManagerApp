@@ -105,7 +105,7 @@ class MainFragment : Fragment() {
                 job.await()
                 Log.d("TAG", "onViewCreated: IN ASYNC(IO) Email: $email, Password: ${agent?.password}," +
                         "Username: ${agent?.username}, Image: ${agent?.profileImg}")
-                val uri = Uri.parse(agent?.profileImg)
+                val uri = Uri.parse(agent!!.profileImg)
                 authImg.load(uri)
                 authButton.setOnClickListener {
                     navController.navigate(R.id.action_mainFragment_to_accountAgentFragment)
