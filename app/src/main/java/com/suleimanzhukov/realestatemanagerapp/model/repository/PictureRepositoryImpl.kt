@@ -14,16 +14,21 @@ class PictureRepositoryImpl @Inject constructor(
         return Databases.getDatabase(context).pictureDao().getAllPicturesForPropertyId(id)
     }
 
-    override suspend fun addPicture(picture: PictureEntity): PictureEntity {
-        Databases.getDatabase(context).pictureDao().addPicture(picture)
-        return picture
+    override suspend fun addPictures(pictures: List<PictureEntity>): PictureEntity {
+        Databases.getDatabase(context).pictureDao().addPicture(pictures)
+        return pictures[0]
     }
 
     override suspend fun getAllPictures(): List<PictureEntity> {
         return Databases.getDatabase(context).pictureDao().getAllPictures()
     }
 
-    override suspend fun updatePictures(pictures: List<PictureEntity>): PictureEntity {
+    override suspend fun updateIdPictures(propertyId: Long, id: Long): PictureEntity {
+        Databases.getDatabase(context).pictureDao().updateIdPictures(propertyId, id)
+        return PictureEntity(0, 0, "", 0)
+    }
+
+    override suspend fun updatePictures(pictures: MutableList<PictureEntity>): PictureEntity {
         Databases.getDatabase(context).pictureDao().updatePictures(pictures)
         return pictures[0]
     }

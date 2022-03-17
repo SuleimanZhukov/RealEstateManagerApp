@@ -41,7 +41,7 @@ class PublishFragment : Fragment() {
 
     private lateinit var publishPicturesAdapter: PublishPicturesAdapter
     private lateinit var picture: PictureEntity
-    private val pictures = mutableListOf<PictureEntity>()
+    private var pictures = mutableListOf<PictureEntity>()
 
     @Inject
     lateinit var viewModel: AuthViewModel
@@ -97,10 +97,10 @@ class PublishFragment : Fragment() {
                 job.await()
                 navController.navigate(R.id.action_publishFragment_to_mainFragment)
 
-                val getJobs = async(IO) {
+                val getPropertiesJob = async(IO) {
                     properties = viewModel.getAllProperties()
                 }
-                getJobs.await()
+                getPropertiesJob.await()
 
                 val id = properties[properties.lastIndex]!!.id
                 Log.d("TAG", "onPublish: PUBLISHING... Id: $id")
@@ -108,10 +108,23 @@ class PublishFragment : Fragment() {
                     it.propertyId = id
                 }
 
+                Log.d("TAG", "onPublish: Picture Property Id: ${pictures[0].propertyId}")
+
                 val getLastJob = async(IO) {
-                    viewModel.updatePictures(pictures)
+                    pictures.forEach {
+                        viewModel.addPictures(pictures)
+                    }
                 }
                 getLastJob.await()
+
+                var picturitos = listOf<PictureEntity>()
+
+                val getAllJob = async(IO) {
+                    picturitos = viewModel.getAllPictures()
+                }
+                getAllJob.await()
+
+                Log.d("TAG", "onPublish: Picture Property Id: ${picturitos[0].propertyId}")
             }
         }
     }
@@ -149,22 +162,23 @@ class PublishFragment : Fragment() {
     ) {
         if (it.resultCode == Activity.RESULT_OK) {
             CoroutineScope(Main).launch {
-                val getPictureEntityJob = async(IO) {
-                    viewModel.addPicture(PictureEntity(
-                        0,
-                        0,
-                        it.data?.data.toString(),
-                        1
-                    ))
-                }
-                getPictureEntityJob.await()
-                picture.url = it.data?.data.toString()
+                picture = PictureEntity(0, 0, it.data?.data.toString(), 1)
                 pictures.add(picture)
                 publishPicturesAdapter.addPublishPictures(picture)
-                val addPictureJob = async(IO) {
-                    viewModel.addPicture(picture)
-                }
-                addPictureJob.await()
+//                val getPictureEntityJob = async(IO) {
+//                    viewModel.addPicture(PictureEntity(
+//                        0,
+//                        0,
+//                        it.data?.data.toString(),
+//                        1
+//                    ))
+//                }
+//                getPictureEntityJob.await()
+//
+//                val addPictureJob = async(IO) {
+//                    viewModel.addPicture(picture)
+//                }
+//                addPictureJob.await()
             }
         }
     }
