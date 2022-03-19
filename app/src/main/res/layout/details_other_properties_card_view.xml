@@ -12,7 +12,7 @@
         android:layout_height="wrap_content">
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/details_info_square_shape_view"
+            android:id="@+id/details_other_image"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginStart="25dp"
@@ -37,7 +37,7 @@
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/details_info_square_shape_view"
+            app:layout_constraintTop_toBottomOf="@id/details_other_image"
             tools:text="$200,000"/>
 
         <TextView

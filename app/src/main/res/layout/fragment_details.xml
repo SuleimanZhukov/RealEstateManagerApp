@@ -10,16 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-<!--        <androidx.appcompat.widget.AppCompatImageView-->
-<!--            android:id="@+id/details_image_view"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="300dp"-->
-<!--            android:src="@drawable/image_house"-->
-<!--            android:scaleType="centerCrop"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="parent" />-->
-
         <com.smarteist.autoimageslider.SliderView
             android:id="@+id/details_slider_view"
             android:layout_width="match_parent"
@@ -40,7 +30,7 @@
             app:layout_constraintTop_toTopOf="parent"
             />
 
-        <View
+        <!--<View
             android:id="@+id/heart_button_view"
             android:layout_width="50dp"
             android:layout_height="50dp"
@@ -58,7 +48,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/heart_button_view"
             app:layout_constraintEnd_toEndOf="@+id/heart_button_view"
             app:layout_constraintStart_toStartOf="@+id/heart_button_view"
-            app:layout_constraintTop_toTopOf="@+id/heart_button_view" />
+            app:layout_constraintTop_toTopOf="@+id/heart_button_view" />-->
 
         <View
             android:id="@+id/back_button_view"
@@ -109,9 +99,9 @@
 
         <View
             android:id="@+id/time_posted_view"
-            android:layout_width="120dp"
+            android:layout_width="130dp"
             android:layout_height="50dp"
-            android:layout_marginEnd="30dp"
+            android:layout_marginEnd="20dp"
             android:background="@drawable/stroke_view_rectangle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/details_price_text_view" />
@@ -129,7 +119,19 @@
             app:layout_constraintEnd_toEndOf="@+id/time_posted_view"
             app:layout_constraintStart_toStartOf="@+id/time_posted_view"
             app:layout_constraintTop_toTopOf="@+id/time_posted_view"
-            tools:text="20 hours ago" />
+            tools:text="50 seconds ago" />
+
+        <ImageView
+            android:id="@+id/separation_line_01"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:src="@color/grey"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/details_address_text_view"
+            />
 
         <TextView
             android:id="@+id/details_info_text_view"
@@ -143,7 +145,7 @@
             android:textStyle="bold"
             android:textColor="@color/black"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/details_address_text_view" />
+            app:layout_constraintTop_toBottomOf="@id/separation_line_01" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/details_recycler_view_info"
@@ -169,14 +171,14 @@
             app:layout_constraintEnd_toEndOf="parent" />
 
         <ImageView
-            android:id="@+id/details_map"
+            android:id="@+id/separation_line_02"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="1dp"
             android:layout_marginTop="20dp"
             android:layout_marginStart="30dp"
             android:layout_marginEnd="30dp"
+            android:src="@color/grey"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/details_description_text_view"
             />
 
@@ -192,7 +194,19 @@
             android:text="Location"
             android:textColor="@color/black"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/details_map" />
+            app:layout_constraintTop_toBottomOf="@id/separation_line_02" />
+
+        <ImageView
+            android:id="@+id/details_map"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/details_location_text_view"
+            />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/details_agent_profile"
@@ -201,7 +215,7 @@
             android:layout_marginTop="20dp"
             android:background="@color/grey"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/details_location_text_view">
+            app:layout_constraintTop_toBottomOf="@id/details_map">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/agent_card_details_fragment"

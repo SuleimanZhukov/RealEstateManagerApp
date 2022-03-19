@@ -14,7 +14,6 @@ import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.suleimanzhukov.realestatemanagerapp.R
 import com.suleimanzhukov.realestatemanagerapp.RealEstateApplication
 import com.suleimanzhukov.realestatemanagerapp.databinding.FragmentPublishBinding
@@ -23,13 +22,14 @@ import com.suleimanzhukov.realestatemanagerapp.framework.ui.adapters.PublishPict
 import com.suleimanzhukov.realestatemanagerapp.model.database.entities.PictureEntity
 import com.suleimanzhukov.realestatemanagerapp.model.database.entities.PropertyEntity
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.system.measureNanoTime
+import java.text.SimpleDateFormat
+import java.util.*
+
 
 class PublishFragment : Fragment() {
 
@@ -69,6 +69,9 @@ class PublishFragment : Fragment() {
     }
 
     private fun onPublish() = with(binding) {
+//        val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
+//        val currentTime = sdf.format(Date()).toString().toLong()
+
         publishButton.setOnClickListener {
             val publisher = getEmail()!!
             val publisherUsername = getUsername()!!
@@ -111,6 +114,9 @@ class PublishFragment : Fragment() {
                     viewModel.addPictures(pictures)
                 }
                 getLastJob.await()
+
+                Log.d("TAG", "onPublish: Time published: ${properties[properties.lastIndex]!!.timePublished}")
+                Log.d("TAG", "onPublish: Time published: ${System.currentTimeMillis()}")
             }
         }
     }

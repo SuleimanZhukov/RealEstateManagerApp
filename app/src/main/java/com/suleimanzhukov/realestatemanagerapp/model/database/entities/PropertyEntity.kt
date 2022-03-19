@@ -4,6 +4,8 @@ import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import kotlinx.android.parcel.Parcelize
+import java.text.SimpleDateFormat
+import java.util.*
 
 @Parcelize
 @Entity
@@ -15,7 +17,7 @@ data class PropertyEntity(
     var price: Int,
     var address: String,
     var type: String,
-    var timePublished: String,
+    val timePublished: String,
     var beds: Int,
     var baths: Int,
     var garages: Int,

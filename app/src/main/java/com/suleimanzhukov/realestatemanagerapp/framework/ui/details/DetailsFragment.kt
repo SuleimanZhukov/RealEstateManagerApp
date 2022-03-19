@@ -32,6 +32,8 @@ import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.*
 import java.util.function.Predicate
 import javax.inject.Inject
 
@@ -145,7 +147,7 @@ class DetailsFragment : Fragment() {
                 navController.navigate(R.id.action_detailsFragment_self, bundle)
             }
 
-        })
+        }, viewModel)
 
         addOtherProperties(otherPropertiesAdapter)
 
@@ -170,6 +172,16 @@ class DetailsFragment : Fragment() {
         otherProperties.removeIf(condition)
         otherPropertiesAdapter.setOtherProperties(otherProperties)
     }
+
+    /*private fun publishedTimeAgo() = with(binding) {
+        val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
+        val currentTime = sdf.format(Date()).toString().toLong()
+
+        val difference: Long = property!!.timePublished - currentTime
+        val inSeconds = difference/1000
+
+        detailsTimePostedTextView.text = inSeconds.toString()
+    }*/
 
     private fun subscribeToLiveData() {
         viewModel.getAgentLiveData().observe(viewLifecycleOwner, Observer {
