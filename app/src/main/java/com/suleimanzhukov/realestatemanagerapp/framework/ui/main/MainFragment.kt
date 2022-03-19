@@ -79,11 +79,11 @@ class MainFragment : Fragment() {
             override fun onItemClick(property: PropertyEntity, position: Int) {
                 val bundle = Bundle().apply {
                     putString("receiver", property.id.toString())
-                    Log.d("TAG", "onItemClick: ${property.id.toString()}")
+                    Log.d("TAG", "onItemClick: ${property.id}")
                 }
                 navController.navigate(R.id.action_mainFragment_to_detailsFragment, bundle)
             }
-        })
+        }, viewModel)
         propertiesAdapter.setProperties(properties)
         mainRecyclerView.adapter = propertiesAdapter
         mainRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)

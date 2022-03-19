@@ -102,28 +102,15 @@ class PublishFragment : Fragment() {
                 getPropertiesJob.await()
 
                 val id = properties[properties.lastIndex]!!.id
-                Log.d("TAG", "onPublish: PUBLISHING... Id: $id")
+
                 pictures.forEach {
                     it.propertyId = id
                 }
 
-                Log.d("TAG", "onPublish: Picture Property Id: ${pictures[0].propertyId}")
-
                 val getLastJob = async(IO) {
-                    pictures.forEach {
-                        viewModel.addPictures(pictures)
-                    }
+                    viewModel.addPictures(pictures)
                 }
                 getLastJob.await()
-
-                var picturitos = listOf<PictureEntity>()
-
-                val getAllJob = async(IO) {
-                    picturitos = viewModel.getAllPictures()
-                }
-                getAllJob.await()
-
-                Log.d("TAG", "onPublish: Picture Property Id: ${picturitos[0].propertyId}")
             }
         }
     }
@@ -160,10 +147,11 @@ class PublishFragment : Fragment() {
         ActivityResultContracts.StartActivityForResult()
     ) {
         if (it.resultCode == Activity.RESULT_OK) {
-            CoroutineScope(Main).launch {
-                picture = PictureEntity(0, 0, it.data?.data.toString(), 1)
-                pictures.add(picture)
-                publishPicturesAdapter.addPublishPictures(picture)
+            picture = PictureEntity(0, 0, it.data?.data.toString(), 1)
+            pictures.add(picture)
+            publishPicturesAdapter.addPublishPictures(picture)
+//            CoroutineScope(Main).launch {
+
 //                val getPictureEntityJob = async(IO) {
 //                    viewModel.addPicture(PictureEntity(
 //                        0,
@@ -178,7 +166,7 @@ class PublishFragment : Fragment() {
 //                    viewModel.addPicture(picture)
 //                }
 //                addPictureJob.await()
-            }
+//            }
         }
     }
 

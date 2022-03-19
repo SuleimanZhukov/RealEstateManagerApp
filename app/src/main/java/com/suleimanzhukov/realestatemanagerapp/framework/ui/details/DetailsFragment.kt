@@ -12,6 +12,8 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
+import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType
+import com.smarteist.autoimageslider.SliderAnimations
 import com.smarteist.autoimageslider.SliderView
 import com.suleimanzhukov.realestatemanagerapp.R
 import com.suleimanzhukov.realestatemanagerapp.RealEstateApplication
@@ -95,20 +97,6 @@ class DetailsFragment : Fragment() {
             agentProfileImageDetailsFragment.load(uri)
         }
         getPictures()
-//        getTheAgent()
-    }
-
-    private fun getTheAgent() = with(binding) {
-        CoroutineScope(Main).launch {
-            val getAgentJob = async(IO) {
-                viewModel.getAgentByEmail(agentEmail!!)
-            }
-            getAgentJob.await()
-
-            val uri = Uri.parse(agent.profileImg)
-            agentProfileImageDetailsFragment.load(uri)
-
-        }
     }
 
     private fun setInfoAdapter() = with(binding) {
@@ -121,6 +109,7 @@ class DetailsFragment : Fragment() {
     private fun setSliderAdapter() = with(binding) {
         val sliderAdapter = DetailsPicturesAdapter(requireContext(), pictures)
         detailsSliderView.setAutoCycleDirection(SliderView.LAYOUT_DIRECTION_LTR)
+        detailsSliderView.setSliderTransformAnimation(SliderAnimations.DEPTHTRANSFORMATION)
         detailsSliderView.setSliderAdapter(sliderAdapter)
     }
 
@@ -130,7 +119,7 @@ class DetailsFragment : Fragment() {
         CoroutineScope(Main).launch {
             val getPictureJob = async(IO) {
                 pictures = viewModel.getAllPicturesForPropertyId(id!!.toLong())
-                Log.d("TAG", "getPictures: ${id!!.toLong()}")
+                Log.d("TAG", "getPictures Pictures count: ${pictures.size}")
             }
             getPictureJob.await()
             setSliderAdapter()
