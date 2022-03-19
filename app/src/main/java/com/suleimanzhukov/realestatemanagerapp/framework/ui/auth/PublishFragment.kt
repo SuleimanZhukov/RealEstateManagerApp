@@ -82,11 +82,10 @@ class PublishFragment : Fragment() {
             val garages = garagesInputEditText.text.toString().toInt()
             val details = aboutEditText.text.toString()
             val area = squareInputEditText.text.toString().toInt()
-            val images = ""
             val location = ""
 
             val property = PropertyEntity(0, publisherUsername, publisher, price, address,
-                type, timePublished, beds, baths, garages, area, details, images, location)
+                type, timePublished, beds, baths, garages, area, details, location)
 
             var properties: List<PropertyEntity?> = mutableListOf()
 

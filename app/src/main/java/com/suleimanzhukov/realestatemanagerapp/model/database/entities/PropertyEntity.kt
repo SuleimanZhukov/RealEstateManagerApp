@@ -21,6 +21,5 @@ data class PropertyEntity(
     var garages: Int,
     var area: Int,
     var details: String,
-    var images: String,
     var location: String
 ) : Parcelable
