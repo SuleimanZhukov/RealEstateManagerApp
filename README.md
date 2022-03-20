@@ -17,14 +17,14 @@ Still not ready:
 
 ## Library
 * [Coil](https://coil-kt.github.io/coil/)
+* [Dagger](https://dagger.dev/)
 * [Gson](https://github.com/google/gson/)
-* [Retrofi](https://square.github.io/retrofit/)
+* [Retrofit](https://square.github.io/retrofit/)
 * [Cloud Firestore](https://firebase.google.com/docs/firestore)
 * [Firebase Authentication](https://firebase.google.com/docs/auth)
 * [Cloud Storage](https://firebase.google.com/docs/storage)
 * [Room Persistence Library](https://developer.android.com/topic/libraries/architecture/room)
 * [Smarteist Image Slider](https://github.com/smarteist/Android-Image-Slider)
-* [Dagger](https://dagger.dev/)
 * [Android Jetpack Navigation](https://developer.android.com/guide/navigation?gclid=CjwKCAjwoduRBhA4EiwACL5RP-jIfYj94jrUjW1JAIYxo_swlf2G6supM7OeRvKH80W7MzPkgIWwrRoCAMEQAvD_BwE&gclsrc=aw.ds)
 
 ## App Architecture
