@@ -7,6 +7,7 @@ You can already:
 * Add profile picture
 * Post property for sale, with pictures and all the stuff
 * See "Other properties" that a particular agent has
+
 Still not ready:
 * Edit account
 * Save on the cloud to be shared with all the users
