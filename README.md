@@ -1,6 +1,7 @@
 # Real Estate Manager App (Still in progress)
 An Android app that allows you to create an account (Register), login, post properties for sale.
 The properties and all the data are stored in Database (For now, later they will be stored in the cloud).
+
 You can already:
 * Create an account (Register as an agent)
 * Login if you have an account
