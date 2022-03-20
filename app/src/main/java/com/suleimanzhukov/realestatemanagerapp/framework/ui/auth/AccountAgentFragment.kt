@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,6 +21,7 @@ import com.suleimanzhukov.realestatemanagerapp.RealEstateApplication
 import com.suleimanzhukov.realestatemanagerapp.databinding.FragmentAccountAgentBinding
 import com.suleimanzhukov.realestatemanagerapp.framework.MainActivity
 import com.suleimanzhukov.realestatemanagerapp.model.database.entities.AgentEntity
+import com.suleimanzhukov.realestatemanagerapp.model.database.entities.PropertyEntity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
@@ -63,7 +63,7 @@ class AccountAgentFragment : Fragment() {
         }
 
         email = getEmail()
-        setProfileImage(profileImage)
+        setProfile(profileImage)
 
         subscribeToLiveData()
 
@@ -169,14 +169,23 @@ class AccountAgentFragment : Fragment() {
         })
     }
 
-    private fun setProfileImage(profileImage: ImageView) {
+    private fun setProfile(profileImage: ImageView) = with(binding) {
         CoroutineScope(Main).launch {
             val job = async(IO) {
                 viewModel.getAgentByEmail(email!!)
             }
             job.await()
-            val uri = Uri.parse(agent?.profileImg)
+            val uri = Uri.parse(agent!!.profileImg)
             profileImage.load(uri)
+
+            profileAgentNameTextView.text = agent!!.username
+
+            var propertyList = mutableListOf<PropertyEntity>()
+            val propertiesJob = async(IO) {
+                propertyList = viewModel.getAllPropertiesWithAgent(email!!)
+            }
+            propertiesJob.await()
+            greyAreaForSaleNumberTextView.text = "${propertyList.size}"
         }
     }
 
