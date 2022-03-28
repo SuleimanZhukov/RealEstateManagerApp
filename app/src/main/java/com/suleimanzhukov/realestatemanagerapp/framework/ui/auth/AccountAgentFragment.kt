@@ -175,10 +175,10 @@ class AccountAgentFragment : Fragment() {
                 viewModel.getAgentByEmail(email!!)
             }
             job.await()
-            val uri = Uri.parse(agent!!.profileImg)
+            val uri = Uri.parse(agent?.profileImg)
             profileImage.load(uri)
 
-            profileAgentNameTextView.text = agent!!.username
+            profileAgentNameTextView.text = agent?.username
 
             var propertyList = mutableListOf<PropertyEntity>()
             val propertiesJob = async(IO) {

@@ -13,6 +13,7 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
+import com.google.firebase.auth.FirebaseAuth
 import com.suleimanzhukov.realestatemanagerapp.R
 import com.suleimanzhukov.realestatemanagerapp.RealEstateApplication
 import com.suleimanzhukov.realestatemanagerapp.databinding.FragmentMainBinding
@@ -27,6 +28,7 @@ import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.io.path.createTempDirectory
 
 class MainFragment : Fragment() {
 
@@ -38,9 +40,26 @@ class MainFragment : Fragment() {
 
     private lateinit var navController: NavController
 
+    private lateinit var auth: FirebaseAuth
+
     private var agent: AgentEntity? = null
     private var email: String? = null
     private var properties: List<PropertyEntity?> = mutableListOf()
+
+    override fun onStart() {
+        super.onStart()
+        with(binding) {
+            if (auth.currentUser != null) {
+                authButton.setOnClickListener {
+                    navController.navigate(R.id.action_mainFragment_to_accountAgentFragment)
+                }
+            } else {
+                authButton.setOnClickListener {
+                    navController.navigate(R.id.action_mainFragment_to_authFragment)
+                }
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,9 +74,10 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         navController = Navigation.findNavController(view)
+        auth = FirebaseAuth.getInstance()
+        email = auth.currentUser?.email
 
         subscribeToLiveData()
-        isLoggedIn()
 
         buttonsInit()
 
@@ -89,22 +109,18 @@ class MainFragment : Fragment() {
         mainRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
     }
 
-    private fun isLoggedIn() = with(binding) {
+    /*private fun loggedIn() = with(binding) {
         email = getEmail()
         if (email == null || email == "") {
-            Log.d("TAG", "onViewCreated: Email: $email")
+
             authImg.load(R.drawable.account_circle_icon)
-            authButton.setOnClickListener {
-                navController.navigate(R.id.action_mainFragment_to_authFragment)
-            }
+
         } else {
             CoroutineScope(Main).launch {
                 val job = async(IO) {
                     viewModel.getAgentByEmail(email!!)
                 }
                 job.await()
-                Log.d("TAG", "onViewCreated: IN ASYNC(IO) Email: $email, Password: ${agent?.password}," +
-                        "Username: ${agent?.username}, Image: ${agent?.profileImg}")
                 val uri = Uri.parse(agent!!.profileImg)
                 authImg.load(uri)
                 authButton.setOnClickListener {
@@ -112,7 +128,7 @@ class MainFragment : Fragment() {
                 }
             }
         }
-    }
+    }*/
 
     private fun getEmail(): String? {
         val preferencesEditor = activity?.getSharedPreferences(SignUpFragment.SHARED_TAG, Context.MODE_PRIVATE)

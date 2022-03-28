@@ -11,6 +11,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.suleimanzhukov.realestatemanagerapp.R
 import com.suleimanzhukov.realestatemanagerapp.RealEstateApplication
 import com.suleimanzhukov.realestatemanagerapp.databinding.FragmentAuthBinding
@@ -32,6 +35,8 @@ class AuthFragment : Fragment() {
     @Inject
     lateinit var viewModel: AuthViewModel
 
+    private lateinit var auth: FirebaseAuth
+
     private var inAgent: AgentEntity? = null
     private var inPassword: String? = null
 
@@ -48,6 +53,8 @@ class AuthFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         navController = Navigation.findNavController(view)
+        auth = FirebaseAuth.getInstance()
+
         loginInit()
         signUpInit()
     }
@@ -60,7 +67,16 @@ class AuthFragment : Fragment() {
             var email = loginEmailEditText.text.toString()
             var password = loginPasswordEditText.text.toString()
 
-            CoroutineScope(Main).launch {
+            auth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
+                if (it.isSuccessful) {
+                    Toast.makeText(context, "Successfully logged in", Toast.LENGTH_SHORT).show()
+                    navController.navigate(R.id.action_authFragment_to_accountAgentFragment)
+                }
+            }.addOnFailureListener {
+                Toast.makeText(context, "Login failed", Toast.LENGTH_SHORT).show()
+            }
+
+            /*CoroutineScope(Main).launch {
                 val job = async(IO) {
                     viewModel.getAgentByEmail(email)
                 }
@@ -85,7 +101,7 @@ class AuthFragment : Fragment() {
                         Toast.makeText(context, "Wrong password", Toast.LENGTH_SHORT).show()
                     }
                 }
-            }
+            }*/
         }
     }
 
