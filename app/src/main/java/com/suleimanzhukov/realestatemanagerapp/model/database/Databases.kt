@@ -17,7 +17,7 @@ import com.suleimanzhukov.realestatemanagerapp.model.database.entities.PropertyE
     version = 1,
     exportSchema = false
 )
-abstract class Databases() : RoomDatabase() {
+abstract class Databases : RoomDatabase() {
     abstract fun agentDao(): AgentDao
     abstract fun propertyDao(): PropertyDao
     abstract fun pictureDao(): PictureDao
