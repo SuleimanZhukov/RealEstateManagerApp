@@ -4,18 +4,26 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.graphics.BitmapCompat
+import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import coil.load
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.storage.FirebaseStorage
 import com.suleimanzhukov.realestatemanagerapp.R
 import com.suleimanzhukov.realestatemanagerapp.RealEstateApplication
 import com.suleimanzhukov.realestatemanagerapp.databinding.FragmentAccountAgentBinding
@@ -27,6 +35,8 @@ import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import java.io.ByteArrayInputStream
+import java.io.ByteArrayOutputStream
 import javax.inject.Inject
 
 class AccountAgentFragment : Fragment() {
@@ -43,6 +53,8 @@ class AccountAgentFragment : Fragment() {
     private var agent: AgentEntity? = null
     private var email: String? = null
 
+    private lateinit var auth: FirebaseAuth
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         RealEstateApplication.instance.appComponent.inject(this)
@@ -57,13 +69,14 @@ class AccountAgentFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         mainActivity = activity as MainActivity
         navController = Navigation.findNavController(view)
+        auth = FirebaseAuth.getInstance()
 
         logOutButton.setOnClickListener {
             logoutAgentByEmail()
         }
 
-        email = getEmail()
-        setProfile(profileImage)
+//        email = getEmail()
+//        setProfile(profileImage)
 
         subscribeToLiveData()
 
@@ -126,7 +139,34 @@ class AccountAgentFragment : Fragment() {
         ActivityResultContracts.StartActivityForResult()
     ) {
         if (it.resultCode == Activity.RESULT_OK) {
-            CoroutineScope(Main).launch {
+
+            val image = it.data?.data
+
+//            val imageBitmap = image.bitmap
+
+            val outStream = ByteArrayOutputStream()
+            val storagePath = FirebaseStorage.getInstance()
+                .reference
+                .child("profile_pictures/${auth.currentUser?.email}")
+
+            imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outStream)
+            val byteArray = outStream.toByteArray()
+
+            val upload = storagePath.putBytes(byteArray)
+
+            upload.addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    storagePath.downloadUrl.addOnCompleteListener { image ->
+                        if (image.isSuccessful) {
+                            binding.profileImage.load(image.result)
+                        }
+                    }
+                }
+            }.addOnFailureListener {
+                Toast.makeText(context, "Failed to upload the image", Toast.LENGTH_SHORT).show()
+            }
+
+            /*CoroutineScope(Main).launch {
                 val getAgentJob = async(IO) {
                     viewModel.getAgentByEmail(email!!)
                 }
@@ -144,7 +184,7 @@ class AccountAgentFragment : Fragment() {
                 getJob.await()
                 val uri = Uri.parse(agent?.profileImg)
                 binding.profileImage.load(uri)
-            }
+            }*/
         }
     }
 
@@ -155,10 +195,12 @@ class AccountAgentFragment : Fragment() {
 
     @SuppressLint("CommitPrefEdits")
     private fun logoutAgentByEmail() {
-        val preferencesEditor = activity?.getSharedPreferences(SignUpFragment.SHARED_TAG, Context.MODE_PRIVATE)?.edit()
+        /*val preferencesEditor = activity?.getSharedPreferences(SignUpFragment.SHARED_TAG, Context.MODE_PRIVATE)?.edit()
         preferencesEditor?.remove(SignUpFragment.USERNAME_TAG)
         preferencesEditor?.remove(SignUpFragment.EMAIL_TAG)
-        preferencesEditor?.apply()
+        preferencesEditor?.apply()*/
+
+        auth.signOut()
 
         navController.navigate(R.id.action_accountAgentFragment_to_mainFragment)
     }
