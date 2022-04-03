@@ -2,13 +2,16 @@ package com.suleimanzhukov.realestatemanagerapp.framework.ui.auth
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.ContentResolver
 import android.content.Context
+import android.content.ContextWrapper
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -37,6 +40,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
+import java.io.InputStream
 import javax.inject.Inject
 
 class AccountAgentFragment : Fragment() {
@@ -140,14 +144,14 @@ class AccountAgentFragment : Fragment() {
     ) {
         if (it.resultCode == Activity.RESULT_OK) {
 
-            val image = it.data?.data
+            val inputStream = mainActivity.contentResolver.openInputStream(it.data?.data!!)
 
-//            val imageBitmap = image.bitmap
+            val imageBitmap = BitmapFactory.decodeStream(inputStream)
 
             val outStream = ByteArrayOutputStream()
             val storagePath = FirebaseStorage.getInstance()
                 .reference
-                .child("profile_pictures/${auth.currentUser?.email}")
+                .child("profilePictures/${auth.currentUser?.email}")
 
             imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outStream)
             val byteArray = outStream.toByteArray()
@@ -161,6 +165,7 @@ class AccountAgentFragment : Fragment() {
                             binding.profileImage.load(image.result)
                         }
                     }
+                    Toast.makeText(context, "Uploaded successfully", Toast.LENGTH_SHORT).show()
                 }
             }.addOnFailureListener {
                 Toast.makeText(context, "Failed to upload the image", Toast.LENGTH_SHORT).show()
