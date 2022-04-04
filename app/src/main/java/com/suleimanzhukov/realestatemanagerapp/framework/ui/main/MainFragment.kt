@@ -14,6 +14,7 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.storage.FirebaseStorage
 import com.suleimanzhukov.realestatemanagerapp.R
 import com.suleimanzhukov.realestatemanagerapp.RealEstateApplication
 import com.suleimanzhukov.realestatemanagerapp.databinding.FragmentMainBinding
@@ -50,10 +51,22 @@ class MainFragment : Fragment() {
         super.onStart()
         with(binding) {
             if (auth.currentUser != null) {
+
+                val storagePath = FirebaseStorage.getInstance()
+                    .reference
+                    .child("profilePictures/${auth.currentUser?.email}")
+
+                storagePath.downloadUrl.addOnSuccessListener {
+                    authImg.load(it)
+                }
+
                 authButton.setOnClickListener {
                     navController.navigate(R.id.action_mainFragment_to_accountAgentFragment)
                 }
             } else {
+
+                authImg.load(R.drawable.account_circle_icon)
+
                 authButton.setOnClickListener {
                     navController.navigate(R.id.action_mainFragment_to_authFragment)
                 }

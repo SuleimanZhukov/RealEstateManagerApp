@@ -26,6 +26,10 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import coil.load
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.SetOptions
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.getField
+import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.suleimanzhukov.realestatemanagerapp.R
 import com.suleimanzhukov.realestatemanagerapp.RealEstateApplication
@@ -55,7 +59,10 @@ class AccountAgentFragment : Fragment() {
     private var agent: AgentEntity? = null
     private var email: String? = null
 
+    private lateinit var profilePicture: Uri
+
     private lateinit var auth: FirebaseAuth
+    private var db = Firebase.firestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,6 +80,8 @@ class AccountAgentFragment : Fragment() {
         navController = Navigation.findNavController(view)
         auth = FirebaseAuth.getInstance()
 
+        setProfile()
+
         logOutButton.setOnClickListener {
             logoutAgentByEmail()
         }
@@ -88,6 +97,26 @@ class AccountAgentFragment : Fragment() {
 
         onAddPropertyButtonPress()
         backButtonPress()
+    }
+
+    private fun setProfile() = with(binding) {
+        db.document("users/${auth.currentUser?.email}")
+            .get()
+            .addOnSuccessListener {
+                if (it.getString("name") != null) {
+                    agent?.username = it.getString("name")!!
+                }
+                if (it.getString("profileImg") != null) {
+                    agent?.profileImg = it.getString("profileImg")!!
+                }
+            }
+        val storagePath = FirebaseStorage.getInstance()
+            .reference
+            .child(agent?.profileImg!!)
+
+        storagePath.downloadUrl.addOnSuccessListener {
+            profileImage.load(it)
+        }
     }
 
     private fun onAddPropertyButtonPress() = with(binding) {
@@ -160,7 +189,16 @@ class AccountAgentFragment : Fragment() {
                 if (task.isSuccessful) {
                     storagePath.downloadUrl.addOnCompleteListener { image ->
                         if (image.isSuccessful) {
-                            binding.profileImage.load(image.result)
+                            profilePicture = image.result
+
+                            val image = hashMapOf(
+                                "profileImg" to profilePicture.toString()
+                            )
+
+                            db.document("users/${auth.currentUser?.email}")
+                                .set(image, SetOptions.merge())
+
+                            binding.profileImage.load(profilePicture)
                         }
                     }
                     Toast.makeText(context, "Uploaded successfully", Toast.LENGTH_SHORT).show()

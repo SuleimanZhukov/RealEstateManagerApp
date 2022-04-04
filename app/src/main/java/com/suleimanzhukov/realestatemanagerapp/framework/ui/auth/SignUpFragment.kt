@@ -10,6 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import com.suleimanzhukov.realestatemanagerapp.R
 import com.suleimanzhukov.realestatemanagerapp.RealEstateApplication
 import com.suleimanzhukov.realestatemanagerapp.databinding.FragmentSignUpBinding
@@ -26,6 +28,7 @@ class SignUpFragment : Fragment() {
     lateinit var viewModel: AuthViewModel
 
     private lateinit var auth: FirebaseAuth
+    private var db = Firebase.firestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +49,7 @@ class SignUpFragment : Fragment() {
 
         signUpButton.setOnClickListener {
             signUpButton(
+                signUpNameEditText.text.toString(),
                 signUpEmailEditText.text.toString(),
                 signUpPasswordEditText.text.toString(),
                 signUpConfirmPasswordEditText.text.toString()
@@ -54,7 +58,11 @@ class SignUpFragment : Fragment() {
     }
 
     @SuppressLint("CommitPrefEdits")
-    private fun signUpButton(email: String, password: String, confirmPassword: String): Unit = with(binding) {
+    private fun signUpButton(username: String, email: String, password: String, confirmPassword: String): Unit = with(binding) {
+        if (username.isBlank()) {
+            Toast.makeText(context, "Insert your name", Toast.LENGTH_SHORT).show()
+            return
+        }
         if (!email.contains('@') || !email.contains('.') || email.isBlank()) {
             Toast.makeText(context, "Email incorrect", Toast.LENGTH_SHORT).show()
             return
@@ -65,8 +73,25 @@ class SignUpFragment : Fragment() {
             return
         }
 
+        val user = hashMapOf(
+            "name" to username,
+            "email" to email,
+            "age" to 0,
+            "profileImg" to "",
+            "overview" to "",
+            "tel" to "",
+            "forSale" to 0
+        )
+
         auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
             if (it.isSuccessful) {
+                db.document("users/$email")
+                    .set(user)
+                    .addOnSuccessListener {
+                        Toast.makeText(context, "Successfully added to Firestore", Toast.LENGTH_SHORT).show()
+                    }.addOnFailureListener {
+                        Toast.makeText(context, "Failed to add to Firestore", Toast.LENGTH_SHORT).show()
+                    }
                 Toast.makeText(context, "Successfully registered", Toast.LENGTH_SHORT).show()
                 navController.navigate(R.id.action_signUpFragment_to_accountAgentFragment)
             }
