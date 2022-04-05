@@ -19,9 +19,6 @@ interface AgentDao {
     @Query("SELECT * FROM AgentEntity WHERE email = :email")
     suspend fun getAgentByEmail(email: String): AgentEntity?
 
-    @Query("SELECT password FROM AgentEntity WHERE email = :email")
-    suspend fun getPasswordByEmail(email: String): String?
-
     @Update
     suspend fun updateAgent(agentEntity: AgentEntity)
 

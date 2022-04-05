@@ -41,10 +41,6 @@ class AuthViewModel @Inject constructor(
         agentLiveData.postValue(repository.getAgentByEmail(email))
     }
 
-    suspend fun getPasswordByEmail(email: String) {
-        passwordLiveData.postValue(repository.getPasswordByEmail(email))
-    }
-
     suspend fun updateAgent(agent: AgentEntity) {
         agentLiveData.postValue(repository.updateAgent(agent))
     }

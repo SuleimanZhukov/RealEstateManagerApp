@@ -11,15 +11,11 @@ import java.util.*
 data class AgentEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Long,
-    var username: String,
-    var age: String,
-    var email: String,
-    var password: String,
-    var mobile: String,
-    var profileImg: String,
-    var location: String,
-    var overview: String,
-    var languages: String,
-    var forSale: Int,
-    var forRent: Int
+    var username: String?,
+    var age: Long?,
+    var email: String?,
+    var mobile: String?,
+    var profileImg: String?,
+    var overview: String?,
+    var forSale: Long?
 ) : Parcelable

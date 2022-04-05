@@ -56,7 +56,7 @@ class AccountAgentFragment : Fragment() {
     @Inject
     lateinit var viewModel: AuthViewModel
 
-    private var agent: AgentEntity? = null
+    private lateinit var agent: AgentEntity
     private var email: String? = null
 
     private lateinit var profilePicture: Uri
@@ -100,22 +100,39 @@ class AccountAgentFragment : Fragment() {
     }
 
     private fun setProfile() = with(binding) {
-        db.document("users/${auth.currentUser?.email}")
-            .get()
-            .addOnSuccessListener {
-                if (it.getString("name") != null) {
-                    agent?.username = it.getString("name")!!
-                }
-                if (it.getString("profileImg") != null) {
-                    agent?.profileImg = it.getString("profileImg")!!
-                }
-            }
-        val storagePath = FirebaseStorage.getInstance()
-            .reference
-            .child(agent?.profileImg!!)
+        CoroutineScope(Main).launch {
+            val job = async(IO) {
+                db.document("users/${auth.currentUser?.email}")
+                    .get()
+                    .addOnSuccessListener {
+                        if (it.exists()) {
+                            Log.d("TAG", "setProfile: YEAH, IT EXISTS")
+                            if (it.getString("name") != null || it.getString("profileImg") != null) {
+                                agent = AgentEntity(0, it.getString("name"), it.getLong("age"),
+                                it.getString("email"), it.getString("tel"), it.getString("profileImg"),
+                                it.getString("overview"), it.getLong("forSale"))
 
-        storagePath.downloadUrl.addOnSuccessListener {
-            profileImage.load(it)
+                                Log.d("TAG", "setProfile: Username = ${agent.username}")
+                                Log.d("TAG", "setProfile: profileImg = ${agent.profileImg}")
+                                Log.d("TAG", "setProfile: Tel = ${agent.mobile}")
+                            }
+                        }
+                    }.addOnFailureListener {
+                        Toast.makeText(context, "Failed to retrieve data", Toast.LENGTH_SHORT).show()
+                    }
+            }
+            job.await()
+
+//            Log.d("TAG", "setProfile: profileUsername = ${agent.username}")
+//            Log.d("TAG", "setProfile: profileImg = ${agent.profileImg}")
+
+            val storagePath = FirebaseStorage.getInstance()
+                .reference
+                .child("profilePictures/${auth.currentUser?.email}")
+
+            storagePath.downloadUrl.addOnSuccessListener {
+                profileImage.load(it)
+            }
         }
     }
 
@@ -247,9 +264,9 @@ class AccountAgentFragment : Fragment() {
     }
 
     private fun subscribeToLiveData() {
-        viewModel.getAgentLiveData().observe(viewLifecycleOwner, Observer {
-            agent = viewModel.getAgentLiveData().value
-        })
+//        viewModel.getAgentLiveData().observe(viewLifecycleOwner, Observer {
+//            agent = viewModel.getAgentLiveData().value
+//        })
     }
 
     private fun setProfile(profileImage: ImageView) = with(binding) {

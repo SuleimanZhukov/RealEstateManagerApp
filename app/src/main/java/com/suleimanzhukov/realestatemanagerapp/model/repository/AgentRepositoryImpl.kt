@@ -18,10 +18,6 @@ class AgentRepositoryImpl @Inject constructor(
         return Databases.getDatabase(context).agentDao().getAgentByEmail(email)
     }
 
-    override suspend fun getPasswordByEmail(email: String): String? {
-        return Databases.getDatabase(context).agentDao().getPasswordByEmail(email)
-    }
-
     override suspend fun updateAgent(agent: AgentEntity): AgentEntity {
         Databases.getDatabase(context).agentDao().updateAgent(agent)
         return agent

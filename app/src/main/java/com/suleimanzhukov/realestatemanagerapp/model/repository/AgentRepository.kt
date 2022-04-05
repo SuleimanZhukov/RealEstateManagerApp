@@ -9,7 +9,5 @@ interface AgentRepository {
 
     suspend fun getAgentByEmail(email: String): AgentEntity?
 
-    suspend fun getPasswordByEmail(email: String): String?
-
     suspend fun updateAgent(agent: AgentEntity): AgentEntity
 }
