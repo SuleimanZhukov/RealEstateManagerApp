@@ -121,17 +121,17 @@ class AccountAgentFragment : Fragment() {
                         Toast.makeText(context, "Failed to retrieve data", Toast.LENGTH_SHORT).show()
                     }
             }
-            job.await()
+            if (job.isCompleted) {
+                Log.d("TAG", "setProfile: profileUsername = ${agent.username}")
+                Log.d("TAG", "setProfile: profileImg = ${agent.profileImg}")
 
-//            Log.d("TAG", "setProfile: profileUsername = ${agent.username}")
-//            Log.d("TAG", "setProfile: profileImg = ${agent.profileImg}")
+                val storagePath = FirebaseStorage.getInstance()
+                    .reference
+                    .child("profilePictures/${auth.currentUser?.email}")
 
-            val storagePath = FirebaseStorage.getInstance()
-                .reference
-                .child("profilePictures/${auth.currentUser?.email}")
-
-            storagePath.downloadUrl.addOnSuccessListener {
-                profileImage.load(it)
+                storagePath.downloadUrl.addOnSuccessListener {
+                    profileImage.load(it)
+                }
             }
         }
     }
