@@ -31,6 +31,26 @@
             app:layout_constraintStart_toStartOf="@+id/profile_back_button_view"
             app:layout_constraintTop_toTopOf="@+id/profile_back_button_view" />
 
+        <View
+            android:id="@+id/profile_options_button_view"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/stroke_view_rectangle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/profile_options_dots"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/more_vert"
+            app:layout_constraintBottom_toBottomOf="@+id/profile_options_button_view"
+            app:layout_constraintEnd_toEndOf="@+id/profile_options_button_view"
+            app:layout_constraintStart_toStartOf="@+id/profile_options_button_view"
+            app:layout_constraintTop_toTopOf="@+id/profile_options_button_view" />
+
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/profile_image"
             android:layout_width="160dp"
@@ -43,14 +63,14 @@
             app:layout_constraintTop_toTopOf="@+id/guideline4"
             app:shapeAppearanceOverlay="@style/profile_image_view_corners" />
 
-        <Button
-            android:id="@+id/log_out_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Logout"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/profile_image"
-            app:layout_constraintTop_toTopOf="@+id/profile_back_button_view" />
+<!--        <Button-->
+<!--            android:id="@+id/log_out_button"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Logout"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toEndOf="@+id/profile_image"-->
+<!--            app:layout_constraintTop_toTopOf="@+id/profile_back_button_view" />-->
 
         <TextView
             android:id="@+id/profile_agent_name_text_view"

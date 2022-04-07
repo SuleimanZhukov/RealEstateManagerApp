@@ -12,10 +12,9 @@ import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.ImageView
+import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.graphics.BitmapCompat
@@ -42,6 +41,8 @@ import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.tasks.await
 import java.io.*
 import javax.inject.Inject
 
@@ -80,11 +81,13 @@ class AccountAgentFragment : Fragment() {
         navController = Navigation.findNavController(view)
         auth = FirebaseAuth.getInstance()
 
+        setHasOptionsMenu(true)
+
         setProfile()
 
-        logOutButton.setOnClickListener {
-            logoutAgentByEmail()
-        }
+//        logOutButton.setOnClickListener {
+//            logoutAgentByEmail()
+//        }
 
 //        email = getEmail()
 //        setProfile(profileImage)
@@ -101,37 +104,61 @@ class AccountAgentFragment : Fragment() {
 
     private fun setProfile() = with(binding) {
         CoroutineScope(Main).launch {
-            val job = async(IO) {
-                db.document("users/${auth.currentUser?.email}")
-                    .get()
-                    .addOnSuccessListener {
-                        if (it.exists()) {
-                            Log.d("TAG", "setProfile: YEAH, IT EXISTS")
-                            if (it.getString("name") != null || it.getString("profileImg") != null) {
-                                agent = AgentEntity(0, it.getString("name"), it.getLong("age"),
+            db.document("users/${auth.currentUser?.email}")
+                .get()
+                .addOnSuccessListener {
+                    if (it.exists()) {
+                        Log.d("TAG", "setProfile: YEAH, IT EXISTS")
+                        if (it.getString("name") != null || it.getString("profileImg") != null) {
+                            agent = AgentEntity(0, it.getString("name"), it.getLong("age"),
                                 it.getString("email"), it.getString("tel"), it.getString("profileImg"),
                                 it.getString("overview"), it.getLong("forSale"))
-
-                                Log.d("TAG", "setProfile: Username = ${agent.username}")
-                                Log.d("TAG", "setProfile: profileImg = ${agent.profileImg}")
-                                Log.d("TAG", "setProfile: Tel = ${agent.mobile}")
-                            }
                         }
-                    }.addOnFailureListener {
-                        Toast.makeText(context, "Failed to retrieve data", Toast.LENGTH_SHORT).show()
                     }
+                }.addOnFailureListener {
+                    Toast.makeText(context, "Failed to retrieve data", Toast.LENGTH_SHORT).show()
+                }.await()
+
+            profileAgentNameTextView.text = agent.username
+            greyAreaForSaleNumberTextView.text = agent.forSale.toString()
+
+            val storagePath = FirebaseStorage.getInstance()
+                .reference
+                .child(agent.profileImg.toString())
+
+            storagePath.downloadUrl.addOnSuccessListener {
+                profileImage.load(it)
             }
-            if (job.isCompleted) {
-                Log.d("TAG", "setProfile: profileUsername = ${agent.username}")
-                Log.d("TAG", "setProfile: profileImg = ${agent.profileImg}")
+        }
 
-                val storagePath = FirebaseStorage.getInstance()
-                    .reference
-                    .child("profilePictures/${auth.currentUser?.email}")
+        setMenu()
+    }
 
-                storagePath.downloadUrl.addOnSuccessListener {
-                    profileImage.load(it)
-                }
+    private fun setMenu() = with(binding) {
+        profileOptionsButtonView.setOnClickListener {
+            val popupMenu = PopupMenu(context, profileOptionsButtonView)
+            val inflater = popupMenu.menuInflater
+            inflater.inflate(R.menu.profile_menu, popupMenu.menu)
+            popupMenu.show()
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.profile_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.edit_profile -> {
+                true
+            }
+            R.id.logout -> {
+                logoutAgentByEmail()
+                true
+            }
+            else -> {
+                return super.onOptionsItemSelected(item)
             }
         }
     }
@@ -259,7 +286,6 @@ class AccountAgentFragment : Fragment() {
         preferencesEditor?.apply()*/
 
         auth.signOut()
-
         navController.navigate(R.id.action_accountAgentFragment_to_mainFragment)
     }
 
