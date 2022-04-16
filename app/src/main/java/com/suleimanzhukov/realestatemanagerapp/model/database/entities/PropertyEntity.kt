@@ -7,10 +7,9 @@ import kotlinx.android.parcel.Parcelize
 import java.text.SimpleDateFormat
 import java.util.*
 
-@Parcelize
 @Entity
 data class PropertyEntity(
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey
     val id: Long,
     val publisherUsername: String,
     var publisher: String,
@@ -24,4 +23,4 @@ data class PropertyEntity(
     var area: Int,
     var details: String,
     var location: String
-) : Parcelable
+)

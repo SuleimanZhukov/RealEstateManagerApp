@@ -2,13 +2,10 @@ package com.suleimanzhukov.realestatemanagerapp.framework.ui.auth
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.ContentResolver
 import android.content.Context
-import android.content.ContextWrapper
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -17,17 +14,13 @@ import android.widget.ImageView
 import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.graphics.BitmapCompat
-import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import coil.load
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.getField
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.suleimanzhukov.realestatemanagerapp.R
@@ -41,7 +34,6 @@ import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.tasks.await
 import java.io.*
 import javax.inject.Inject
@@ -84,10 +76,6 @@ class AccountAgentFragment : Fragment() {
         setHasOptionsMenu(true)
 
         setProfile()
-
-//        logOutButton.setOnClickListener {
-//            logoutAgentByEmail()
-//        }
 
 //        email = getEmail()
 //        setProfile(profileImage)
@@ -222,7 +210,7 @@ class AccountAgentFragment : Fragment() {
             val outStream = ByteArrayOutputStream()
             val storagePath = FirebaseStorage.getInstance()
                 .reference
-                .child("profilePictures/${auth.currentUser?.email}")
+                .child("${auth.currentUser?.email}/${auth.currentUser?.email}")
 
             imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outStream)
             val byteArray = outStream.toByteArray()
@@ -235,12 +223,12 @@ class AccountAgentFragment : Fragment() {
                         if (image.isSuccessful) {
                             profilePicture = image.result
 
-                            val image = hashMapOf(
+                            val imageData = hashMapOf(
                                 "profileImg" to profilePicture.toString()
                             )
 
                             db.document("users/${auth.currentUser?.email}")
-                                .set(image, SetOptions.merge())
+                                .set(imageData, SetOptions.merge())
 
                             binding.profileImage.load(profilePicture)
                         }

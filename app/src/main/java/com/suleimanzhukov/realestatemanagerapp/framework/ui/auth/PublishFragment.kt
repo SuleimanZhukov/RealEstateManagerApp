@@ -8,12 +8,17 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.SetOptions
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import com.suleimanzhukov.realestatemanagerapp.R
 import com.suleimanzhukov.realestatemanagerapp.RealEstateApplication
 import com.suleimanzhukov.realestatemanagerapp.databinding.FragmentPublishBinding
@@ -46,6 +51,9 @@ class PublishFragment : Fragment() {
     @Inject
     lateinit var viewModel: AuthViewModel
 
+    private var auth = FirebaseAuth.getInstance()
+    private var db = Firebase.firestore
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         RealEstateApplication.instance.appComponent.inject(this)
@@ -73,8 +81,9 @@ class PublishFragment : Fragment() {
 //        val currentTime = sdf.format(Date()).toString().toLong()
 
         publishButton.setOnClickListener {
-            val publisher = getEmail()!!
-            val publisherUsername = getUsername()!!
+            val id = 0L
+            val publisher = auth.currentUser?.email!!
+            val publisherUsername = ""
             val price = priceInputEditText.text.toString().toInt()
             val address = "${provinceInputEditText.text.toString()}, ${cityInputEditText.text.toString()}," +
                     " ${firstAddressInputEditText.text.toString()}, ${secondAddressInputEditText.text.toString()}"
@@ -87,12 +96,30 @@ class PublishFragment : Fragment() {
             val area = squareInputEditText.text.toString().toInt()
             val location = ""
 
-            val property = PropertyEntity(0, publisherUsername, publisher, price, address,
+            val property = PropertyEntity(id, publisherUsername, publisher, price, address,
                 type, timePublished, beds, baths, garages, area, details, location)
 
-            var properties: List<PropertyEntity?> = mutableListOf()
+            db.document("users/${auth.currentUser?.email}")
+                .collection("properties")
+                .add(property)
+                .addOnSuccessListener {
+                    Toast.makeText(context, "Successfully uploaded", Toast.LENGTH_SHORT).show()
+                    db.document("users/${auth.currentUser?.email}")
+                        .collection("properties")
+                        .whereEqualTo("publisher", "suleimanzhukov@gmail.com")
+                        .get()
+                        .addOnSuccessListener {
+                            Toast.makeText(context, "YEAH, IT HEREEEEE", Toast.LENGTH_SHORT).show()
+                        }.addOnFailureListener {
+                            Toast.makeText(context, "NOOOOOOO", Toast.LENGTH_SHORT).show()
+                        }
+                }.addOnFailureListener {
+                    Toast.makeText(context, "Failed to upload", Toast.LENGTH_SHORT).show()
+                }
 
-            CoroutineScope(Main).launch {
+            navController.navigate(R.id.action_publishFragment_to_mainFragment)
+
+            /*CoroutineScope(Main).launch {
                 val job = async(IO) {
                     viewModel.addProperty(property)
                 }
@@ -114,10 +141,7 @@ class PublishFragment : Fragment() {
                     viewModel.addPictures(pictures)
                 }
                 getLastJob.await()
-
-                Log.d("TAG", "onPublish: Time published: ${properties[properties.lastIndex]!!.timePublished}")
-                Log.d("TAG", "onPublish: Time published: ${System.currentTimeMillis()}")
-            }
+            }*/
         }
     }
 
@@ -156,23 +180,23 @@ class PublishFragment : Fragment() {
             picture = PictureEntity(0, 0, it.data?.data.toString(), 1)
             pictures.add(picture)
             publishPicturesAdapter.addPublishPictures(picture)
-//            CoroutineScope(Main).launch {
+         /*   CoroutineScope(Main).launch {
 
-//                val getPictureEntityJob = async(IO) {
-//                    viewModel.addPicture(PictureEntity(
-//                        0,
-//                        0,
-//                        it.data?.data.toString(),
-//                        1
-//                    ))
-//                }
-//                getPictureEntityJob.await()
-//
-//                val addPictureJob = async(IO) {
-//                    viewModel.addPicture(picture)
-//                }
-//                addPictureJob.await()
-//            }
+                val getPictureEntityJob = async(IO) {
+                    viewModel.addPicture(PictureEntity(
+                        0,
+                        0,
+                        it.data?.data.toString(),
+                        1
+                    ))
+                }
+                getPictureEntityJob.await()
+
+                val addPictureJob = async(IO) {
+                    viewModel.addPicture(picture)
+                }
+                addPictureJob.await()
+            }*/
         }
     }
 

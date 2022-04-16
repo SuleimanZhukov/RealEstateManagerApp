@@ -54,7 +54,7 @@ class MainFragment : Fragment() {
 
                 val storagePath = FirebaseStorage.getInstance()
                     .reference
-                    .child("profilePictures/${auth.currentUser?.email}")
+                    .child("${auth.currentUser?.email}/${auth.currentUser?.email}")
 
                 storagePath.downloadUrl.addOnSuccessListener {
                     authImg.load(it)
