@@ -30,6 +30,8 @@ class AuthFragment : Fragment() {
     private var _binding: FragmentAuthBinding? = null
     private val binding get() = _binding!!
 
+    private val int = 1
+
     private lateinit var navController: NavController
 
     @Inject
@@ -57,6 +59,7 @@ class AuthFragment : Fragment() {
 
         loginInit()
         signUpInit()
+
     }
 
     @SuppressLint("CommitPrefEdits")
